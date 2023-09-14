@@ -9,23 +9,44 @@ import SwiftUI
 
 struct SuperAdminHomeView: View {
     
-    @StateObject private var hospitalManager = HospitalManager()
-    
     
     var body: some View {
         
-        ZStack {
-            List{
-                ForEach(hospitalManager.hospitals) { hospital in
-                    Text(hospital.name)
+        TabView {
+            
+//            NavigationView {
+//                HospitalListView()
+//                    .toolbar(.hidden, for: .navigationBar)
+//            }
+//            .tabItem {
+//                Image(systemName: "house.fill")
+//                Text("Hospital")
+//            }
+//
+//            NavigationView {
+//                ChamberListView()
+//                    .toolbar(.hidden)
+//            }
+//            .tabItem {
+//                Image(systemName: "arrow.up")
+//                Text("Chamber")
+//            }
+            
+            ListView(listURL: K.Hospitals.GETALLHOSPITAL, title: "Hospital", orgType: K.OrgType.HOSPITAL)
+                .tabItem {
+                    Image(systemName: "house.fill")
+                    Text("Hospital")
                 }
-            }
-        }//: ZSTACK
-        .onAppear {
-            hospitalManager.getHospitalDetails()
-        }
-        
-        
+            
+            ListView(listURL: K.Chamber.GETALLCHAMBER, title: "Chamber", orgType: K.OrgType.CHAMBER)
+                .tabItem {
+                    Image(systemName: "house.fill")
+                    Text("Chamber")
+                }
+            
+            
+        }//: TAB
+        .navigationBarBackButtonHidden(true)
         
     }
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E24FBC442AB2CEA900E661B0 /* OrganizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24FBC432AB2CEA900E661B0 /* OrganizationManager.swift */; };
+		E24FBC462AB2D11800E661B0 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24FBC452AB2D11800E661B0 /* ListView.swift */; };
 		E2825B752AB027A7006EF669 /* CareInvoiceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2825B742AB027A7006EF669 /* CareInvoiceApp.swift */; };
 		E2825B772AB027A7006EF669 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2825B762AB027A7006EF669 /* ContentView.swift */; };
 		E2825B792AB027A8006EF669 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2825B782AB027A8006EF669 /* Assets.xcassets */; };
@@ -15,12 +17,17 @@
 		E2825B872AB02A8A006EF669 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2825B862AB02A8A006EF669 /* OnboardingView.swift */; };
 		E2825B8A2AB03224006EF669 /* Cairo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2825B892AB03224006EF669 /* Cairo-Regular.ttf */; };
 		E2825B8E2AB0657C006EF669 /* OrganizationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2825B8D2AB0657C006EF669 /* OrganizationModel.swift */; };
-		E2825B912AB0783E006EF669 /* HospitalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2825B902AB0783E006EF669 /* HospitalManager.swift */; };
 		E2825B932AB07965006EF669 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2825B922AB07965006EF669 /* Constants.swift */; };
 		E2825B952AB07B82006EF669 /* HospitalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2825B942AB07B82006EF669 /* HospitalModel.swift */; };
+		E2E6DF612AB172C900707BEE /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF602AB172C900707BEE /* CellView.swift */; };
+		E2E6DF672AB1940200707BEE /* ChamberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF662AB1940200707BEE /* ChamberModel.swift */; };
+		E2E6DF6B2AB19F4D00707BEE /* OrganizationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF6A2AB19F4D00707BEE /* OrganizationDetailView.swift */; };
+		E2E6DF6D2AB1BC5300707BEE /* OrganizationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF6C2AB1BC5300707BEE /* OrganizationFormView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E24FBC432AB2CEA900E661B0 /* OrganizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationManager.swift; sourceTree = "<group>"; };
+		E24FBC452AB2D11800E661B0 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		E2825B712AB027A7006EF669 /* CareInvoice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CareInvoice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2825B742AB027A7006EF669 /* CareInvoiceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareInvoiceApp.swift; sourceTree = "<group>"; };
 		E2825B762AB027A7006EF669 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -31,9 +38,12 @@
 		E2825B892AB03224006EF669 /* Cairo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cairo-Regular.ttf"; sourceTree = "<group>"; };
 		E2825B8B2AB03259006EF669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E2825B8D2AB0657C006EF669 /* OrganizationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationModel.swift; sourceTree = "<group>"; };
-		E2825B902AB0783E006EF669 /* HospitalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalManager.swift; sourceTree = "<group>"; };
 		E2825B922AB07965006EF669 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E2825B942AB07B82006EF669 /* HospitalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalModel.swift; sourceTree = "<group>"; };
+		E2E6DF602AB172C900707BEE /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
+		E2E6DF662AB1940200707BEE /* ChamberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChamberModel.swift; sourceTree = "<group>"; };
+		E2E6DF6A2AB19F4D00707BEE /* OrganizationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetailView.swift; sourceTree = "<group>"; };
+		E2E6DF6C2AB1BC5300707BEE /* OrganizationFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationFormView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +104,8 @@
 				E2825B762AB027A7006EF669 /* ContentView.swift */,
 				E2825B842AB02A64006EF669 /* SuperAdminHomeView.swift */,
 				E2825B862AB02A8A006EF669 /* OnboardingView.swift */,
+				E2E6DF6A2AB19F4D00707BEE /* OrganizationDetailView.swift */,
+				E2E6DF6C2AB1BC5300707BEE /* OrganizationFormView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -101,6 +113,8 @@
 		E2825B832AB029E1006EF669 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E2E6DF602AB172C900707BEE /* CellView.swift */,
+				E24FBC452AB2D11800E661B0 /* ListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -118,6 +132,7 @@
 			children = (
 				E2825B8D2AB0657C006EF669 /* OrganizationModel.swift */,
 				E2825B942AB07B82006EF669 /* HospitalModel.swift */,
+				E2E6DF662AB1940200707BEE /* ChamberModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -125,7 +140,7 @@
 		E2825B8F2AB07323006EF669 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				E2825B902AB0783E006EF669 /* HospitalManager.swift */,
+				E24FBC432AB2CEA900E661B0 /* OrganizationManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -201,11 +216,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2E6DF6B2AB19F4D00707BEE /* OrganizationDetailView.swift in Sources */,
 				E2825B772AB027A7006EF669 /* ContentView.swift in Sources */,
+				E2E6DF612AB172C900707BEE /* CellView.swift in Sources */,
+				E24FBC462AB2D11800E661B0 /* ListView.swift in Sources */,
 				E2825B8E2AB0657C006EF669 /* OrganizationModel.swift in Sources */,
+				E24FBC442AB2CEA900E661B0 /* OrganizationManager.swift in Sources */,
 				E2825B872AB02A8A006EF669 /* OnboardingView.swift in Sources */,
 				E2825B952AB07B82006EF669 /* HospitalModel.swift in Sources */,
-				E2825B912AB0783E006EF669 /* HospitalManager.swift in Sources */,
+				E2E6DF672AB1940200707BEE /* ChamberModel.swift in Sources */,
+				E2E6DF6D2AB1BC5300707BEE /* OrganizationFormView.swift in Sources */,
 				E2825B932AB07965006EF669 /* Constants.swift in Sources */,
 				E2825B752AB027A7006EF669 /* CareInvoiceApp.swift in Sources */,
 				E2825B852AB02A64006EF669 /* SuperAdminHomeView.swift in Sources */,

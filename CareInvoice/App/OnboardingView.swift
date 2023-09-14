@@ -47,7 +47,8 @@ struct OnboardingView: View {
                        
                     NavigationLink(destination: SuperAdminHomeView(), isActive: $isLoggedIn) {
                         Button("login".uppercased()) {
-                           isLoggedIn  = true
+                       // postTest()
+                        isLoggedIn  = true
                         }
                         .font(.title2)
                         .fontWeight(.bold)
@@ -56,7 +57,7 @@ struct OnboardingView: View {
                         .background(Color("PrimaryColor"))
                         .cornerRadius(10)
                         .padding()
-                    }
+                    }//: NAVIGATION LINK
                     
 
                     
@@ -66,12 +67,12 @@ struct OnboardingView: View {
                 }//: VSTACK
                 .padding()
             }//: ZSTACK
-        }
+        }//NAV VIEW
     }
     
     func postTest(){
         
-        let org = OrganizationModel(name: "Labaid", address: "Something", contact: "01677397270", type: "Hospital", email: "rohid@yahoo.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM")
+        let org = OrganizationModel(name: "Poly", address: "Something", contact: "01677397270", type: "Diagnostic Center", email: "diagonostic@yahoo.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM")
         
         guard let url = URL(string: "http://localhost:9191/organization/create") else {
             print("Invalid Posting URL")
