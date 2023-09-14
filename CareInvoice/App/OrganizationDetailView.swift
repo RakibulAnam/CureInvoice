@@ -11,13 +11,14 @@ struct OrganizationDetailView: View {
     
     //MARK: - PROPERTIES
     
-    var org : OrganizationModel
+    @State var org : OrganizationModel
+    @StateObject private var manager = OrganizationManager()
     
     //MARK: - BODY
     var body: some View {
         
         NavigationView {
-            ZStack{
+            ZStack(alignment: .bottomTrailing){
                 VStack(alignment: .leading) {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("\(org.name)")
@@ -55,7 +56,19 @@ struct OrganizationDetailView: View {
                     
                     Spacer()
                 }// VSTACK
-            }
+                
+                NavigationLink(destination: OrganizationFormView(manager: manager, profile: org, orgType: org.type)) {
+                    Image(systemName: "pencil")
+                        .font(.title.weight(.semibold))
+                        .padding()
+                        .background(Color("PrimaryColor"))
+                        .foregroundColor(.white)
+                        .clipShape(Circle())
+                        .shadow(radius: 4, x: 0, y: 4)
+                }.padding() //: FLOATING BUTTON
+            }//: ZSTACK
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarHidden(true)
         }
         
 

@@ -22,3 +22,4 @@ struct OrganizationModel : Codable, Identifiable{
     
     
 }
+

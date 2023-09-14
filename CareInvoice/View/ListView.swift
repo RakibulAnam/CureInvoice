@@ -24,8 +24,9 @@ struct ListView: View {
                             CellView(model: organization)
                             
                         }
-                        .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
+                        .listSectionSeparator(.hidden)
                     }
                 }
                 .listStyle(.plain)
@@ -45,7 +46,6 @@ struct ListView: View {
             .onAppear {
                 manager.getOrganizationDetails(from: listURL)
             }
-            .toolbar(.visible, for: .tabBar)
         }
     }
 }

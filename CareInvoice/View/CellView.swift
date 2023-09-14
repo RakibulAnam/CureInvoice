@@ -14,51 +14,65 @@ struct CellView: View {
     var body: some View {
         
         ZStack {
-            HStack(spacing: 10){
+            
+            
+            
+            
+            VStack {
                 
+                //                Divider()
+                //                    .frame(width: .infinity, height: 2, alignment: .center)
+                
+                HStack(spacing: 10){
+                    
                     
                     Image("hospital")
                         .resizable()
                         .scaledToFit()
-                    .frame(width: 60, height: 60, alignment: .leading)
-                    .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color("Symboltint"), lineWidth: 2)
-                    )
-                    .padding(3)
-            
+                        .frame(width: 60, height: 60, alignment: .leading)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
+                        )
+                        .padding(1)
+                    
+                    
+                    VStack(alignment: .leading, spacing: 10){
+                        
+                        
+                        Text(model.name)
+                            .font(.title2)
+                        Text(model.address)
+                            .foregroundColor(Color("Symboltint"))
+                            .font(.subheadline)
+                        
+                        //                    if let hospital = model as? HospitalModel {
+                        //
+                        //                    } else if let chamber = model as? ChamberModel {
+                        //                        Text(chamber.name)
+                        //                            .font(.title2)
+                        //                        Text(chamber.address)
+                        //                            .foregroundColor(Color("Symboltint"))
+                        //                            .font(.subheadline)
+                        //                    }
+                        
+                        
+                        
+                    }
+                    .layoutPriority(1)//: VSTACK
+                    Spacer()
+                }//: HSTACK
+                .padding()
                 
-                VStack(alignment: .leading, spacing: 10){
-                    
-                    
-                    Text(model.name)
-                        .font(.title2)
-                    Text(model.address)
-                        .foregroundColor(Color("Symboltint"))
-                        .font(.subheadline)
-                    
-//                    if let hospital = model as? HospitalModel {
-//
-//                    } else if let chamber = model as? ChamberModel {
-//                        Text(chamber.name)
-//                            .font(.title2)
-//                        Text(chamber.address)
-//                            .foregroundColor(Color("Symboltint"))
-//                            .font(.subheadline)
-//                    }
-                    
-                  
-                    
-                }
-                .layoutPriority(1)//: VSTACK
-                Spacer()
-            }//: HSTACK
-            .padding()
-            .background(Color("CardBackground"))
-            .cornerRadius(10)
-            .padding(5)
-//            .shadow(color: .black.opacity(0.3), radius: 2, x: 3, y: 3)
-
+                Divider()
+                   
+            }//: VStack
+            
+            
+            
+            
+            
+            
         }//: Zstack
         
     }

@@ -11,6 +11,7 @@ import Foundation
 struct K{
     
     static let CREATEORGANIZATION = "http://localhost:9191/organization/create"
+    static let UPDATEORGANIZATION = "http://localhost:9191/organization/updateOrganizationProfile/"
     
     struct Hospitals{
         static let GETALLHOSPITAL = "http://localhost:9191/organization/Hospital"
@@ -20,9 +21,14 @@ struct K{
         static let GETALLCHAMBER = "http://localhost:9191/organization/Chamber"
     }
     
+    struct DiagnosticCenter{
+        static let GETALLDC = "http://localhost:9191/organization/Diagnostic%20Center"
+    }
+    
     struct OrgType {
         static let HOSPITAL = "Hospital"
         static let CHAMBER = "Chamber"
+        static let DIAGNOSTIC_CENTER = "Diagnostic Center"
     }
     
 }

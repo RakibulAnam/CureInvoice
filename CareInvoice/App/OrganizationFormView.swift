@@ -19,6 +19,7 @@ struct OrganizationFormView: View {
     @State var contact = ""
     @State var emergencyContact = ""
     @State var operatingHour = ""
+    @State var buttonName : String = "Create"
     
     
     @Environment(\.presentationMode) var presentationMode
@@ -35,6 +36,7 @@ struct OrganizationFormView: View {
             self._contact = State(initialValue: org.contact)
             self._emergencyContact = State(initialValue: org.emergencyContact)
             self._operatingHour = State(initialValue: org.operatingHour)
+            self._buttonName = State(initialValue: "Update")
         }
     }
     
@@ -63,14 +65,19 @@ struct OrganizationFormView: View {
                 Button {
                     
                     
-                    let newHospital = OrganizationModel(name: name, address: address, contact: contact, type: orgType, email: email.lowercased(), emergencyContact: emergencyContact, operatingHour: operatingHour)
+                    let newOrg = OrganizationModel(name: name, address: address, contact: contact, type: orgType, email: email.lowercased(), emergencyContact: emergencyContact, operatingHour: operatingHour)
                     
-                    manager.postOrganization(organization: newHospital, to: K.CREATEORGANIZATION)
+                    if let profile = profile {
+                        manager.updateOrganization(organization: newOrg, to: K.UPDATEORGANIZATION, for: profile.id!)
+                    }else{
+                        manager.postOrganization(organization: newOrg, to: K.CREATEORGANIZATION)
+                    }
+                    
                     
                     self.presentationMode.wrappedValue.dismiss()
                     
                 } label: {
-                    Text("Create".uppercased())
+                    Text(buttonName.uppercased())
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
@@ -91,6 +98,6 @@ struct OrganizationFormView: View {
 
 struct OrganizationFormView_Previews: PreviewProvider {
     static var previews: some View {
-        OrganizationFormView(manager: OrganizationManager(), orgType: K.OrgType.HOSPITAL )
+        OrganizationFormView(manager: OrganizationManager(), orgType: K.OrgType.HOSPITAL)
     }
 }

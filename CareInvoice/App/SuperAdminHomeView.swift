@@ -14,39 +14,29 @@ struct SuperAdminHomeView: View {
         
         TabView {
             
-//            NavigationView {
-//                HospitalListView()
-//                    .toolbar(.hidden, for: .navigationBar)
-//            }
-//            .tabItem {
-//                Image(systemName: "house.fill")
-//                Text("Hospital")
-//            }
-//
-//            NavigationView {
-//                ChamberListView()
-//                    .toolbar(.hidden)
-//            }
-//            .tabItem {
-//                Image(systemName: "arrow.up")
-//                Text("Chamber")
-//            }
             
             ListView(listURL: K.Hospitals.GETALLHOSPITAL, title: "Hospital", orgType: K.OrgType.HOSPITAL)
                 .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Hospital")
+                    Image(systemName: "cross.case")
+                    Text(K.OrgType.HOSPITAL)
                 }
             
             ListView(listURL: K.Chamber.GETALLCHAMBER, title: "Chamber", orgType: K.OrgType.CHAMBER)
                 .tabItem {
                     Image(systemName: "house.fill")
-                    Text("Chamber")
+                    Text(K.OrgType.CHAMBER)
+                }
+            
+            ListView(listURL: K.DiagnosticCenter.GETALLDC, title: "Diagnostic Center", orgType: K.OrgType.DIAGNOSTIC_CENTER)
+                .tabItem {
+                    Image(systemName: "menucard")
+                    Text(K.OrgType.DIAGNOSTIC_CENTER)
                 }
             
             
         }//: TAB
-        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
+        
         
     }
 }
