@@ -15,19 +15,19 @@ struct SuperAdminHomeView: View {
         TabView {
             
             
-            ListView(listURL: K.Hospitals.GETALLHOSPITAL, title: "Hospital", orgType: K.OrgType.HOSPITAL)
+            ListView(listURL: K.Hospitals.GETALLHOSPITAL, title: "\(K.OrgType.HOSPITAL)s", orgType: K.OrgType.HOSPITAL)
                 .tabItem {
                     Image(systemName: "cross.case")
                     Text(K.OrgType.HOSPITAL)
                 }
             
-            ListView(listURL: K.Chamber.GETALLCHAMBER, title: "Chamber", orgType: K.OrgType.CHAMBER)
+            ListView(listURL: K.Chamber.GETALLCHAMBER, title: "\(K.OrgType.CHAMBER)s", orgType: K.OrgType.CHAMBER)
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text(K.OrgType.CHAMBER)
                 }
             
-            ListView(listURL: K.DiagnosticCenter.GETALLDC, title: "Diagnostic Center", orgType: K.OrgType.DIAGNOSTIC_CENTER)
+            ListView(listURL: K.DiagnosticCenter.GETALLDC, title: "\(K.OrgType.DIAGNOSTIC_CENTER)s", orgType: K.OrgType.DIAGNOSTIC_CENTER)
                 .tabItem {
                     Image(systemName: "menucard")
                     Text(K.OrgType.DIAGNOSTIC_CENTER)
@@ -35,7 +35,7 @@ struct SuperAdminHomeView: View {
             
             
         }//: TAB
-        .toolbar(.hidden, for: .navigationBar)
+        
         
         
     }

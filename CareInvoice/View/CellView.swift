@@ -42,8 +42,9 @@ struct CellView: View {
                         
                         Text(model.name)
                             .font(.title2)
+                            .fontWeight(.semibold)
                         Text(model.address)
-                            .foregroundColor(Color("Symboltint"))
+                            .foregroundColor(.black)
                             .font(.subheadline)
                         
                         //                    if let hospital = model as? HospitalModel {

@@ -42,8 +42,138 @@ struct OrganizationFormView: View {
     
     
     var body: some View {
+     
         
- 
+        
+        VStack(alignment: .leading){
+                
+                
+            ScrollView{
+                
+                VStack(alignment: .leading , spacing: 5){
+                    Text("Name")
+                    TextField("", text: $name)
+                        .padding() // Add padding for spacing
+                        .background(RoundedRectangle(cornerRadius: 10).stroke(Color("PrimaryColor"), lineWidth: 2)) // Apply a rounded border
+                        .foregroundColor(.blue) // Text color
+                        .padding()
+                }
+                
+                
+                VStack(alignment: .leading, spacing: 5){
+                    Text("Address")
+                    TextField("", text: $name)
+                        .padding()
+                        .border(.black)
+                        .cornerRadius(5)
+                }.padding(.horizontal, 10)
+                
+                VStack(alignment: .leading, spacing: 5){
+                    Text("Email")
+                    TextField("", text: $name)
+                        .padding()
+                        .border(.black)
+                        .cornerRadius(5)
+                }.padding(.horizontal, 10)
+                
+                VStack(alignment: .leading, spacing: 5){
+                    Text("Contact")
+                    TextField("", text: $name)
+                        .padding()
+                        .border(.black)
+                        .cornerRadius(5)
+                }.padding(.horizontal, 10)
+                
+                VStack(alignment: .leading, spacing: 5){
+                    Text("Emergency Contact")
+                    TextField("", text: $name)
+                        .padding()
+                        .border(.black)
+                        .cornerRadius(5)
+                }.padding(.horizontal, 10)
+                
+                VStack(alignment: .leading, spacing: 5){
+                    Text("Operating Hour")
+                    TextField("", text: $name)
+                        .padding()
+                        .border(.black)
+                        .cornerRadius(5)
+                }.padding(.horizontal, 10)
+                
+                
+                Button {
+                    
+                    
+                    let newOrg = OrganizationModel(name: name, address: address, contact: contact, type: orgType, email: email.lowercased(), emergencyContact: emergencyContact, operatingHour: operatingHour)
+                    
+                    if let profile = profile {
+                        manager.updateOrganization(organization: newOrg, to: K.UPDATEORGANIZATION, for: profile.id!)
+                    }else{
+                        manager.postOrganization(organization: newOrg, to: K.CREATEORGANIZATION)
+                    }
+                    
+                    
+                    self.presentationMode.wrappedValue.dismiss()
+                    
+                } label: {
+                    Text(buttonName.uppercased())
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .frame(width: 350, height: 50, alignment: .center)
+                    .background(Color("PrimaryColor"))
+                    .cornerRadius(10)
+                    .padding()
+                } //: BUTTON
+                
+            }//: SCROLL
+            
+                
+            
+            
+            
+                
+                
+//                Form {
+//                    Section("Name") {
+//                        TextField("Organization Name", text: $name)
+//                            .textFieldStyle(.roundedBorder)
+//
+//                    }
+//
+//                    Section("Address") {
+//                        TextField("Address", text: $address)
+//                    }
+//
+//                    Section("Operating Hour") {
+//                        TextField("Operating Hour", text: $operatingHour)
+//                    }
+//
+//                    Section("Email") {
+//                        TextField("Email", text: $email)
+//                    }
+//
+//                    Section("Contact") {
+//                        TextField("Contact", text: $contact)
+//                    }
+//
+//                    Section("Emergency Contact") {
+//                        TextField("Emergency Contact", text: $emergencyContact)
+//                    }
+//
+//                }
+                
+                
+
+
+                Spacer()
+            }
+        .padding()
+            
+            
+        
+        
+ /*
         NavigationView {
             VStack{
                 
@@ -90,8 +220,9 @@ struct OrganizationFormView: View {
                 Spacer()
             }
             .navigationTitle("Create Organization")
+            .toolbar(.hidden, for: .navigationBar)
         }
-        
+   */
         
     }
 }

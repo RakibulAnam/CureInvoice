@@ -20,7 +20,7 @@ struct ListView: View {
             ZStack(alignment: .bottomTrailing) {
                 List{
                     ForEach(manager.organization) { organization in
-                        NavigationLink(destination: OrganizationDetailView(org: organization)) {
+                        NavigationLink(destination: OrganizationDetailView(org: organization).navigationBarTitleDisplayMode(.inline)) {
                             CellView(model: organization)
                             
                         }
@@ -32,7 +32,7 @@ struct ListView: View {
                 .listStyle(.plain)
                 .navigationTitle(title) //: LIST
                 
-                NavigationLink(destination: OrganizationFormView(manager: manager, orgType: orgType)) {
+                NavigationLink(destination: OrganizationFormView(manager: manager, orgType: orgType).navigationBarTitleDisplayMode(.inline)) {
                     Image(systemName: "plus")
                         .font(.title.weight(.semibold))
                         .padding()

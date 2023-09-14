@@ -45,7 +45,7 @@ struct OnboardingView: View {
                         .background(Color("CardBackground"))
                         .cornerRadius(10)
                        
-                    NavigationLink(destination: SuperAdminHomeView(), isActive: $isLoggedIn) {
+                    NavigationLink(destination: SuperAdminHomeView().toolbar(.hidden, for: .navigationBar), isActive: $isLoggedIn) {
                         Button("login".uppercased()) {
                        // postTest()
                         isLoggedIn  = true
