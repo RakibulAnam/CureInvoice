@@ -11,6 +11,7 @@ import Foundation
 class OrganizationManager : ObservableObject {
     
     @Published var organization : [OrganizationModel] = []
+    @Published var orgModel : OrganizationModel?
     
     
     func getOrganizationDetails(from apiUrl : String){
@@ -137,6 +138,44 @@ class OrganizationManager : ObservableObject {
             }.resume()
         }
         
+    }
+    
+    
+    func getSingleOrganization(from apiUrl : String, for id : Int){
+        
+        guard let url = URL(string: "\(apiUrl)\(id)")
+        else
+        {
+         print("Invalid URL")
+            return
+        }
+        URLSession
+            .shared
+            .dataTask(with: url) {[weak self] data, response, error in
+                
+                
+                DispatchQueue.main.async {
+                    
+                    if let error = error {
+                        print("There was an error starting the session \(error)")
+                    }
+                    else{
+                        
+                        let decoder = JSONDecoder()
+                        
+                        if let data = data {
+                            
+                            let decodedData = try? decoder.decode(OrganizationModel.self, from: data)
+                            
+                            self?.orgModel = decodedData!
+                            
+                            
+                        }else{
+                            print("Could Not Fetch Data")
+                        }
+                    }
+                } //:DispatchQueue
+            }.resume()
     }
     
     

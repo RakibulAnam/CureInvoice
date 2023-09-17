@@ -42,7 +42,7 @@ struct CellView: View {
                         
                         Text(model.name)
                             .font(.title2)
-                            .fontWeight(.semibold)
+                        
                         Text(model.address)
                             .foregroundColor(.black)
                             .font(.subheadline)
