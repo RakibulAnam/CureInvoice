@@ -21,10 +21,13 @@
 		E2825B952AB07B82006EF669 /* HospitalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2825B942AB07B82006EF669 /* HospitalModel.swift */; };
 		E29812642AB6B4B400117451 /* FormTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29812632AB6B4B400117451 /* FormTextFieldView.swift */; };
 		E2A19A052AB7048C00474973 /* OrgAdminModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A19A042AB7048C00474973 /* OrgAdminModel.swift */; };
+		E2A19A072AB70B8C00474973 /* UITEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A19A062AB70B8C00474973 /* UITEST.swift */; };
+		E2A19A092AB70F2400474973 /* AdminFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A19A082AB70F2400474973 /* AdminFormView.swift */; };
 		E2E6DF612AB172C900707BEE /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF602AB172C900707BEE /* CellView.swift */; };
 		E2E6DF672AB1940200707BEE /* ChamberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF662AB1940200707BEE /* ChamberModel.swift */; };
 		E2E6DF6B2AB19F4D00707BEE /* OrganizationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF6A2AB19F4D00707BEE /* OrganizationDetailView.swift */; };
 		E2E6DF6D2AB1BC5300707BEE /* OrganizationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF6C2AB1BC5300707BEE /* OrganizationFormView.swift */; };
+		E2E9AA4A2AB8433300BC3969 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E9AA492AB8433300BC3969 /* LoginService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,10 +47,13 @@
 		E2825B942AB07B82006EF669 /* HospitalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalModel.swift; sourceTree = "<group>"; };
 		E29812632AB6B4B400117451 /* FormTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTextFieldView.swift; sourceTree = "<group>"; };
 		E2A19A042AB7048C00474973 /* OrgAdminModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgAdminModel.swift; sourceTree = "<group>"; };
+		E2A19A062AB70B8C00474973 /* UITEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITEST.swift; sourceTree = "<group>"; };
+		E2A19A082AB70F2400474973 /* AdminFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminFormView.swift; sourceTree = "<group>"; };
 		E2E6DF602AB172C900707BEE /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		E2E6DF662AB1940200707BEE /* ChamberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChamberModel.swift; sourceTree = "<group>"; };
 		E2E6DF6A2AB19F4D00707BEE /* OrganizationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetailView.swift; sourceTree = "<group>"; };
 		E2E6DF6C2AB1BC5300707BEE /* OrganizationFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationFormView.swift; sourceTree = "<group>"; };
+		E2E9AA492AB8433300BC3969 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +116,7 @@
 				E2825B862AB02A8A006EF669 /* OnboardingView.swift */,
 				E2E6DF6A2AB19F4D00707BEE /* OrganizationDetailView.swift */,
 				E2E6DF6C2AB1BC5300707BEE /* OrganizationFormView.swift */,
+				E2A19A082AB70F2400474973 /* AdminFormView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -120,6 +127,7 @@
 				E2E6DF602AB172C900707BEE /* CellView.swift */,
 				E24FBC452AB2D11800E661B0 /* ListView.swift */,
 				E29812632AB6B4B400117451 /* FormTextFieldView.swift */,
+				E2A19A062AB70B8C00474973 /* UITEST.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -147,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				E24FBC432AB2CEA900E661B0 /* OrganizationManager.swift */,
+				E2E9AA492AB8433300BC3969 /* LoginService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -226,13 +235,16 @@
 				E2825B772AB027A7006EF669 /* ContentView.swift in Sources */,
 				E2E6DF612AB172C900707BEE /* CellView.swift in Sources */,
 				E24FBC462AB2D11800E661B0 /* ListView.swift in Sources */,
+				E2A19A092AB70F2400474973 /* AdminFormView.swift in Sources */,
 				E2825B8E2AB0657C006EF669 /* OrganizationModel.swift in Sources */,
+				E2A19A072AB70B8C00474973 /* UITEST.swift in Sources */,
 				E2A19A052AB7048C00474973 /* OrgAdminModel.swift in Sources */,
 				E24FBC442AB2CEA900E661B0 /* OrganizationManager.swift in Sources */,
 				E2825B872AB02A8A006EF669 /* OnboardingView.swift in Sources */,
 				E2825B952AB07B82006EF669 /* HospitalModel.swift in Sources */,
 				E2E6DF672AB1940200707BEE /* ChamberModel.swift in Sources */,
 				E2E6DF6D2AB1BC5300707BEE /* OrganizationFormView.swift in Sources */,
+				E2E9AA4A2AB8433300BC3969 /* LoginService.swift in Sources */,
 				E2825B932AB07965006EF669 /* Constants.swift in Sources */,
 				E2825B752AB027A7006EF669 /* CareInvoiceApp.swift in Sources */,
 				E29812642AB6B4B400117451 /* FormTextFieldView.swift in Sources */,

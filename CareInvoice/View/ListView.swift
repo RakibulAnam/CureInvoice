@@ -30,7 +30,8 @@ struct ListView: View {
                     }
                 }
                 .listStyle(.plain)
-                .navigationTitle(title) //: LIST
+                .navigationBarTitleDisplayMode(.inline)
+                //: LIST
                 
                 NavigationLink(destination: OrganizationFormView(manager: manager, orgType: orgType).navigationBarTitleDisplayMode(.inline)) {
                     Image(systemName: "plus")

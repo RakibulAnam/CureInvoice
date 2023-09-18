@@ -32,4 +32,8 @@ struct K{
         static let DIAGNOSTIC_CENTER = "Diagnostic Center"
     }
     
+    struct Login{
+        static let AUTHENTICATE = "http://localhost:9191/authenticate"
+    }
+    
 }

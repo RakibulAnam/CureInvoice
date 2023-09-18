@@ -36,19 +36,37 @@ struct OnboardingView: View {
                     
                     TextField("UserName", text: $userName)
                         .padding()
-                        .frame(width: 300, height: 50)
+                        .frame(width: 350, height: 50, alignment: .center)
                         .background(Color("CardBackground"))
                         .cornerRadius(10)
+                        .textInputAutocapitalization(.never)
                     TextField("Password", text: $password)
                         .padding()
-                        .frame(width: 300, height: 50)
+                        .frame(width: 350, height: 50, alignment: .center)
                         .background(Color("CardBackground"))
                         .cornerRadius(10)
+                        .textInputAutocapitalization(.never)
                        
-                    NavigationLink(destination: SuperAdminHomeView().toolbar(.hidden, for: .navigationBar), isActive: $isLoggedIn) {
+                    
+                    
+                    
+                    NavigationLink(destination: SuperAdminHomeView()) {
                         Button("login".uppercased()) {
-                       // postTest()
-                        isLoggedIn  = true
+                            
+                        
+                            LoginService().login(username: userName, password: password) { result in
+                                
+                                switch result{
+                                    
+                                case .success(let token):
+                                   
+                                    print(token)
+                                case .failure(let error):
+                                    print(error.localizedDescription)
+                                }
+                                
+                            }
+                        
                         }
                         .font(.title2)
                         .fontWeight(.bold)
@@ -57,7 +75,10 @@ struct OnboardingView: View {
                         .background(Color("PrimaryColor"))
                         .cornerRadius(10)
                         .padding()
-                    }//: NAVIGATION LINK
+                    }
+                    
+                   
+                    
                     
 
                     

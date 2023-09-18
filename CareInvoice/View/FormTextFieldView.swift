@@ -26,7 +26,7 @@ struct FormTextFieldView: View {
                         isValid = validate!(newValue)
                     }
                 })
-                .padding() // Add padding for spacing
+                .padding()
                 .textInputAutocapitalization(.none)
                 .autocorrectionDisabled(true)
                 .background(RoundedRectangle(cornerRadius: 8).stroke(Color("PrimaryColor"), lineWidth: 2)) // Apply a rounded border

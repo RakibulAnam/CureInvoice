@@ -42,7 +42,7 @@ struct OrganizationDetailView: View {
                                     
                                     Image("organization")
                                         .resizable()
-                                        .frame(maxWidth: .infinity)
+                                        .frame(width: 150, height: 150, alignment: .center)
                                         .scaledToFit()
                                     
                                     Text(nOrg.name)
@@ -74,9 +74,10 @@ struct OrganizationDetailView: View {
                                     )
                                     //Vstack
                                     
-                                    Text("Admins")
-                                    
-                                  
+//                                    Text("Admins")
+//                                    
+//                                    ListView(listURL: K.Hospitals.GETALLHOSPITAL, title: "Hospital", orgType: K.OrgType.HOSPITAL)
+//                                  
                                     
                                 }//Vstack
                                 .padding()
