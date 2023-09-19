@@ -11,11 +11,13 @@ struct OnboardingView: View {
     
     @State var userName : String = ""
     @State var password : String = ""
-    @State var isLoggedIn : Bool = false
+   
+    
+    var loginService = LoginService()
     
     var body: some View {
         
-        NavigationView {
+        
             ZStack {
                 
                 VStack(spacing: 10){
@@ -50,22 +52,14 @@ struct OnboardingView: View {
                     
                     
                     
-                    NavigationLink(destination: SuperAdminHomeView()) {
+                    
                         Button("login".uppercased()) {
-                            
-                        
-                            LoginService().login(username: userName, password: password) { result in
+                            DispatchQueue.main.async {
+                                loginService.Login(userName: userName, password: password)
                                 
-                                switch result{
-                                    
-                                case .success(let token):
-                                   
-                                    print(token)
-                                case .failure(let error):
-                                    print(error.localizedDescription)
-                                }
-                                
+                               
                             }
+                           
                         
                         }
                         .font(.title2)
@@ -75,10 +69,8 @@ struct OnboardingView: View {
                         .background(Color("PrimaryColor"))
                         .cornerRadius(10)
                         .padding()
-                    }
                     
                    
-                    
                     
 
                     
@@ -88,7 +80,7 @@ struct OnboardingView: View {
                 }//: VSTACK
                 .padding()
             }//: ZSTACK
-        }//NAV VIEW
+        //NAV VIEW
     }
     
     func postTest(){

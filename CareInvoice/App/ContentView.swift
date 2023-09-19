@@ -9,20 +9,25 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @AppStorage("isLoggedIn") var isLoggedIn : Bool = false
+    @AppStorage("ROLE") var userRole : String = ""
+    @AppStorage("AuthToken") var AuthToken : String = ""
     
     var body: some View {
         
         
         ZStack{
             
-            if isLoggedIn {
-                SuperAdminHomeView()
-            } else {
+            if userRole.isEmpty {
                 OnboardingView()
+            } else if userRole == "ROLE_ROOT" {
+                SuperAdminHomeView()
             }
             
         }
+        .onAppear{
+            userRole = ""
+        }
+      
         
     }
 }

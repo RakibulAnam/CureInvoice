@@ -37,7 +37,8 @@ struct FormTextFieldView: View {
                             
                     }
         }//:Vstack
-        .padding(2)
+        .padding(.top, 20)
+        .padding(.horizontal, 3)
         
     }
 }

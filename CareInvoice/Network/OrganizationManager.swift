@@ -6,12 +6,14 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 class OrganizationManager : ObservableObject {
     
     @Published var organization : [OrganizationModel] = []
     @Published var orgModel : OrganizationModel?
+    
+    @AppStorage("AuthToken") var AuthToken : String = ""
     
     
     func getOrganizationDetails(from apiUrl : String){
@@ -19,12 +21,17 @@ class OrganizationManager : ObservableObject {
         guard let url = URL(string: apiUrl)
         else
         {
-         print("Invalid URL")
+            print("Invalid URL")
             return
         }
+        
+        var tokeen = AuthToken
+        var request = URLRequest(url: url)
+        request.addValue("Bearer \(tokeen)", forHTTPHeaderField: "Authorization")
+        
         URLSession
             .shared
-            .dataTask(with: url) {[weak self] data, response, error in
+            .dataTask(with: request) {[weak self] data, response, error in
                 
                 
                 DispatchQueue.main.async {
@@ -37,8 +44,9 @@ class OrganizationManager : ObservableObject {
                         let decoder = JSONDecoder()
                         
                         if let data = data {
-                            
                             let decodedData = try? decoder.decode([OrganizationModel].self, from: data)
+                            
+                            
                             
                             self?.organization = decodedData!
                             
@@ -76,18 +84,18 @@ class OrganizationManager : ObservableObject {
             URLSession.shared.dataTask(with: request) { data, response, error in
                 
                 if let error = error {
-                                print("ErrorBro: \(error.localizedDescription)")
-                                return
-                            }
+                    print("ErrorBro: \(error.localizedDescription)")
+                    return
+                }
                 
                 if let data = data {
-                             do {
-                                 // Parse the response data if needed
-                                 let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-                                 print(jsonResponse)
-                             } catch {
-                                 print("JSON Error: \(error.localizedDescription)")
-                             }
+                    do {
+                        // Parse the response data if needed
+                        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        print(jsonResponse)
+                    } catch {
+                        print("JSON Error: \(error.localizedDescription)")
+                    }
                 }
             }.resume()
         }
@@ -122,18 +130,18 @@ class OrganizationManager : ObservableObject {
             URLSession.shared.dataTask(with: request) { data, response, error in
                 
                 if let error = error {
-                                print("ErrorBro: \(error.localizedDescription)")
-                                return
-                            }
+                    print("ErrorBro: \(error.localizedDescription)")
+                    return
+                }
                 
                 if let data = data {
-                             do {
-                                 // Parse the response data if needed
-                                 let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-                                 print(jsonResponse)
-                             } catch {
-                                 print("JSON Error: \(error.localizedDescription)")
-                             }
+                    do {
+                        // Parse the response data if needed
+                        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        print(jsonResponse)
+                    } catch {
+                        print("JSON Error: \(error.localizedDescription)")
+                    }
                 }
             }.resume()
         }
@@ -146,12 +154,17 @@ class OrganizationManager : ObservableObject {
         guard let url = URL(string: "\(apiUrl)\(id)")
         else
         {
-         print("Invalid URL")
+            print("Invalid URL")
             return
         }
+        
+        let tokeen = AuthToken
+        var request = URLRequest(url: url)
+        request.addValue("Bearer \(tokeen)", forHTTPHeaderField: "Authorization")
+        
         URLSession
             .shared
-            .dataTask(with: url) {[weak self] data, response, error in
+            .dataTask(with: request) {[weak self] data, response, error in
                 
                 
                 DispatchQueue.main.async {
