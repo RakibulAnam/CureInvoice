@@ -21,12 +21,15 @@ struct ContentView: View {
                 OnboardingView()
             } else if userRole == "ROLE_ROOT" {
                 SuperAdminHomeView()
+            } else if userRole == "ROLE_ORG_ADMIN"{
+                Text("ORG ADMIN DASH")
             }
             
         }
         .onAppear{
             userRole = ""
         }
+        
       
         
     }

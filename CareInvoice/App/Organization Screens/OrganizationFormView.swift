@@ -55,10 +55,7 @@ struct OrganizationFormView: View {
         
         
         ZStack {
-            
-            Color("CardBackground")
-                .ignoresSafeArea()
-            
+                        
             VStack(alignment: .leading){
                 
                 Text(formTitle)
@@ -103,7 +100,6 @@ struct OrganizationFormView: View {
             .padding()
             .background(Color.white)
             .cornerRadius(20)
-            .shadow(radius: 5)
             
             
         }//: ZSTACK
@@ -172,7 +168,7 @@ struct OrganizationFormView: View {
         return emailPredicate.evaluate(with: email)
     }
     func isValidContact(_ contact: String) -> Bool {
-        let contactRegex = #"^(?:+?88)?01[15-9]\d{8}$"#
+        let contactRegex = #"^(?:\+88|01)?\d{11}$"#
         let contactPredicate = NSPredicate(format: "SELF MATCHES %@", contactRegex)
         return contactPredicate.evaluate(with: contact)
     }

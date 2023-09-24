@@ -52,17 +52,19 @@ class LoginService : ObservableObject{
                     if let data = data {
                         print("Got DATA")
                         //print(String(data: data, encoding: .utf8))
-                        do {
-                            let safeData = try JSONDecoder().decode(loginResponse.self, from: data)
-                            self.AuthToken = safeData.token
-                            print(self.AuthToken)
-                            
-                            self.getRole()
-                            
-                        } catch  {
-                            print("Couldnt Decode")
+                        DispatchQueue.main.async {
+                            do {
+                                let safeData = try JSONDecoder().decode(loginResponse.self, from: data)
+                                self.AuthToken = safeData.token
+                                print(self.AuthToken)
+                                
+                                self.getRole()
+                                
+                            } catch  {
+                                print("Couldnt Decode")
+                            }
                         }
-                        
+                       
                     } else{
                         print("Didnt Get Data")
                     }
@@ -100,15 +102,19 @@ class LoginService : ObservableObject{
             }
             else if let data = data {
                 print("Got Data in Role \(String(data: data, encoding: .utf8))")
-                do {
-                    let safeData = try JSONDecoder().decode([userRoleModel].self, from: data)
-                    print(safeData)
-                    role = safeData[0].authority
-                    print(role)
-                    self.userRole = role
-                } catch  {
-                    print("There was error Decoding Role")
+                
+                DispatchQueue.main.async {
+                    do {
+                        let safeData = try JSONDecoder().decode([userRoleModel].self, from: data)
+                        print(safeData)
+                        role = safeData[0].authority
+                        print(role)
+                        self.userRole = role
+                    } catch  {
+                        print("There was error Decoding Role")
+                    }
                 }
+               
                 
             }
             

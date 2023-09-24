@@ -15,6 +15,8 @@ class OrganizationManager : ObservableObject {
     
     @AppStorage("AuthToken") var AuthToken : String = ""
     
+    var tt  = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1JPT1QifV0sInN1YiI6InJvb3QiLCJpYXQiOjE2OTU1MzE0NTUsImV4cCI6MTY5NTYxNzg1NX0.hrN8yjre_atCdYw4-aEsm-JWI1NkbHO-ARk_v7PhUCw"
+    
     
     func getOrganizationDetails(from apiUrl : String){
         
@@ -24,10 +26,10 @@ class OrganizationManager : ObservableObject {
             print("Invalid URL")
             return
         }
-        
-        var tokeen = AuthToken
+      
+        let token = AuthToken
         var request = URLRequest(url: url)
-        request.addValue("Bearer \(tokeen)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(tt)", forHTTPHeaderField: "Authorization")
         
         URLSession
             .shared
@@ -44,11 +46,16 @@ class OrganizationManager : ObservableObject {
                         let decoder = JSONDecoder()
                         
                         if let data = data {
-                            let decodedData = try? decoder.decode([OrganizationModel].self, from: data)
                             
+                            do {
+                                let decodedData = try decoder.decode([OrganizationModel].self, from: data)
+                                self?.organization = decodedData
+                                
+                            } catch  {
+                                print("Could not decode Organization \(error)")
+                            }
+                        
                             
-                            
-                            self?.organization = decodedData!
                             
                         }else{
                             print("Could Not Fetch Data")
@@ -73,6 +80,8 @@ class OrganizationManager : ObservableObject {
         
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let token = AuthToken
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         let jsonData = org
         let encoder = JSONEncoder()
@@ -119,6 +128,8 @@ class OrganizationManager : ObservableObject {
         
         request.httpMethod = "PUT"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let token = AuthToken
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         let jsonData = org
         let encoder = JSONEncoder()
@@ -158,9 +169,9 @@ class OrganizationManager : ObservableObject {
             return
         }
         
-        let tokeen = AuthToken
+        let token = AuthToken
         var request = URLRequest(url: url)
-        request.addValue("Bearer \(tokeen)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(tt)", forHTTPHeaderField: "Authorization")
         
         URLSession
             .shared
@@ -178,9 +189,16 @@ class OrganizationManager : ObservableObject {
                         
                         if let data = data {
                             
-                            let decodedData = try? decoder.decode(OrganizationModel.self, from: data)
+                            do {
+                                let decodedData = try decoder.decode(OrganizationModel.self, from: data)
+                                self?.orgModel = decodedData
+                            } catch  {
+                                print("Could Not Decode OrgProfile Data")
+                            }
                             
-                            self?.orgModel = decodedData!
+                            
+                            
+                            
                             
                             
                         }else{
@@ -189,6 +207,51 @@ class OrganizationManager : ObservableObject {
                     }
                 } //:DispatchQueue
             }.resume()
+    }
+    
+    func createOrgAdmin(admin : OrgAdminModel, orgID : Int){
+        
+        let admin = admin
+        
+        guard let url = URL(string: "\(K.ADD_ORG_ADMIN)\(orgID)") else {
+            print("Invalid Posting URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let token = AuthToken
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let jsonData = admin
+        let encoder = JSONEncoder()
+        
+        if let encodedData = try? encoder.encode(jsonData){
+            
+            request.httpBody = encodedData
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                
+                if let error = error {
+                    print("ErrorBro: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        // Parse the response data if needed
+                        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        print(jsonResponse)
+                    } catch {
+                        print("JSON Error: \(error.localizedDescription)")
+                    }
+                }
+            }.resume()
+        }
+        
+        
     }
     
     

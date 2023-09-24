@@ -7,17 +7,21 @@
 
 import SwiftUI
 
-struct ListView: View {
+struct OrgListView: View {
     
     @StateObject private var manager = OrganizationManager()
-    
     let listURL : String
     let title : String
     let orgType : String
+    @AppStorage("ROLE") var userRole : String = ""
+    @AppStorage("AuthToken") var AuthToken : String = ""
     
     var body: some View {
+        
+        
         NavigationView {
             ZStack(alignment: .bottomTrailing) {
+                
                 List{
                     ForEach(manager.organization) { organization in
                         NavigationLink(destination: OrganizationDetailView(org: organization, listUrl: listURL).navigationBarTitleDisplayMode(.inline)) {
@@ -31,6 +35,7 @@ struct ListView: View {
                 }
                 .listStyle(.plain)
                 .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle("")
                 //: LIST
                 
                 NavigationLink(destination: OrganizationFormView(manager: manager, orgType: orgType).navigationBarTitleDisplayMode(.inline)) {
@@ -45,14 +50,18 @@ struct ListView: View {
                 
             }//: ZSTACK
             .onAppear {
-                manager.getOrganizationDetails(from: listURL)
+                DispatchQueue.main.async {
+                    manager.getOrganizationDetails(from: listURL)
+                }
+                
             }
-        }
+        } //: NAVIGATION END
     }
 }
 
 struct ListView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        ListView(listURL: K.Hospitals.GETALLHOSPITAL, title: "Hospital", orgType: K.OrgType.HOSPITAL)
+        OrgListView(listURL: K.Hospitals.GETALLHOSPITAL, title: "Hospital", orgType: K.OrgType.HOSPITAL)
     }
 }

@@ -14,7 +14,7 @@ struct OrgAdminModel : Codable, Identifiable{
     var id: Int?
     let name : String
     let username : String
-    let password : String
+    let password : String?
     let email : String
     let contact : String
     

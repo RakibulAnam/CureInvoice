@@ -19,7 +19,7 @@ struct OrganizationModel : Codable, Identifiable{
     let email : String
     let emergencyContact : String
     let operatingHour : String
-    var admin : [OrgAdminModel]?
+    var orgAdmin : [OrgAdminModel]?
     
     
 }

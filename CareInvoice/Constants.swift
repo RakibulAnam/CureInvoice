@@ -15,6 +15,8 @@ struct K{
     static let GETORGANIZATIONBYID = "http://localhost:9191/organization/getOrganizationById/"
     static let GET_ROLE = "http://localhost:9191/getRole"
     
+    static let ADD_ORG_ADMIN = "http://localhost:9191/org_admin/addOrgAdmin/"
+    
     struct Hospitals{
         static let GETALLHOSPITAL = "http://localhost:9191/organization/Hospital"
     }
