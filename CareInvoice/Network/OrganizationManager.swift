@@ -30,7 +30,7 @@ class OrganizationManager : ObservableObject {
       
         let token = AuthToken
         var request = URLRequest(url: url)
-        request.addValue("Bearer \(tt)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         URLSession
             .shared

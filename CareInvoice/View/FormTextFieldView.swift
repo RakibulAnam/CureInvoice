@@ -26,12 +26,12 @@ struct FormTextFieldView: View {
                         isValid = validate!(newValue)
                     }
                 })
-                .padding()
+                .padding(10)
                 .textInputAutocapitalization(.none)
                 .font(.title3)
                 .fontWeight(.light)
                 .autocorrectionDisabled(true)
-                .background(RoundedRectangle(cornerRadius: 8).stroke(Color(.gray), lineWidth: 2)) // Apply a rounded border
+                .background(RoundedRectangle(cornerRadius: 8).stroke(Color(.gray), lineWidth: 1)) // Apply a rounded border
             
             if !isValid {
                         Text("Please enter a valid \(title).")

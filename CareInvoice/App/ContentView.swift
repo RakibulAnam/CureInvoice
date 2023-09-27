@@ -32,7 +32,7 @@ struct ContentView: View {
                 Text("Chamber")
             }
             else if OrgType == K.OrgType.PHARMACY{
-                Text("Pharmacy")
+                PharmacyStaffView()
             }
             
         }

@@ -19,8 +19,16 @@ struct K{
     
     static let GET_ALL_DRUGS = "http://localhost:9191/drugs/getAllDrugs"
     
+    static let GET_BRAND_DRUG = "http://localhost:9191/drugs/searchDrugByBrandName/"
+    
     static let ADD_ORG_ADMIN = "http://localhost:9191/org_admin/addOrgAdmin/"
     static let GET_ORG_ADMIN = "http://localhost:9191/org_admin/getOrgAdmins/"
+    
+    
+    static let GET_PARMACY_INVOICE = "http://localhost:9191/drugOrders/getAllDrugOrdersByOrgId/"
+    static let CREATE_PHARMACY_INVOICE = "http://localhost:9191/drugOrders/saveOrder"
+    
+    
     
     struct Hospitals{
         static let GETALLHOSPITAL = "http://localhost:9191/organization/Hospital"

@@ -99,18 +99,18 @@ struct BookInvestigationForm: View {
                         }
                         */
                        
-                        NavigationLink(destination: AppointmentInvoiceView(invoice: Invoice(patientName: name, patientContact: contact, investigation: selectedInvestigation, totalFee: totalFee), hideButton: false), isActive: $invoiceGenerated) {
+                        NavigationLink(destination: InvestigationInvoiceView(invoice: InvestigationInvoiceModel(patientName: name, patientContact: contact, investigation: selectedInvestigation, totalFee: totalFee), hideButton: false), isActive: $invoiceGenerated) {
                             Button {
-                                /*
-                                let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
-                                
-                                manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
-                                 
-                                */
-                                
-                                invoiceViewModel.setInvoice(name: name, contact: contact, selectedInvestigation: selectedInvestigation, totalFee: totalFee)
-                                
-                                print(invoiceViewModel.invoice!)
+//                                /*
+//                                let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
+//
+//                                manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
+//
+//                                */
+//
+//                                invoiceViewModel.setInvoice(name: name, contact: contact, selectedInvestigation: selectedInvestigation, totalFee: totalFee)
+//
+//                                print(invoiceViewModel.invoice!)
                                 
                                 invoiceGenerated = true
                                 
@@ -156,13 +156,7 @@ struct BookInvestigationForm: View {
     }
 }
 
-struct Invoice {
-    let patientName : String
-    let patientContact : String
-    let investigation : [Investigation]
-    let totalFee : Int
-    
-}
+
 
 struct Investigation : Hashable{
     let name : String

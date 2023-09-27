@@ -9,11 +9,11 @@ import Foundation
 
 class InvoiceViewModel : ObservableObject {
     
-    @Published var invoice : Invoice?
+    @Published var invoice : InvestigationInvoiceModel?
     
     
     func setInvoice(name : String, contact : String, selectedInvestigation : [Investigation], totalFee : Int){
-        invoice =  Invoice(patientName: name, patientContact: contact, investigation: selectedInvestigation, totalFee: totalFee)
+        invoice =  InvestigationInvoiceModel(patientName: name, patientContact: contact, investigation: selectedInvestigation, totalFee: totalFee)
     }
     
     

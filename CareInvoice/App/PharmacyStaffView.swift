@@ -21,8 +21,7 @@ struct PharmacyStaffView: View {
             VStack {
                 
                 HStack() {
-                    Image(systemName: "pill")
-                    TextField("Search Drugs", text: $drugSearch)
+                    Spacer()
                     Button {
                         isMenuOpen.toggle()
                     } label: {
@@ -44,8 +43,25 @@ struct PharmacyStaffView: View {
                 .padding(.horizontal, 20)
                 
                 
-                DrugListView()
+                TabView {
+                    DrugListView()
+                        .tabItem {
+                            Image(systemName: "pill")
+                            Text("Drugs")
+                        }
+                    
+                    PharmacyInvoiceList()
+                        .tabItem {
+                            Image(systemName: "doc.text")
+                            Text("Invoice")
+                        }
+                }
+                
+                
+                
             }
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
             
            
         }

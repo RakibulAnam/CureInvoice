@@ -51,11 +51,7 @@ struct HospitalStaffView: View {
                             Image(systemName: "waveform.path.ecg")
                             Text("Specialities")
                         }
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Text("Hello")
-                            }
-                        }
+                       
                     
                     RevenueView()
                         .tabItem {
