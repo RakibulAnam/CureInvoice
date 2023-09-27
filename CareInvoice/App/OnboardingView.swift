@@ -11,70 +11,80 @@ struct OnboardingView: View {
     
     @State var userName : String = ""
     @State var password : String = ""
-   
     
-   @StateObject var loginService = LoginService()
+    
+    @StateObject var loginService = LoginService()
+    @StateObject var manager = OrganizationManager()
+    @AppStorage("OrgID") var OrgID : Int = 0
+    @AppStorage("OrgType") var OrgType : String = ""
+    @AppStorage("isLoggedIn") var isLoggedIn : Bool = false
+    
+    
+    
     
     var body: some View {
         
         
-            ZStack {
+        ZStack {
+            
+            VStack(spacing: 10){
                 
-                VStack(spacing: 10){
-
-                    Image("hpt-pana")
+                Image("hpt-pana")
+                    .resizable()
+                    .scaledToFit()
+                
+                HStack {
+                    Image("logo")
                         .resizable()
                         .scaledToFit()
-                    
-                    HStack {
-                        Image("logo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25, alignment: .center)
-                        Text("CureInvoice")
-                            .font(.custom("Cairo-Regular", size: 30))
+                        .frame(width: 25, height: 25, alignment: .center)
+                    Text("CureInvoice")
+                        .font(.custom("Cairo-Regular", size: 30))
                         .foregroundColor(.accentColor)
+                }
+                
+                TextField("UserName", text: $userName)
+                    .padding()
+                    .frame(width: 350, height: 50, alignment: .center)
+                    .background(Color("CardBackground"))
+                    .cornerRadius(10)
+                    .textInputAutocapitalization(.never)
+                TextField("Password", text: $password)
+                    .padding()
+                    .frame(width: 350, height: 50, alignment: .center)
+                    .background(Color("CardBackground"))
+                    .cornerRadius(10)
+                    .textInputAutocapitalization(.never)
+                
+                
+                
+                
+                
+                Button("login".uppercased()) {
+                    DispatchQueue.main.async {
+                        
+                        loginService.Login(userName: userName, password: password)
+                        
+                        
+                        
                     }
-                    
-                    TextField("UserName", text: $userName)
-                        .padding()
-                        .frame(width: 350, height: 50, alignment: .center)
-                        .background(Color("CardBackground"))
-                        .cornerRadius(10)
-                        .textInputAutocapitalization(.never)
-                    TextField("Password", text: $password)
-                        .padding()
-                        .frame(width: 350, height: 50, alignment: .center)
-                        .background(Color("CardBackground"))
-                        .cornerRadius(10)
-                        .textInputAutocapitalization(.never)
-                       
+                   
                     
                     
-                    
-                    
-                        Button("login".uppercased()) {
-                            DispatchQueue.main.async {
-                                loginService.Login(userName: userName, password: password)
-                                
-                               
-                            }
-                           
-                        
-                        }
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .frame(width: 350, height: 50, alignment: .center)
-                        .background(Color("PrimaryColor"))
-                        .cornerRadius(10)
-                        .padding()
-                        
-                    Spacer()
-                    
-                }//: VSTACK
+                }
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .frame(width: 350, height: 50, alignment: .center)
+                .background(Color("PrimaryColor"))
+                .cornerRadius(10)
                 .padding()
-            }//: ZSTACK
+                
+                Spacer()
+                
+            }//: VSTACK
+            .padding()
+        }//: ZSTACK
         //NAV VIEW
     }
     

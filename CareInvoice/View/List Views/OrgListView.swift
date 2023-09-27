@@ -35,7 +35,7 @@ struct OrgListView: View {
                 }
                 .listStyle(.plain)
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle("")
+                .navigationTitle(title)
                 //: LIST
                 
                 NavigationLink(destination: OrganizationFormView(manager: manager, orgType: orgType).navigationBarTitleDisplayMode(.inline)) {

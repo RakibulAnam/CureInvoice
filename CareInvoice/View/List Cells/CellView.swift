@@ -95,6 +95,50 @@ struct CellView: View {
                     
                 }//: VStack
             }
+            else
+            if let adminModel = model as? AdminModel{
+                VStack {
+                    
+                    HStack(spacing: 10){
+                        
+                        
+                        Image("orgAdmin")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60, alignment: .leading)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
+                            )
+                            .padding(1)
+                        
+                        
+                        
+                        VStack(alignment: .leading, spacing: 3){
+                            
+                            
+                            Text(adminModel.name)
+                                .font(.title2)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(adminModel.contact)
+                                Text(adminModel.email)
+                                
+                            }
+                            .foregroundColor(.black)
+                            .font(.footnote)
+                            
+                            
+                        }
+                        .frame(height: 60)
+                        .layoutPriority(1)//: VSTACK
+                        Spacer()
+                    }//: HSTACK
+                    .padding()
+                    
+                   
+                    
+                }//: VStack
+            }
             
             
             
@@ -109,7 +153,7 @@ struct CellView: View {
 
 struct HospitalCellView_Previews: PreviewProvider {
     static var previews: some View {
-        CellView(model: OrgAdminModel(name: "Rohid", username: "roro", password: "123456", email: "rohid@gmail.com", contact: "01911362438"))
+        CellView(model: OrgAdminModel(name: "Rohid", username: "roro", password: "123456", email: "rohid@gmail.com", contact: "01911362438", orgId: 1))
             .previewLayout(.sizeThatFits)
        
     }

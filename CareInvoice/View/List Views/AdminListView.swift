@@ -1,5 +1,5 @@
 //
-//  InvestigationListView.swift
+//  AdminListView.swift
 //  CareInvoice
 //
 //  Created by Jotno on 9/24/23.
@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct InvestigationListView: View {
+struct AdminListView: View {
     
-    var speciality : SpecialityDetailModel
+    var admins  = [AdminModel(name: "Turjo", username: "TJ1", password: "123456", email: "tj@gmail.com", contact: "01911362438"),
+                   AdminModel(name: "Adi", username: "AD1", password: "123456", email: "ad@gmail.com", contact: "01911362438")]
     
     var body: some View {
         
@@ -19,15 +20,15 @@ struct InvestigationListView: View {
                 HStack{
                     Spacer()
                     
-                    NavigationLink(destination: BookInvestigationForm()) {
-                        Text("Book Investigation")                             }
+                    NavigationLink(destination: EmptyView()) {
+                        Text("")                             }
                     
                 }
                 .padding()
                 
                 List {
-                    ForEach(speciality.services) { service in
-                        InvestigationCell(service: service)
+                    ForEach(admins) { admin in
+                        CellView(model: admin)
                     }
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
@@ -35,7 +36,7 @@ struct InvestigationListView: View {
                 .listStyle(.plain)
             }//: VSTACK
             
-            NavigationLink(destination: AddInvestigationForm().navigationBarTitleDisplayMode(.inline)) {
+            NavigationLink(destination: AdminFormView().navigationBarTitleDisplayMode(.inline)) {
                 Image(systemName: "plus")
                     .font(.title.weight(.semibold))
                     .padding()
@@ -52,8 +53,8 @@ struct InvestigationListView: View {
     }
 }
 
-struct InvestigationListView_Previews: PreviewProvider {
+struct AdminListView_Previews: PreviewProvider {
     static var previews: some View {
-        InvestigationListView(speciality: SpecialityDetailModel(id: 1, doctor: [DoctorModel(id: 1, doctorName: "Nafis", doctorDegree: "MBBS"), DoctorModel(id: 2, doctorName: "Pritom", doctorDegree: "MBBS")], patients: [], services: [ServiceModel(id: 1, serviceName: "Dengue", serviceCharge: "5000"), ServiceModel(id: 2, serviceName: "Operation", serviceCharge: "10000")]))
+        AdminListView()
     }
 }

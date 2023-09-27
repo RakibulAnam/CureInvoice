@@ -61,6 +61,13 @@ struct SuperAdminHomeView: View {
                             Text(K.OrgType.DIAGNOSTIC_CENTER)
                         }
                     
+                    OrgListView(listURL: K.Pharmacy.GET_ALL_PHARMA, title: "\(K.OrgType.PHARMACY)s", orgType: K.OrgType.PHARMACY)
+                        .tabItem {
+                            Image(systemName: "menucard")
+                            Text(K.OrgType.PHARMACY)
+                        }
+                    
+                    
                 }//TABVIEW
               
 

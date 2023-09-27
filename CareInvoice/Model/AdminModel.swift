@@ -1,14 +1,13 @@
 //
-//  OrgAdminModel.swift
+//  AdminModel.swift
 //  CareInvoice
 //
-//  Created by Jotno on 9/17/23.
+//  Created by Jotno on 9/24/23.
 //
 
 import Foundation
 
-
-struct OrgAdminModel : Codable, Identifiable{
+struct AdminModel : Codable, Identifiable{
     
     
     var id: Int?
@@ -17,8 +16,6 @@ struct OrgAdminModel : Codable, Identifiable{
     let password : String?
     let email : String
     let contact : String
-    let orgId : Int
-    
     
     
 }

@@ -11,11 +11,12 @@ import SwiftUI
 class OrganizationManager : ObservableObject {
     
     @Published var organization : [OrganizationModel] = []
+    @Published var orgAdmin : [OrgAdminModel] = []
     @Published var orgModel : OrganizationModel?
     
     @AppStorage("AuthToken") var AuthToken : String = ""
     
-    var tt  = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1JPT1QifV0sInN1YiI6InJvb3QiLCJpYXQiOjE2OTU1MzE0NTUsImV4cCI6MTY5NTYxNzg1NX0.hrN8yjre_atCdYw4-aEsm-JWI1NkbHO-ARk_v7PhUCw"
+    var tt  = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1JPT1QifV0sInN1YiI6InJvb3QiLCJpYXQiOjE2OTU3MTA4NjIsImV4cCI6MTY5NTc5NzI2Mn0.2PBpkF8VNugmdonmK3FhFLDJS9bV98aH4p5wapshElE"
     
     
     func getOrganizationDetails(from apiUrl : String){
@@ -171,7 +172,7 @@ class OrganizationManager : ObservableObject {
         
         let token = AuthToken
         var request = URLRequest(url: url)
-        request.addValue("Bearer \(tt)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         URLSession
             .shared
@@ -209,6 +210,8 @@ class OrganizationManager : ObservableObject {
             }.resume()
     }
     
+    
+    // MARK: - CREATE ORG ADMIN
     func createOrgAdmin(admin : OrgAdminModel, orgID : Int){
         
         let admin = admin
@@ -252,6 +255,56 @@ class OrganizationManager : ObservableObject {
         }
         
         
+    }
+    
+    
+    //MARK: - GET ORGANIZATION ADMIN
+    func getOrgAdmin(orgID : Int){
+        guard let url = URL(string: "\(K.GET_ORG_ADMIN)\(orgID)")
+        else
+        {
+            print("Invalid URL")
+            return
+        }
+        
+        let token = AuthToken
+        var request = URLRequest(url: url)
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession
+            .shared
+            .dataTask(with: request) {[weak self] data, response, error in
+                
+                
+                DispatchQueue.main.async {
+                    
+                    if let error = error {
+                        print("There was an error starting the session \(error)")
+                    }
+                    else{
+                        
+                        let decoder = JSONDecoder()
+                        
+                        if let data = data {
+                            
+                            do {
+                                let decodedData = try decoder.decode([OrgAdminModel].self, from: data)
+                                self?.orgAdmin = decodedData
+                            } catch  {
+                                print("Could Not Decode OrgProfile Data")
+                            }
+                            
+                            
+                            
+                            
+                            
+                            
+                        }else{
+                            print("Could Not Fetch Data")
+                        }
+                    }
+                } //:DispatchQueue
+            }.resume()
     }
     
     

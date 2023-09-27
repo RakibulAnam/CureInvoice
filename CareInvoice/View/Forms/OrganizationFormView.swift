@@ -19,6 +19,7 @@ struct OrganizationFormView: View {
     @State var contact = ""
     @State var emergencyContact = ""
     @State var operatingHour = ""
+    @State var orgCode = ""
     
 //    @Binding var name : String
 //    @Binding var address : String
@@ -39,6 +40,7 @@ struct OrganizationFormView: View {
         self.orgType = orgType
         if let org = profile {
             self._name = State(initialValue: org.name)
+            self._orgCode = State(initialValue: org.orgCode ?? "DEFAULT")
             self._address = State(initialValue: org.address)
             self._email = State(initialValue: org.email)
             self._contact = State(initialValue: org.contact)
@@ -66,6 +68,7 @@ struct OrganizationFormView: View {
 
                     
                     FormTextFieldView(title: "Name", bindingText: $name)
+                    FormTextFieldView(title: "Organization Code", bindingText: $orgCode)
                     FormTextFieldView(title: "Address", bindingText: $address)
                     FormTextFieldView(title: "Email", bindingText: $email, validate: isValidEmail)
                     FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
@@ -74,11 +77,11 @@ struct OrganizationFormView: View {
                     
                     
                     Button {
-                        let newOrg = OrganizationModel(name: name, address: address, contact: contact, type: orgType, email: email.lowercased(), emergencyContact: emergencyContact, operatingHour: operatingHour)
+                        let newOrg = OrganizationModel(name: name, address: address, contact: contact, type: orgType, email: email.lowercased(), emergencyContact: emergencyContact, operatingHour: operatingHour, orgCode: orgCode)
                         if let profile = profile {
-                            manager.updateOrganization(organization: newOrg, to: K.UPDATEORGANIZATION, for: profile.id!)
+                            manager.updateOrganization(organization: newOrg, to: K.UPDATE_ORGANIZATION, for: profile.id!)
                         }else{
-                            manager.postOrganization(organization: newOrg, to: K.CREATEORGANIZATION)
+                            manager.postOrganization(organization: newOrg, to: K.CREATE_ORGANIZATION)
                         }
                         self.presentationMode.wrappedValue.dismiss()
                         
@@ -103,6 +106,9 @@ struct OrganizationFormView: View {
             
             
         }//: ZSTACK
+        .onAppear{
+            formTitle = "Create New \(orgType)"
+        }
         
         
         
@@ -160,6 +166,7 @@ struct OrganizationFormView: View {
          */
         
     }
+
     
     
     func isValidEmail(_ email: String) -> Bool {

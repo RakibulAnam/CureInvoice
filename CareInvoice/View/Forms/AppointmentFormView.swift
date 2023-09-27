@@ -1,59 +1,90 @@
 //
-//  AdminFormView.swift
+//  AppointmentFormView.swift
 //  CareInvoice
 //
-//  Created by Jotno on 9/17/23.
+//  Created by Jotno on 9/24/23.
 //
 
 import SwiftUI
 
-struct OrgAdminFormView: View {
+struct AppointmentFormView: View {
     
-    @State var org : OrganizationModel
-    @StateObject var manager : OrganizationManager = OrganizationManager()
-
+    
     @State var name = ""
     @State var email = ""
     @State var contact = ""
-    @State var userName = ""
-    @State var password = ""
+    @State var fee = ""
+    @State var discount = ""
     
     @Environment(\.presentationMode) var presentationMode
     
+    let doctorNames = ["Dr. Smith", "Dr. Johnson", "Dr. Williams", "Dr. Brown", "Dr. Jones"]
+    @State private var selectedDoctor = "Select a Doctor"
+    
     var body: some View {
+        
         ZStack {
             
-            Color("CardBackground")
-                .ignoresSafeArea()
-            
-            VStack(alignment: .leading){
+            VStack(alignment: .leading, spacing: 5){
                 
-                Text("Admin for \(org.name)")
+                Text("Make Appointment")
                     .font(.title)
                 
                 ScrollView(showsIndicators: false){
                     
-
                     
-                    FormTextFieldView(title: "Name", bindingText: $name)
-                    FormTextFieldView(title: "UserName", bindingText: $userName)
-                    FormTextFieldView(title: "Password", bindingText: $password)
-                    FormTextFieldView(title: "Email", bindingText: $email, validate: isValidEmail)
+                    
+                    
+                    FormTextFieldView(title: "Patient Name", bindingText: $name)
                     FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
+                    VStack(alignment: .leading, spacing: 5) {
+                        
+                        HStack{
+                            Text("Select Doctor")
+                                .font(.title3)
+                                .fontWeight(.light)
+                            Spacer()
+                        }
+                        .padding(.vertical, 5)
+                        .padding(.top)
+                        
+                        Picker("Select a Doctor", selection: $selectedDoctor) {
+                                      ForEach(doctorNames, id: \.self) { doctorName in
+                                          Text(doctorName)
+                                              .foregroundColor(.black)
+                                      }
+                                  }
+                        .frame(width: 350)
+                                  .pickerStyle(MenuPickerStyle())
+                                  .padding(10)
+                                  .background(
+                                  RoundedRectangle(cornerRadius: 8)
+                                    .stroke()
+                                  )
+                                  
+                              
+                    }//:Vstack
+                    FormTextFieldView(title: "Consultation Fee", bindingText: $fee)
+                    FormTextFieldView(title: "Discount", bindingText: $discount)
+                   
                     
                     
+                    
+                   
                     
                     
                     Button {
+                        /*
                         let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
                         
                         manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
-                        
+                         
+                        */
                       
                         self.presentationMode.wrappedValue.dismiss()
                         
                     } label: {
-                        Text("Add".uppercased())
+                        Text("book".uppercased())
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -70,11 +101,11 @@ struct OrgAdminFormView: View {
             .padding()
             .background(Color.white)
             .cornerRadius(20)
-            .shadow(radius: 5)
+            
             
             
         }//: ZSTACK
-       
+        
     }
     
     func isValidEmail(_ email: String) -> Bool {
@@ -87,10 +118,12 @@ struct OrgAdminFormView: View {
         let contactPredicate = NSPredicate(format: "SELF MATCHES %@", contactRegex)
         return contactPredicate.evaluate(with: contact)
     }
+    
+    
 }
 
-struct AdminFormView_Previews: PreviewProvider {
+struct AppointmentFormView_Previews: PreviewProvider {
     static var previews: some View {
-        OrgAdminFormView(org: OrganizationModel(name: "Ibne Sinha", address: "Dhaka", contact: "01677397270", type: "Hospital", email: "ibne@gmail.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM"))
+        AppointmentFormView()
     }
 }

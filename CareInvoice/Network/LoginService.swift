@@ -12,7 +12,12 @@ struct loginData : Codable {
 }
 
 struct loginResponse : Codable{
+    
     var token : String
+    var roles : [userRoleModel]
+    var orgCode : String?
+    var orgId : Int
+    var orgType : String
 }
 
 struct userRoleModel : Codable {
@@ -23,6 +28,11 @@ class LoginService : ObservableObject{
     
     @AppStorage("AuthToken") var AuthToken : String = ""
     @AppStorage("ROLE") var userRole : String = ""
+    @AppStorage("OrgID") var OrgID : Int = 0
+    @AppStorage("OrgType") var OrgType : String = ""
+    
+    
+    var orgManager = OrganizationManager()
     
     func Login(userName: String, password : String){
         
@@ -57,6 +67,8 @@ class LoginService : ObservableObject{
                                 let safeData = try JSONDecoder().decode(loginResponse.self, from: data)
                                 self.AuthToken = safeData.token
                                 print(self.AuthToken)
+                                self.OrgID = safeData.orgId
+                                self.OrgType = safeData.orgType
                                 
                                 self.getRole()
                                 
@@ -123,6 +135,8 @@ class LoginService : ObservableObject{
         print(role)
         
     }
+    
+    
     
 }
 

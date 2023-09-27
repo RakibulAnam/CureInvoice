@@ -1,17 +1,15 @@
 //
-//  AdminFormView.swift
+//  AdminForm.swift
 //  CareInvoice
 //
-//  Created by Jotno on 9/17/23.
+//  Created by Jotno on 9/24/23.
 //
 
 import SwiftUI
 
-struct OrgAdminFormView: View {
+struct AdminFormView: View {
     
-    @State var org : OrganizationModel
-    @StateObject var manager : OrganizationManager = OrganizationManager()
-
+    
     @State var name = ""
     @State var email = ""
     @State var contact = ""
@@ -20,16 +18,17 @@ struct OrgAdminFormView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    
     var body: some View {
+        
         ZStack {
             
-            Color("CardBackground")
-                .ignoresSafeArea()
+           
             
             VStack(alignment: .leading){
                 
-                Text("Admin for \(org.name)")
-                    .font(.title)
+//                Text("Admin for \(org.name)")
+//                    .font(.title)
                 
                 ScrollView(showsIndicators: false){
                     
@@ -45,10 +44,12 @@ struct OrgAdminFormView: View {
                     
                     
                     Button {
+                        /*
                         let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
                         
                         manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
-                        
+                         
+                        */
                       
                         self.presentationMode.wrappedValue.dismiss()
                         
@@ -70,12 +71,13 @@ struct OrgAdminFormView: View {
             .padding()
             .background(Color.white)
             .cornerRadius(20)
-            .shadow(radius: 5)
+            
             
             
         }//: ZSTACK
-       
+        
     }
+    
     
     func isValidEmail(_ email: String) -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
@@ -91,6 +93,6 @@ struct OrgAdminFormView: View {
 
 struct AdminFormView_Previews: PreviewProvider {
     static var previews: some View {
-        OrgAdminFormView(org: OrganizationModel(name: "Ibne Sinha", address: "Dhaka", contact: "01677397270", type: "Hospital", email: "ibne@gmail.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM"))
+        AdminFormView()
     }
 }

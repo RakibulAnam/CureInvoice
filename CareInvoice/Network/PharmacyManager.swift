@@ -1,28 +1,22 @@
 //
-//  HospitalManager.swift
+//  PharmacyManager.swift
 //  CareInvoice
 //
-//  Created by Jotno on 9/24/23.
+//  Created by Jotno on 9/26/23.
 //
 
 import Foundation
-
 import SwiftUI
 
-class HospitalManager : ObservableObject {
+class Pharmacymanager : ObservableObject {
     
-    @Published var specialities : [SpecialityListModel] = []
-    
+    @Published var drugList : [DrugModel] = []
     @AppStorage("AuthToken") var AuthToken : String = ""
     
-    var tt : String = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic29oYW4xIiwiaWF0IjoxNjk1NzIxOTYyLCJleHAiOjE2OTU4MDgzNjJ9.mLW7OC3gPehVnaGj8wQc1uamgGPEmFUVGqm-_ZWmqbU"
+    var tt = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic29oYW4xIiwiaWF0IjoxNjk1NzIxOTYyLCJleHAiOjE2OTU4MDgzNjJ9.mLW7OC3gPehVnaGj8wQc1uamgGPEmFUVGqm-_ZWmqbU"
     
-    
-    
-    //MARK: - GET ALL SPECIALITY
-    func getAllSepciality(){
-        
-        guard let url = URL(string: K.GET_ALL_SPECIALITY)
+    func getAllDrugs() {
+        guard let url = URL(string: K.GET_ALL_DRUGS)
         else
         {
             print("Invalid URL")
@@ -51,11 +45,11 @@ class HospitalManager : ObservableObject {
                             
                             
                             do {
-                                let decodedData = try decoder.decode([SpecialityListModel].self, from: data)
-                                self?.specialities = decodedData
+                                let decodedData = try decoder.decode([DrugModel].self, from: data)
+                                self?.drugList = decodedData
                                 
                             } catch  {
-                                print("Could not decode Speciality List \(error)")
+                                print("Could not decode Drug List \(error)")
                             }
                         
                             
@@ -69,3 +63,4 @@ class HospitalManager : ObservableObject {
     }
     
 }
+

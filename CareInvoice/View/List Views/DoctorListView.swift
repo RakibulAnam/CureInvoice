@@ -19,7 +19,7 @@ struct DoctorListView: View {
                 HStack{
                     Spacer()
                     
-                    NavigationLink(destination: EmptyView()) {
+                    NavigationLink(destination: AppointmentFormView()) {
                         Text("Make Appointment")                             }
                     
                 }
@@ -35,7 +35,7 @@ struct DoctorListView: View {
                 .listStyle(.plain)
             }//: VSTACK
             
-            NavigationLink(destination: EmptyView().navigationBarTitleDisplayMode(.inline)) {
+            NavigationLink(destination: DoctorFormView().navigationBarTitleDisplayMode(.inline)) {
                 Image(systemName: "plus")
                     .font(.title.weight(.semibold))
                     .padding()

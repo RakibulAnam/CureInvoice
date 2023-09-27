@@ -134,7 +134,7 @@ struct OrganizationDetailView: View {
                                     .font(.title)
                                 Spacer()
                                 
-                                NavigationLink(destination: AdminFormView(org: nOrg)) {
+                                NavigationLink(destination: OrgAdminFormView(org: nOrg)) {
                                     Image(systemName: "cross")                                }
                                 
                             }
@@ -176,7 +176,7 @@ struct OrganizationDetailView: View {
         .navigationTitle("")
         .onAppear {
             DispatchQueue.main.async {
-                manager.getSingleOrganization(from: K.GETORGANIZATIONBYID, for: org.id ?? 1)
+                manager.getSingleOrganization(from: K.GET_ORGANIZATION_BY_ID, for: org.id ?? 1)
             }
             // manager.getSingleOrganization(from: K.GETORGANIZATIONBYID, for: org.id ?? 1)
         }
@@ -187,6 +187,6 @@ struct OrganizationDetailView: View {
 
 struct OrganizationDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        OrganizationDetailView(org: OrganizationModel(name: "Ibne Sinha", address: "Dhaka", contact: "01677397270", type: "Hospital", email: "ibne@gmail.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM"), listUrl: K.Hospitals.GETALLHOSPITAL)
+        OrganizationDetailView(org: OrganizationModel(name: "Ibne Sinha", address: "Dhaka", contact: "01677397270", type: "Hospital", email: "ibne@gmail.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM", orgCode: "KHR"), listUrl: K.Hospitals.GETALLHOSPITAL)
     }
 }

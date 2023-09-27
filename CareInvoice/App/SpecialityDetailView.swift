@@ -11,6 +11,7 @@ struct SpecialityDetailView: View {
     
     
     var id : Int
+    @StateObject var manager = HospitalManager()
     
     var body: some View {
         
@@ -27,6 +28,12 @@ struct SpecialityDetailView: View {
                 .tabItem {
                     Image(systemName: "brain.head.profile")
                     Text("Investigations")
+                }
+            
+            AdminListView()
+                .tabItem {
+                    Image(systemName: "person.3")
+                    Text("Admins")
                 }
             
             

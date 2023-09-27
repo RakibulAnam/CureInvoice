@@ -23,12 +23,11 @@ struct OrgAdminFormView: View {
     var body: some View {
         ZStack {
             
-            Color("CardBackground")
-                .ignoresSafeArea()
+           
             
             VStack(alignment: .leading){
                 
-                Text("Admin for \(org.name)")
+                Text("OrgAdmin for \(org.name)")
                     .font(.title)
                 
                 ScrollView(showsIndicators: false){
@@ -45,7 +44,7 @@ struct OrgAdminFormView: View {
                     
                     
                     Button {
-                        let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
+                        let newAdmin = OrgAdminModel(name: name, username: userName.lowercased(), password: password, email: email.lowercased(), contact: contact, orgId: org.id!)
                         
                         manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
                         
@@ -70,7 +69,7 @@ struct OrgAdminFormView: View {
             .padding()
             .background(Color.white)
             .cornerRadius(20)
-            .shadow(radius: 5)
+            
             
             
         }//: ZSTACK
@@ -89,8 +88,8 @@ struct OrgAdminFormView: View {
     }
 }
 
-struct AdminFormView_Previews: PreviewProvider {
+struct OrgAdminFormView_Previews: PreviewProvider {
     static var previews: some View {
-        OrgAdminFormView(org: OrganizationModel(name: "Ibne Sinha", address: "Dhaka", contact: "01677397270", type: "Hospital", email: "ibne@gmail.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM"))
+        OrgAdminFormView(org: OrganizationModel(name: "Ibne Sinha", address: "Dhaka", contact: "01677397270", type: "Hospital", email: "ibne@gmail.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM", orgCode: "KHR"))
     }
 }

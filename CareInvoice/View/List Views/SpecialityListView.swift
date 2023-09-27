@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SpecialityListView: View {
     
-  //  @StateObject var manager = HospitalManager()
+    @StateObject var manager = HospitalManager()
     
     @State var specilityList : [SpecialityListModel] = [
         SpecialityListModel(id: 1, medSpecName: "Skin & VD", iconUrl: "skin-cell.png"),
@@ -23,7 +23,7 @@ struct SpecialityListView: View {
         
         
         List{
-            ForEach(specilityList) { list in
+            ForEach(manager.specialities) { list in
                 
                 NavigationLink {
                     SpecialityDetailView(id: list.id!)
@@ -39,7 +39,12 @@ struct SpecialityListView: View {
         }
         .listStyle(.plain)
         .navigationTitle("")
-        
+        .onAppear {
+            DispatchQueue.main.async {
+                manager.getAllSepciality()
+            }
+            
+        }
         
     }
 }

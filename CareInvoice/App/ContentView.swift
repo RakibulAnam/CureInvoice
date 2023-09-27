@@ -11,6 +11,7 @@ struct ContentView: View {
     
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
+    @AppStorage("OrgType") var OrgType : String = ""
     
     var body: some View {
         
@@ -21,8 +22,17 @@ struct ContentView: View {
                 OnboardingView()
             } else if userRole == "ROLE_ROOT" {
                 SuperAdminHomeView()
-            } else if userRole == "ROLE_ORG_ADMIN"{
-                Text("ORG ADMIN DASH")
+            } else if OrgType == K.OrgType.HOSPITAL{
+                HospitalStaffView()
+            }
+            else if OrgType == K.OrgType.DIAGNOSTIC_CENTER{
+                Text("Diagnostic")
+            }
+            else if OrgType == K.OrgType.CHAMBER{
+                Text("Chamber")
+            }
+            else if OrgType == K.OrgType.PHARMACY{
+                Text("Pharmacy")
             }
             
         }

@@ -1,26 +1,28 @@
 //
-//  HospitalStaffView.swift
+//  PharmacyStaffView.swift
 //  CareInvoice
 //
-//  Created by Jotno on 9/24/23.
+//  Created by Jotno on 9/26/23.
 //
 
 import SwiftUI
 
-struct HospitalStaffView: View {
-    
+struct PharmacyStaffView: View {
     
     @State private var isMenuOpen = false
+    @State var drugSearch = ""
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
+    
     var body: some View {
         NavigationView {
             
+            
             VStack {
                 
-                
                 HStack() {
-                    Spacer()
+                    Image(systemName: "pill")
+                    TextField("Search Drugs", text: $drugSearch)
                     Button {
                         isMenuOpen.toggle()
                     } label: {
@@ -42,42 +44,16 @@ struct HospitalStaffView: View {
                 .padding(.horizontal, 20)
                 
                 
-                
-                TabView {
-                
-                   
-                    SpecialityListView()
-                        .tabItem {
-                            Image(systemName: "waveform.path.ecg")
-                            Text("Specialities")
-                        }
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Text("Hello")
-                            }
-                        }
-                    
-                    RevenueView()
-                        .tabItem {
-                            Image(systemName: "dollarsign")
-                            Text("Revenue")
-                        }
-                    
-                    
-                }
-                .navigationTitle("")
-            }//:VSTACK
-            
-            
-            
+                DrugListView()
+            }
             
            
         }
     }
 }
 
-struct HospitalStaffView_Previews: PreviewProvider {
+struct PharmacyStaffView_Previews: PreviewProvider {
     static var previews: some View {
-        HospitalStaffView()
+        PharmacyStaffView()
     }
 }

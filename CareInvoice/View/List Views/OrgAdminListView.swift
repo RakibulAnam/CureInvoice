@@ -17,6 +17,7 @@ struct OrgAdminListView: View {
        
         VStack(alignment: .leading){
             
+            /*
             List{
                 
                 if let nOrg = manager.orgModel{
@@ -34,11 +35,31 @@ struct OrgAdminListView: View {
                 }
                 
             //: LIST
+             */
+            
+            
+            List{
+                ForEach(manager.orgAdmin) { admin in
+                    NavigationLink(destination: EmptyView().navigationBarTitleDisplayMode(.inline)) {
+                        CellView(model: admin)
+                        
+                    }
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+                }
+            }
+            .listStyle(.plain)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("")
+            
+            
+            
         }
         .listStyle(.plain)
         .onAppear {
             DispatchQueue.main.async {
-                manager.getSingleOrganization(from: K.GETORGANIZATIONBYID, for: org.id ?? 1)
+                manager.getOrgAdmin(orgID: org.id!)
             }
         }
         
@@ -49,8 +70,8 @@ struct OrgAdminListView: View {
 
 }
 
-struct AdminListView_Previews: PreviewProvider {
+struct OrgAdminListView_Previews: PreviewProvider {
     static var previews: some View {
-        OrgAdminListView(org: OrganizationModel(name: "Ibne Sinha", address: "Dhaka", contact: "01677397270", type: "Hospital", email: "ibne@gmail.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM", orgAdmin: [OrgAdminModel(name: "Rohid", username: "roro", password: "123412", email: "a@b.com", contact: "0198827373")]))
+        OrgAdminListView(org: OrganizationModel(id: 1, name: "Ibne Sinha", address: "Dhaka", contact: "01677397270", type: "Hospital", email: "ibne@gmail.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM", orgCode: "KHR"))
     }
 }
