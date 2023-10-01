@@ -10,6 +10,7 @@ import SwiftUI
 struct DrugInvoiceView: View {
     
     @State var invoice : DrugInvoiceModel
+    @StateObject var manager = OrganizationManager()
     @State var hideButton : Bool = false
     let dateFormatter = DateFormatter()
     let currentDate = Date()
@@ -19,98 +20,219 @@ struct DrugInvoiceView: View {
         return formated
     }
     
+    @AppStorage("OrgID") var OrgID : Int = 0
+    
     var body: some View {
         
-        VStack (spacing: 10){
-            Text("ORGANIZATION NAME")
-                .font(.title)
-                .padding()
+        /*
+         VStack (spacing: 10){
+             Text("ORGANIZATION NAME")
+                 .font(.title)
+                 .padding()
+             
+             
+             HStack {
+                 Text("Invoice No: \(Int.random(in: 1...1000))")
+                 Spacer()
+                 Text("Date: \(formattedDate)")
+             }
+             .padding(.horizontal)
+             
+             
+             
+             
+             VStack(alignment: .leading, spacing: 10){
+                 
+                 Text("Patient Information")
+                     .padding(.top)
+                     .font(.title3)
+                 Divider()
+                 
+                 HStack {
+                     Text("Patient Name:")
+                     Text("\(invoice.patientName)")
+                     Spacer()
+                 }
+                 .font(.headline)
+                 
+                 HStack {
+                     Text("Patient Contact:")
+                     Text("\(invoice.patientContact)")
+                     Spacer()
+                 }
+                 .font(.headline)
+                 
+                 
+                 Text("Drug List")
+                     .padding(.top)
+                     .font(.title3)
+                 Divider()
+                 
+ //                List(invoice.selectedDrugs) { drug in
+ //
+ //                    Text("\(drug.brandName) - /=")
+ //                        .listRowInsets(EdgeInsets())
+ //                        .listRowSeparator(.hidden)
+ //                        .font(.headline)
+ //                }
+ //                .listStyle(.plain)
+ //                .scrollDisabled(true)
+                 
+                 VStack (alignment: .leading, spacing: 10){
+                     ForEach(invoice.drugList) { item in
+                         Text("\(item.brandName) - \(Int(item.price))/=")
+                             .font(.headline)
+                     }
+                 }
+                 
+                 Spacer()
+                 
+                 
+                 Text("Total Fee : \(Int(invoice.total)) taka")
+                     .font(.title)
+                 
+                 
+                 
+                 
+             }
+             .padding()
+             .frame(maxWidth: .infinity, maxHeight: .infinity)
+                     .background(
+                         Rectangle()
+                             .stroke()
+                     )
+                     .padding()
+             
+             Button {
+                 makePDF()
+             } label: {
+                 if hideButton == false {
+                     Text("Download PDF")
+                 }
+                 
+             }
+                     
+             
+             Spacer()
+         }
+         
+         */
+        
+        
+        
+        VStack(alignment: .leading, spacing: 20){
+            HStack(){
+                
+                Image(systemName: "pill")
+                    .resizable()
+                    .frame(width: 50, height: 50, alignment: .center)
+                VStack(alignment: .leading){
+                    Text(manager.orgModel?.name ?? "Organization Name")
+                        .font(.title)
+                    Text(manager.orgModel?.type ?? "Organization Type")
+                        .font(.subheadline)
+                        .fontWeight(.light)
+                }
+                Spacer()
+            }//: HSTACK
+            .padding()
             
+            Divider()
+            
+            VStack(alignment: .leading, spacing: 20){
+                HStack {
+                    Text("Invoice: ")
+                    Spacer()
+                    Text("#\(Int.random(in: 1...1000))")
+                }
+                
+                HStack {
+                    Text("Date: ")
+                    Spacer()
+                    Text("\(formattedDate)")
+                }
+                
+                HStack {
+                    Text("Patient Name: ")
+                    Spacer()
+                    Text("\(invoice.patientName)")
+                }
+                
+                HStack {
+                    Text("Contact: ")
+                    Spacer()
+                    Text("\(invoice.patientContact)")
+                }
+                
+            }
+            .font(.system(size: 20))
+            .fontWeight(.light)
+            .padding()
+            
+            
+            VStack(alignment: .leading, spacing: 20){
+                HStack {
+                    Text("Investigations: ")
+                    Spacer()
+                    Text("Amount")
+                }
+                .font(.title2)
+                .fontWeight(.semibold)
+                
+                Divider()
+                
+                ForEach(invoice.drugList) { item in
+                    HStack {
+                        Text(item.brandName)
+                        Spacer()
+                        Text("\(Int(item.price))")
+                    }
+                    .fontWeight(.light)
+                }
+                
+                
+                Divider()
+                
+               
+                
+                HStack {
+                    Text("Total (Taka) :")
+                    Spacer()
+                    Text("\(Int(invoice.total))")
+                }
+                .fontWeight(.medium)
+                
+                
+                
+            }
+            .font(.system(size: 20))
+            .padding()
+            
+            Spacer()
             
             HStack {
-                Text("Invoice No: \(Int.random(in: 1...1000))")
                 Spacer()
-                Text("Date: \(formattedDate)")
-            }
-            .padding(.horizontal)
-            
-            
-            
-            
-            VStack(alignment: .leading, spacing: 10){
-                
-                Text("Patient Information")
-                    .padding(.top)
-                    .font(.title3)
-                Divider()
-                
-                HStack {
-                    Text("Patient Name:")
-                    Text("\(invoice.patientName)")
-                    Spacer()
-                }
-                .font(.headline)
-                
-                HStack {
-                    Text("Patient Contact:")
-                    Text("\(invoice.patientContact)")
-                    Spacer()
-                }
-                .font(.headline)
-                
-                
-                Text("Drug List")
-                    .padding(.top)
-                    .font(.title3)
-                Divider()
-                
-//                List(invoice.selectedDrugs) { drug in
-//                    
-//                    Text("\(drug.brandName) - /=")
-//                        .listRowInsets(EdgeInsets())
-//                        .listRowSeparator(.hidden)
-//                        .font(.headline)
-//                }
-//                .listStyle(.plain)
-//                .scrollDisabled(true)
-                
-                VStack (alignment: .leading, spacing: 10){
-                    ForEach(invoice.drugList) { item in
-                        Text("\(item.brandName) - \(Int(item.price))/=")
-                            .font(.headline)
+                Button {
+                    makePDF()
+                } label: {
+                    if hideButton == false {
+                        Text("Download PDF")
                     }
-                }
-                
-                Spacer()
-                
-                
-                Text("Total Fee : \(Int(invoice.total)) taka")
-                    .font(.title)
-                
-                
-                
-                
-            }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(
-                        Rectangle()
-                            .stroke()
-                    )
-                    .padding()
-            
-            Button {
-                makePDF()
-            } label: {
-                if hideButton == false {
-                    Text("Download PDF")
-                }
-                
-            }
                     
+                }
+            .padding()
+            }
+            
             
             Spacer()
         }
+        .onAppear{
+            DispatchQueue.main.async {
+                manager.getSingleOrganization(from: K.GET_ORGANIZATION_BY_ID, for: OrgID)
+            }
+        }
+        
+        
         
         
         

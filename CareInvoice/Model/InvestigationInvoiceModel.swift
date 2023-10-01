@@ -7,9 +7,11 @@
 
 import Foundation
 
-struct InvestigationInvoiceModel {
+struct InvestigationInvoiceModel : Codable, Identifiable {
+    var id : Int?
     let patientName : String
     let patientContact : String
+    var orgId : Int
     let investigation : [InvestigationModel]
     let totalFee : Int
     

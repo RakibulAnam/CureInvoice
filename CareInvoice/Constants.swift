@@ -20,6 +20,7 @@ struct K{
     static let GET_ALL_DRUGS = "http://localhost:9191/drugs/getAllDrugs"
     
     static let GET_ALL_INVESTIGATIONS = "http://localhost:9191/investigation/getAllInvestigation"
+    static let GET_INVESTIGATOIN_BY_NAME = "http://localhost:9191/investigation/search/"
     
     static let GET_BRAND_DRUG = "http://localhost:9191/drugs/searchDrugByBrandName/"
     

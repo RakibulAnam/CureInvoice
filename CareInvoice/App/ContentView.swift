@@ -26,7 +26,7 @@ struct ContentView: View {
                 HospitalStaffView()
             }
             else if OrgType == K.OrgType.DIAGNOSTIC_CENTER{
-                Text("Diagnostic")
+                DiagnosticStaffView()
             }
             else if OrgType == K.OrgType.CHAMBER{
                 Text("Chamber")

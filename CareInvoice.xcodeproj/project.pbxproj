@@ -62,7 +62,6 @@
 		E2D71DB82AC14121006FEDC2 /* AddInvestigationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D71DB72AC14121006FEDC2 /* AddInvestigationForm.swift */; };
 		E2D71DBA2AC1437D006FEDC2 /* BookInvestigationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D71DB92AC1437D006FEDC2 /* BookInvestigationForm.swift */; };
 		E2D71DBC2AC186F6006FEDC2 /* InvestigationInvoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D71DBB2AC186F6006FEDC2 /* InvestigationInvoiceView.swift */; };
-		E2D71DBE2AC19433006FEDC2 /* InvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D71DBD2AC19433006FEDC2 /* InvoiceViewModel.swift */; };
 		E2E6DF612AB172C900707BEE /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF602AB172C900707BEE /* CellView.swift */; };
 		E2E6DF6B2AB19F4D00707BEE /* OrganizationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF6A2AB19F4D00707BEE /* OrganizationDetailView.swift */; };
 		E2E6DF6D2AB1BC5300707BEE /* OrganizationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E6DF6C2AB1BC5300707BEE /* OrganizationFormView.swift */; };
@@ -127,7 +126,6 @@
 		E2D71DB72AC14121006FEDC2 /* AddInvestigationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvestigationForm.swift; sourceTree = "<group>"; };
 		E2D71DB92AC1437D006FEDC2 /* BookInvestigationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookInvestigationForm.swift; sourceTree = "<group>"; };
 		E2D71DBB2AC186F6006FEDC2 /* InvestigationInvoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestigationInvoiceView.swift; sourceTree = "<group>"; };
-		E2D71DBD2AC19433006FEDC2 /* InvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewModel.swift; sourceTree = "<group>"; };
 		E2E6DF602AB172C900707BEE /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		E2E6DF6A2AB19F4D00707BEE /* OrganizationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetailView.swift; sourceTree = "<group>"; };
 		E2E6DF6C2AB1BC5300707BEE /* OrganizationFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationFormView.swift; sourceTree = "<group>"; };
@@ -252,7 +250,6 @@
 				E28AA1332AC02E4E009A2354 /* SpecialityDetailModel.swift */,
 				E28AA13F2AC04630009A2354 /* ServiceModel.swift */,
 				E28AA1432AC04FB5009A2354 /* AdminModel.swift */,
-				E2D71DBD2AC19433006FEDC2 /* InvoiceViewModel.swift */,
 				E27736A42AC2E886009BC7CB /* DrugModel.swift */,
 				E245C8552AC406BF00B22CDE /* InvestigationInvoiceModel.swift */,
 				E245C8572AC4073800B22CDE /* DrugInvoiceModel.swift */,
@@ -438,7 +435,6 @@
 				E27736A52AC2E886009BC7CB /* DrugModel.swift in Sources */,
 				E28AA13A2AC03A16009A2354 /* DoctorCell.swift in Sources */,
 				E2825B932AB07965006EF669 /* Constants.swift in Sources */,
-				E2D71DBE2AC19433006FEDC2 /* InvoiceViewModel.swift in Sources */,
 				E2825B752AB027A7006EF669 /* CareInvoiceApp.swift in Sources */,
 				E28AA12E2AC00D73009A2354 /* SpecialityListView.swift in Sources */,
 				E29812642AB6B4B400117451 /* FormTextFieldView.swift in Sources */,

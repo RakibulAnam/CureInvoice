@@ -51,7 +51,7 @@ struct InvestigationListView: View {
                     }
                     */
                     
-                    NavigationLink(destination: DrugBillForm().navigationBarTitleDisplayMode(.inline)) {
+                    NavigationLink(destination: BookInvestigationForm().navigationBarTitleDisplayMode(.inline)) {
                         Text("Book Investigation")
                             .padding(5)
                             .background(

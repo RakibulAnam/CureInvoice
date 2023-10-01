@@ -11,6 +11,7 @@ import SwiftUI
 class DiagnosticCenterManager : ObservableObject {
     
     @Published var investigationList : [InvestigationModel] = []
+    @Published var searchedInvestigationList : [InvestigationModel] = []
     @Published var adminList : [AdminModel] = []
     @AppStorage("AuthToken") var AuthToken : String = ""
     
@@ -27,7 +28,7 @@ class DiagnosticCenterManager : ObservableObject {
       
         let token = AuthToken
         var request = URLRequest(url: url)
-        request.addValue("Bearer \(tt)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         URLSession
             .shared
@@ -63,7 +64,52 @@ class DiagnosticCenterManager : ObservableObject {
                 } //:DispatchQueue
             }.resume()
     }
-    
+   
+    func getInvestigationByName(name: String){
+        guard let url = URL(string: "\(K.GET_INVESTIGATOIN_BY_NAME)\(name)") else {
+            print("invalid URL")
+            return
+        }
+        
+        let token = AuthToken
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession
+            .shared
+            .dataTask(with: request) {[weak self] data, response, error in
+                
+                
+                DispatchQueue.main.async {
+                    
+                    if let error = error {
+                        print("There was an error starting the session \(error)")
+                    }
+                    else{
+                        
+                        let decoder = JSONDecoder()
+                        
+                        if let data = data {
+                            
+                            
+                            do {
+                                let decodedData = try decoder.decode([InvestigationModel].self, from: data)
+                                self?.searchedInvestigationList = decodedData
+                                
+                            } catch  {
+                                print("Could not decode Drug List \(error)")
+                            }
+                        
+                            
+                            
+                        }else{
+                            print("Could Not Fetch Data")
+                        }
+                    }
+                } //:DispatchQueue
+            }.resume()
+    }
     
     
 }

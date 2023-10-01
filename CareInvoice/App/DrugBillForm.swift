@@ -11,7 +11,7 @@ struct DrugBillForm: View {
     
     
     
-    @StateObject var invoiceViewModel = InvoiceViewModel()
+    
     // @State var selectedItem : Investigation?
    
     @State var invoiceGenerated : Bool = false
