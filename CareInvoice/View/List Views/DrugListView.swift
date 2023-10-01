@@ -24,38 +24,78 @@ struct DrugListView: View {
                     TextField("Search Drugs", text: $drugSearch)
 
                 }
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
                 .padding(.horizontal, 20)
+                .onChange(of: drugSearch) { newValue in
+                    if newValue == ""{
+                        manager.getAllDrugs()
+                    }else {
+                        manager.getDrugBrand(name: newValue)
+                    }
+                    
+                }
                 
                 HStack{
                     
                     Text("Drug List")
                         .font(.title)
                     Spacer()
-                    NavigationLink(destination: DrugBillForm().navigationBarTitleDisplayMode(.inline)) {
-                        Text("Make Bill")
-                            .padding(5)
-                            .background(
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke()
-                            )
-                            .foregroundColor(Color("PrimaryColor"))
-                            
+                    
+                    if userRole == K.Role.NORMAL_ADMIN{
+                        NavigationLink(destination: DrugBillForm().navigationBarTitleDisplayMode(.inline)) {
+                            Text("Make Bill")
+                                .padding(5)
+                                .background(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke()
+                                )
+                                .foregroundColor(Color("PrimaryColor"))
+                                
+                        }
                     }
+                    
+                    
                 }
                 .padding(.horizontal)
                 
                 
                 List{
-                    ForEach(manager.drugList) { drug in
-                        
-                        NavigationLink {
-                            DrugDetailView(drugModel: drug)
-                        } label: {
-                            DrugCell(drugModel: drug)
+                    
+                    if drugSearch == "" {
+                        ForEach(manager.drugList) { drug in
+                            
+                            NavigationLink {
+                                DrugDetailView(drugModel: drug)
+                            } label: {
+                                DrugCell(drugModel: drug)
+                            }
                         }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
+                    }else {
+                        ForEach(manager.searchedDrugList) { drug in
+                            
+                            NavigationLink {
+                                DrugDetailView(drugModel: drug)
+                            } label: {
+                                DrugCell(drugModel: drug)
+                            }
+                        }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
                     }
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets())
+                    
+//                    ForEach(manager.drugList) { drug in
+//
+//                        NavigationLink {
+//                            DrugDetailView(drugModel: drug)
+//                        } label: {
+//                            DrugCell(drugModel: drug)
+//                        }
+//                    }
+//                    .listRowSeparator(.hidden)
+//                    .listRowInsets(EdgeInsets())
                 }
                 .listStyle(.plain)
                 .navigationTitle("")

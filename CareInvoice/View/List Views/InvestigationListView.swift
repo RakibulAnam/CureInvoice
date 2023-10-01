@@ -9,41 +9,92 @@ import SwiftUI
 
 struct InvestigationListView: View {
     
-    var speciality : SpecialityDetailModel
+   
+    @StateObject var manager = DiagnosticCenterManager()
+    
+    @State private var isMenuOpen = false
+    @State var drugSearch = ""
+    @AppStorage("ROLE") var userRole : String = ""
+    @AppStorage("AuthToken") var AuthToken : String = ""
     
     var body: some View {
         
         ZStack(alignment: .bottomTrailing) {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack {
+                HStack() {
+                    Image(systemName: "pill")
+                    TextField("Search Drugs", text: $drugSearch)
+
+                }
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
+                .padding(.horizontal, 20)
+             
                 
                 HStack{
-                    Spacer()
                     
-                    NavigationLink(destination: BookInvestigationForm()) {
-                        Text("Book Investigation")                             }
+                    Text("Investigations")
+                        .font(.title)
+                    Spacer()
+                    /*
+                    if userRole == K.Role.NORMAL_ADMIN{
+                        NavigationLink(destination: DrugBillForm().navigationBarTitleDisplayMode(.inline)) {
+                            Text("Book Investigation")
+                                .padding(5)
+                                .background(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke()
+                                )
+                                .foregroundColor(Color("PrimaryColor"))
+                                
+                        }
+                    }
+                    */
+                    
+                    NavigationLink(destination: DrugBillForm().navigationBarTitleDisplayMode(.inline)) {
+                        Text("Book Investigation")
+                            .padding(5)
+                            .background(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke()
+                            )
+                            .foregroundColor(Color("PrimaryColor"))
+                            
+                    }
                     
                 }
-                .padding()
+                .padding(.horizontal)
                 
-                List {
-                    ForEach(speciality.services) { service in
-                        InvestigationCell(service: service)
+                
+                List{
+                    
+                    ForEach(manager.investigationList){ item in
+                        
+                        InvestigationCell(investigation: item)
+                        
                     }
-                    .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets())
+                    
+//                    ForEach(manager.drugList) { drug in
+//
+//                        NavigationLink {
+//                            DrugDetailView(drugModel: drug)
+//                        } label: {
+//                            DrugCell(drugModel: drug)
+//                        }
+//                    }
+//                    .listRowSeparator(.hidden)
+//                    .listRowInsets(EdgeInsets())
                 }
                 .listStyle(.plain)
+                .navigationTitle("")
+                .onAppear {
+                    DispatchQueue.main.async {
+                        manager.getAllInvestigation()
+                    }
+                }
             }//: VSTACK
-            
-            NavigationLink(destination: AddInvestigationForm().navigationBarTitleDisplayMode(.inline)) {
-                Image(systemName: "plus")
-                    .font(.title.weight(.semibold))
-                    .padding()
-                    .background(Color("PrimaryColor"))
-                    .foregroundColor(.white)
-                    .clipShape(Circle())
-                    .shadow(radius: 4, x: 0, y: 4)
-            }.padding() //: FLOATING BUTTON
             
             
         }//: ZSTACK
@@ -54,6 +105,6 @@ struct InvestigationListView: View {
 
 struct InvestigationListView_Previews: PreviewProvider {
     static var previews: some View {
-        InvestigationListView(speciality: SpecialityDetailModel(id: 1, doctor: [DoctorModel(id: 1, doctorName: "Nafis", doctorDegree: "MBBS"), DoctorModel(id: 2, doctorName: "Pritom", doctorDegree: "MBBS")], patients: [], services: [ServiceModel(id: 1, serviceName: "Dengue", serviceCharge: "5000"), ServiceModel(id: 2, serviceName: "Operation", serviceCharge: "10000")]))
+        InvestigationListView()
     }
 }

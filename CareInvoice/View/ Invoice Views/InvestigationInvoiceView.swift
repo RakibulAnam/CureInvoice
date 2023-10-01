@@ -130,8 +130,8 @@ struct InvestigationInvoiceView: View {
                 //                .scrollDisabled(true)
                 
                 VStack (alignment: .leading, spacing: 10){
-                    ForEach(invoice.investigation, id: \.self) { item in
-                        Text("\(item.name) - \(Int(item.fee))/=")
+                    ForEach(invoice.investigation) { item in
+                        Text("\(item.serviceName) - \(Int(item.serviceCharge))/=")
                             .font(.headline)
                     }
                 }
@@ -232,7 +232,7 @@ struct InvestigationInvoiceView: View {
 
 struct InvoiceView_Previews: PreviewProvider {
     static var previews: some View {
-        InvestigationInvoiceView(invoice: InvestigationInvoiceModel(patientName: "Rohid", patientContact: "01911362438", investigation: [Investigation(name: "Dengue", fee: 100), Investigation(name: "blood", fee: 200)], totalFee: 300), hideButton: false)
+        InvestigationInvoiceView(invoice: InvestigationInvoiceModel(patientName: "Rohid", patientContact: "01911362438", investigation: [InvestigationModel(serviceName: "Dengue", serviceCharge: 100), InvestigationModel(serviceName: "blood", serviceCharge: 200)], totalFee: 300), hideButton: false)
         // invoice: Invoice(patientName: "Rohid", patientContact: "01911362438", investigation: [Investigation(name: "Dengue", fee: 100), Investigation(name: "blood", fee: 200)], totalFee: 300)
     }
 }

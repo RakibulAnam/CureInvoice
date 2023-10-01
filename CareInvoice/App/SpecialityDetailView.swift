@@ -24,11 +24,11 @@ struct SpecialityDetailView: View {
                     Text("Doctors")
                 }
             
-            InvestigationListView(speciality: SpecialityDetailModel(id: 1, doctor: [DoctorModel(id: 1, doctorName: "Nafis", doctorDegree: "MBBS"), DoctorModel(id: 2, doctorName: "Pritom", doctorDegree: "MBBS")], patients: [], services: [ServiceModel(id: 1, serviceName: "Dengue", serviceCharge: "5000"), ServiceModel(id: 2, serviceName: "Operation", serviceCharge: "10000")]))
-                .tabItem {
-                    Image(systemName: "brain.head.profile")
-                    Text("Investigations")
-                }
+//            InvestigationListView(speciality: SpecialityDetailModel(id: 1, doctor: [DoctorModel(id: 1, doctorName: "Nafis", doctorDegree: "MBBS"), DoctorModel(id: 2, doctorName: "Pritom", doctorDegree: "MBBS")], patients: [], services: [ServiceModel(id: 1, serviceName: "Dengue", serviceCharge: "5000"), ServiceModel(id: 2, serviceName: "Operation", serviceCharge: "10000")]))
+//                .tabItem {
+//                    Image(systemName: "brain.head.profile")
+//                    Text("Investigations")
+//                }
             
             AdminListView()
                 .tabItem {

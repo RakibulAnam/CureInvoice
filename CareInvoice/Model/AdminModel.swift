@@ -16,6 +16,6 @@ struct AdminModel : Codable, Identifiable{
     let password : String?
     let email : String
     let contact : String
-    
+    var orgId : Int
     
 }

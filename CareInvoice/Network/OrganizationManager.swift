@@ -212,11 +212,11 @@ class OrganizationManager : ObservableObject {
     
     
     // MARK: - CREATE ORG ADMIN
-    func createOrgAdmin(admin : OrgAdminModel, orgID : Int){
+    func createOrgAdmin(admin : OrgAdminModel){
         
         let admin = admin
         
-        guard let url = URL(string: "\(K.ADD_ORG_ADMIN)\(orgID)") else {
+        guard let url = URL(string: "\(K.ADD_ORG_ADMIN)") else {
             print("Invalid Posting URL")
             return
         }

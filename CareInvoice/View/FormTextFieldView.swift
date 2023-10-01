@@ -27,7 +27,7 @@ struct FormTextFieldView: View {
                     }
                 })
                 .padding(10)
-                .textInputAutocapitalization(.none)
+                .textInputAutocapitalization(.never)
                 .font(.title3)
                 .fontWeight(.light)
                 .autocorrectionDisabled(true)

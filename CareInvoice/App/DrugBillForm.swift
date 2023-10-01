@@ -10,20 +10,12 @@ import SwiftUI
 struct DrugBillForm: View {
     
     
-    var investigations : [Investigation] = [Investigation(name: "Blood Test", fee: 1000), Investigation(name: "Dengue Tes", fee: 1200)]
+    
     @StateObject var invoiceViewModel = InvoiceViewModel()
     // @State var selectedItem : Investigation?
-    @State var multiSelect = Set<Investigation>()
+   
     @State var invoiceGenerated : Bool = false
-    var selectedInvestigation : [Investigation] {
-        var selected : [Investigation] = []
-        
-        multiSelect.forEach { Investigation in
-            selected.append(Investigation)
-        }
-        
-        return selected
-    }
+ 
     var totalFee : Double {
         var total = 0.0
         selectedDrug.forEach { drug in
@@ -86,13 +78,23 @@ struct DrugBillForm: View {
                 ZStack{
                
                     
-                    List(selectedDrug){ drug in
-                        
-                        Text("\(drug.brandName) - \(Int(drug.price))/=")
-                           
-                        
+                    List{
+                        ForEach(selectedDrug) { drug in
+                            Text("\(drug.brandName) - \(Int(drug.price))/=")
+                        }
+                        .onDelete { indexSet in
+                            selectedDrug.remove(atOffsets:  indexSet)
+                        }
                     }
                     .listStyle(.plain)
+                    
+//                    List(selectedDrug){ drug in
+//
+//
+//                        Text("\(drug.brandName) - \(Int(drug.price))/=")
+//
+//                    }
+//                    .listStyle(.plain)
                     
                     
                     if searchedText.isEmpty {

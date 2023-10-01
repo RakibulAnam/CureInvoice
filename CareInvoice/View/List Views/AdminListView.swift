@@ -9,22 +9,22 @@ import SwiftUI
 
 struct AdminListView: View {
     
-    var admins  = [AdminModel(name: "Turjo", username: "TJ1", password: "123456", email: "tj@gmail.com", contact: "01911362438"),
-                   AdminModel(name: "Adi", username: "AD1", password: "123456", email: "ad@gmail.com", contact: "01911362438")]
+    var admins  = [AdminModel(name: "Turjo", username: "TJ1", password: "123456", email: "tj@gmail.com", contact: "01911362438", orgId: 1),
+                   AdminModel(name: "Adi", username: "AD1", password: "123456", email: "ad@gmail.com", contact: "01911362438", orgId: 2)]
     
     var body: some View {
         
         ZStack(alignment: .bottomTrailing) {
             VStack(alignment: .leading, spacing: 10) {
                 
-                HStack{
-                    Spacer()
-                    
-                    NavigationLink(destination: EmptyView()) {
-                        Text("")                             }
-                    
-                }
-                .padding()
+//                HStack{
+//                    Spacer()
+//
+//                    NavigationLink(destination: EmptyView()) {
+//                        Text("")                             }
+//
+//                }
+//                .padding()
                 
                 List {
                     ForEach(admins) { admin in

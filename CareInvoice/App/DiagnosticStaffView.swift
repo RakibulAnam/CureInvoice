@@ -1,25 +1,21 @@
 //
-//  PharmacyStaffView.swift
+//  DiagnosticStaffView.swift
 //  CareInvoice
 //
-//  Created by Jotno on 9/26/23.
+//  Created by Jotno on 10/1/23.
 //
 
 import SwiftUI
 
-struct PharmacyStaffView: View {
+struct DiagnosticStaffView: View {
     
     @State private var isMenuOpen = false
-    @State var drugSearch = ""
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
     
     var body: some View {
         NavigationView {
-            
-            
             VStack {
-                
                 HStack() {
                     Spacer()
                     Button {
@@ -44,7 +40,7 @@ struct PharmacyStaffView: View {
                 
                 
                 TabView {
-                    DrugListView()
+                    InvestigationListView()
                         .tabItem {
                             Image(systemName: "pill")
                             Text("Drugs")
@@ -78,8 +74,8 @@ struct PharmacyStaffView: View {
     }
 }
 
-struct PharmacyStaffView_Previews: PreviewProvider {
+struct DiagnosticStaffView_Previews: PreviewProvider {
     static var previews: some View {
-        PharmacyStaffView()
+        DiagnosticStaffView()
     }
 }

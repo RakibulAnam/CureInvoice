@@ -15,6 +15,10 @@ struct AdminFormView: View {
     @State var contact = ""
     @State var userName = ""
     @State var password = ""
+    @AppStorage("OrgID") var OrgID : Int = 0
+    @AppStorage("OrgType") var OrgType : String = ""
+    
+    @StateObject var pharmacyManager = Pharmacymanager()
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -27,8 +31,8 @@ struct AdminFormView: View {
             
             VStack(alignment: .leading){
                 
-//                Text("Admin for \(org.name)")
-//                    .font(.title)
+                Text("Create Admin")
+                    .font(.title)
                 
                 ScrollView(showsIndicators: false){
                     
@@ -50,11 +54,20 @@ struct AdminFormView: View {
                         manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
                          
                         */
+                        
+                        let newAdmin = AdminModel(name: name, username: userName.lowercased(), password: password, email: email.lowercased(), contact: contact, orgId: OrgID)
+                        
+                        print(OrgID)
+                        if OrgType == K.OrgType.PHARMACY{
+                            pharmacyManager.createAdmin(admin: newAdmin)
+                        }
+                        
+                        
                       
                         self.presentationMode.wrappedValue.dismiss()
                         
                     } label: {
-                        Text("Add".uppercased())
+                        Text("Create".uppercased())
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)

@@ -6,5 +6,7 @@
 	<array>
 		<string>Cairo-Regular.ttf</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>

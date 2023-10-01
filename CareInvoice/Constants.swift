@@ -19,10 +19,15 @@ struct K{
     
     static let GET_ALL_DRUGS = "http://localhost:9191/drugs/getAllDrugs"
     
+    static let GET_ALL_INVESTIGATIONS = "http://localhost:9191/investigation/getAllInvestigation"
+    
     static let GET_BRAND_DRUG = "http://localhost:9191/drugs/searchDrugByBrandName/"
     
-    static let ADD_ORG_ADMIN = "http://localhost:9191/org_admin/addOrgAdmin/"
+    static let ADD_ORG_ADMIN = "http://localhost:9191/org_admin/addOrgAdmin"
     static let GET_ORG_ADMIN = "http://localhost:9191/org_admin/getOrgAdmins/"
+    
+    static let ADD_ADMIN = "http://localhost:9191/admin/addAdmin"
+    static let GET_ADMIN = "http://localhost:9191/admin/getAdmins/"
     
     
     static let GET_PARMACY_INVOICE = "http://localhost:9191/drugOrders/getAllDrugOrdersByOrgId/"
@@ -55,6 +60,11 @@ struct K{
     
     struct Login{
         static let AUTHENTICATE = "http://localhost:9191/authenticate"
+    }
+    
+    struct Role {
+        static let ORG_ADMIN = "ROLE_ORG_ADMIN"
+        static let NORMAL_ADMIN = "ROLE_ADMIN"
     }
     
 }

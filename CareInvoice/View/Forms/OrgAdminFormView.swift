@@ -17,6 +17,7 @@ struct OrgAdminFormView: View {
     @State var contact = ""
     @State var userName = ""
     @State var password = ""
+    @AppStorage("OrgID") var OrgID : Int = 0
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -46,7 +47,8 @@ struct OrgAdminFormView: View {
                     Button {
                         let newAdmin = OrgAdminModel(name: name, username: userName.lowercased(), password: password, email: email.lowercased(), contact: contact, orgId: org.id!)
                         
-                        manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
+                        print(org.id!)
+                        manager.createOrgAdmin(admin: newAdmin)
                         
                       
                         self.presentationMode.wrappedValue.dismiss()

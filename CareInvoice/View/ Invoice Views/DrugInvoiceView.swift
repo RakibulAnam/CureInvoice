@@ -84,7 +84,7 @@ struct DrugInvoiceView: View {
                 Spacer()
                 
                 
-                Text("Total Fee : \(invoice.total) taka")
+                Text("Total Fee : \(Int(invoice.total)) taka")
                     .font(.title)
                 
                 

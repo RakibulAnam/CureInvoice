@@ -10,7 +10,7 @@ import Foundation
 struct InvestigationInvoiceModel {
     let patientName : String
     let patientContact : String
-    let investigation : [Investigation]
+    let investigation : [InvestigationModel]
     let totalFee : Int
     
 }

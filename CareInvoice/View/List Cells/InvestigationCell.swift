@@ -9,7 +9,7 @@ import SwiftUI
 
 struct InvestigationCell: View {
     
-    var service : ServiceModel
+    var investigation : InvestigationModel
     
     var body: some View {
         VStack {
@@ -23,12 +23,12 @@ struct InvestigationCell: View {
                 
                 
                 VStack(alignment: .leading, spacing: 5) {
-                    Text(service.serviceName)
+                    Text(investigation.serviceName)
                         .font(.title2)
                         .fontWeight(.light)
                     
                     
-                    Text("\(service.serviceCharge) /=")
+                    Text("\(Int(investigation.serviceCharge)) /=")
                         .font(.title2)
                         .fontWeight(.light)
                     
@@ -47,7 +47,7 @@ struct InvestigationCell: View {
 
 struct InvestigationCell_Previews: PreviewProvider {
     static var previews: some View {
-        InvestigationCell(service: ServiceModel(serviceName: "Autopsy", serviceCharge: "5500"))
+        InvestigationCell(investigation: InvestigationModel(serviceName: "Investigation Name", serviceCharge: 220.0))
             .previewLayout(.sizeThatFits)
     }
 }

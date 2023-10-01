@@ -12,7 +12,7 @@ class InvoiceViewModel : ObservableObject {
     @Published var invoice : InvestigationInvoiceModel?
     
     
-    func setInvoice(name : String, contact : String, selectedInvestigation : [Investigation], totalFee : Int){
+    func setInvoice(name : String, contact : String, selectedInvestigation : [InvestigationModel], totalFee : Int){
         invoice =  InvestigationInvoiceModel(patientName: name, patientContact: contact, investigation: selectedInvestigation, totalFee: totalFee)
     }
     

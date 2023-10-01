@@ -53,6 +53,10 @@
 		E2A19A052AB7048C00474973 /* OrgAdminModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A19A042AB7048C00474973 /* OrgAdminModel.swift */; };
 		E2A19A072AB70B8C00474973 /* UITEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A19A062AB70B8C00474973 /* UITEST.swift */; };
 		E2A19A092AB70F2400474973 /* OrgAdminFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A19A082AB70F2400474973 /* OrgAdminFormView.swift */; };
+		E2A9FE0C2AC9399F00A57641 /* PharmacyAdminListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A9FE0B2AC9399F00A57641 /* PharmacyAdminListView.swift */; };
+		E2A9FE0E2AC94B2500A57641 /* DiagnosticCenterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A9FE0D2AC94B2500A57641 /* DiagnosticCenterManager.swift */; };
+		E2A9FE102AC94BB200A57641 /* InvestigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A9FE0F2AC94BB200A57641 /* InvestigationModel.swift */; };
+		E2A9FE122AC94DB500A57641 /* DiagnosticStaffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A9FE112AC94DB500A57641 /* DiagnosticStaffView.swift */; };
 		E2C7D01A2ABAC6FA009F3288 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C7D0192ABAC6FA009F3288 /* SideMenuView.swift */; };
 		E2D71DB62AC12F61006FEDC2 /* DoctorFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D71DB52AC12F61006FEDC2 /* DoctorFormView.swift */; };
 		E2D71DB82AC14121006FEDC2 /* AddInvestigationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D71DB72AC14121006FEDC2 /* AddInvestigationForm.swift */; };
@@ -114,6 +118,10 @@
 		E2A19A042AB7048C00474973 /* OrgAdminModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgAdminModel.swift; sourceTree = "<group>"; };
 		E2A19A062AB70B8C00474973 /* UITEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITEST.swift; sourceTree = "<group>"; };
 		E2A19A082AB70F2400474973 /* OrgAdminFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgAdminFormView.swift; sourceTree = "<group>"; };
+		E2A9FE0B2AC9399F00A57641 /* PharmacyAdminListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmacyAdminListView.swift; sourceTree = "<group>"; };
+		E2A9FE0D2AC94B2500A57641 /* DiagnosticCenterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticCenterManager.swift; sourceTree = "<group>"; };
+		E2A9FE0F2AC94BB200A57641 /* InvestigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestigationModel.swift; sourceTree = "<group>"; };
+		E2A9FE112AC94DB500A57641 /* DiagnosticStaffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticStaffView.swift; sourceTree = "<group>"; };
 		E2C7D0192ABAC6FA009F3288 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		E2D71DB52AC12F61006FEDC2 /* DoctorFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorFormView.swift; sourceTree = "<group>"; };
 		E2D71DB72AC14121006FEDC2 /* AddInvestigationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvestigationForm.swift; sourceTree = "<group>"; };
@@ -207,6 +215,7 @@
 				E27736A22AC2E5FB009BC7CB /* PharmacyStaffView.swift */,
 				E27736AC2AC2F8CA009BC7CB /* DrugDetailView.swift */,
 				E245C84E2AC3EB3D00B22CDE /* DrugBillForm.swift */,
+				E2A9FE112AC94DB500A57641 /* DiagnosticStaffView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -247,6 +256,7 @@
 				E27736A42AC2E886009BC7CB /* DrugModel.swift */,
 				E245C8552AC406BF00B22CDE /* InvestigationInvoiceModel.swift */,
 				E245C8572AC4073800B22CDE /* DrugInvoiceModel.swift */,
+				E2A9FE0F2AC94BB200A57641 /* InvestigationModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -258,6 +268,7 @@
 				E2E9AA492AB8433300BC3969 /* LoginService.swift */,
 				E28AA12B2AC00D0B009A2354 /* HospitalManager.swift */,
 				E27736A62AC2E9C6009BC7CB /* PharmacyManager.swift */,
+				E2A9FE0D2AC94B2500A57641 /* DiagnosticCenterManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -287,6 +298,7 @@
 				E28AA1412AC04E0E009A2354 /* AdminListView.swift */,
 				E27736A82AC2EC8A009BC7CB /* DrugListView.swift */,
 				E245C8592AC43BA400B22CDE /* PharmacyInvoiceList.swift */,
+				E2A9FE0B2AC9399F00A57641 /* PharmacyAdminListView.swift */,
 			);
 			path = "List Views";
 			sourceTree = "<group>";
@@ -376,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2A9FE102AC94BB200A57641 /* InvestigationModel.swift in Sources */,
 				E23621442AC004B70047B2BC /* SpecialityCell.swift in Sources */,
 				E27736AD2AC2F8CA009BC7CB /* DrugDetailView.swift in Sources */,
 				E2D71DB62AC12F61006FEDC2 /* DoctorFormView.swift in Sources */,
@@ -392,6 +405,8 @@
 				E27736A92AC2EC8A009BC7CB /* DrugListView.swift in Sources */,
 				E2D71DB82AC14121006FEDC2 /* AddInvestigationForm.swift in Sources */,
 				E245C8582AC4073800B22CDE /* DrugInvoiceModel.swift in Sources */,
+				E2A9FE122AC94DB500A57641 /* DiagnosticStaffView.swift in Sources */,
+				E2A9FE0E2AC94B2500A57641 /* DiagnosticCenterManager.swift in Sources */,
 				E2A19A092AB70F2400474973 /* OrgAdminFormView.swift in Sources */,
 				E245C8542AC4051800B22CDE /* DrugInvoiceView.swift in Sources */,
 				E21D88792AB9B9CA0068669E /* OrgAdminListView.swift in Sources */,
@@ -415,6 +430,7 @@
 				E28AA13C2AC04517009A2354 /* InvestigationListView.swift in Sources */,
 				E28AA12A2AC0079C009A2354 /* SpecialityListModel.swift in Sources */,
 				E2E6DF6D2AB1BC5300707BEE /* OrganizationFormView.swift in Sources */,
+				E2A9FE0C2AC9399F00A57641 /* PharmacyAdminListView.swift in Sources */,
 				E28AA1402AC04630009A2354 /* ServiceModel.swift in Sources */,
 				E28AA1342AC02E4E009A2354 /* SpecialityDetailModel.swift in Sources */,
 				E245C8562AC406BF00B22CDE /* InvestigationInvoiceModel.swift in Sources */,
@@ -561,6 +577,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CareInvoice/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -591,6 +608,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CareInvoice/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
