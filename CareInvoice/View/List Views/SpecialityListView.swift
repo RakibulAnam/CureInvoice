@@ -17,6 +17,7 @@ struct SpecialityListView: View {
         SpecialityListModel(id: 3, medSpecName: "Physical Medicine", iconUrl: "physical-medicine.png"),
         SpecialityListModel(id: 4, medSpecName: "Rheumatology", iconUrl: "rheumatology.png")
     ]
+    @AppStorage("OrgID") var OrgID : Int = 0
     
     var body: some View {
         
@@ -41,7 +42,7 @@ struct SpecialityListView: View {
         .navigationTitle("")
         .onAppear {
             DispatchQueue.main.async {
-                manager.getAllSepciality()
+                manager.getAllSepcialityByOrg(orgID: OrgID)
             }
             
         }

@@ -42,18 +42,18 @@ struct DiagnosticStaffView: View {
                 TabView {
                     InvestigationListView()
                         .tabItem {
-                            Image(systemName: "pill")
-                            Text("Drugs")
+                            Image(systemName: "bandage")
+                            Text("Investigations")
                         }
                     
-                    PharmacyInvoiceList()
+                    DiagnosticInvoiceList()
                         .tabItem {
                             Image(systemName: "doc.text")
                             Text("Invoice")
                         }
                     
                     if userRole == K.Role.ORG_ADMIN{
-                        PharmacyAdminListView()
+                        DiagnosticAdminListView()
                             .tabItem {
                                 Image(systemName: "person.circle")
                                 Text("Admins")

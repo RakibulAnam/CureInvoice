@@ -15,12 +15,18 @@ struct K{
     static let GET_ORGANIZATION_BY_ID = "http://localhost:9191/organization/getOrganizationById/"
     static let GET_ROLE = "http://localhost:9191/getRole"
     
-    static let GET_ALL_SPECIALITY = "http://localhost:9191/specialist/getAllSpecialist"
+    static let GET_ALL_SPECIALITY_GLOBAL = "http://localhost:9191/specialist/getAllSpecialist"
+    static let GET_ALL_SPECIALITY_BY_ORG = "http://localhost:9191/specialist/getAllSpecialist"
     
-    static let GET_ALL_DRUGS = "http://localhost:9191/drugs/getAllDrugs"
+    static let GET_ALL_DRUGS_BY_ORG = "http://localhost:9191/drugs/getAllDrugs/"
+    static let GET_ALL_DRUGS_GLOBAL = "http://localhost:9191/drugs/getAllDrugs"
+    static let CREATE_DRUG = "http://localhost:9191/drugs/addDrug"
+    static let UPDATE_DRUG = "http://localhost:9191/drugs/updateDrug/"
     
     static let GET_ALL_INVESTIGATIONS = "http://localhost:9191/investigation/getAllInvestigation"
     static let GET_INVESTIGATOIN_BY_NAME = "http://localhost:9191/investigation/search/"
+    static let BOOK_INVESTIGATION = "http://localhost:9191/bookInvestigation/addBooking"
+    static let GET_INVESTIGATION_INVOICE = "http://localhost:9191/bookInvestigation/getInvestigationBookingsByOrgId/"
     
     static let GET_BRAND_DRUG = "http://localhost:9191/drugs/searchDrugByBrandName/"
     

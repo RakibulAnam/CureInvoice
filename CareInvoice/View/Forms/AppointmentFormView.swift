@@ -16,10 +16,23 @@ struct AppointmentFormView: View {
     @State var fee = ""
     @State var discount = ""
     
+    var totalFee : Double {
+        var total = (Double(fee) ?? 0.0) - (Double(discount) ?? 0.0)
+        
+        
+        
+        return total
+    }
+    
+    @State var invoiceGenerated : Bool = false
+    
     @Environment(\.presentationMode) var presentationMode
     
     let doctorNames = ["Dr. Smith", "Dr. Johnson", "Dr. Williams", "Dr. Brown", "Dr. Jones"]
-    @State private var selectedDoctor = "Select a Doctor"
+    let slots = ["Morning - 10AM", "Evening - 3PM", "Night - 9PM"]
+    @State private var selectedDoctor = "Dr. Smith"
+    @State private var selectedSlot = "Morning - 10AM"
+    
     
     var body: some View {
         
@@ -48,7 +61,7 @@ struct AppointmentFormView: View {
                         .padding(.vertical, 5)
                         .padding(.top)
                         
-                        Picker("Select a Doctor", selection: $selectedDoctor) {
+                        Picker("Dr. Smith", selection: $selectedDoctor) {
                                       ForEach(doctorNames, id: \.self) { doctorName in
                                           Text(doctorName)
                                               .foregroundColor(.black)
@@ -61,39 +74,73 @@ struct AppointmentFormView: View {
                                   RoundedRectangle(cornerRadius: 8)
                                     .stroke()
                                   )
+                        
+                        HStack{
+                            Text("Select Slot")
+                                .font(.title3)
+                                .fontWeight(.light)
+                            Spacer()
+                        }
+                        .padding(.vertical, 5)
+                        .padding(.top)
+                        
+                        Picker("Morning - 10AM", selection: $selectedSlot) {
+                                      ForEach(slots, id: \.self) { doctorName in
+                                          Text(doctorName)
+                                              .foregroundColor(.black)
+                                      }
+                                  }
+                        .frame(width: 350)
+                                  .pickerStyle(MenuPickerStyle())
+                                  .padding(10)
+                                  .background(
+                                  RoundedRectangle(cornerRadius: 8)
+                                    .stroke()
+                                  )
+
                                   
                               
                     }//:Vstack
                     FormTextFieldView(title: "Consultation Fee", bindingText: $fee)
                     FormTextFieldView(title: "Discount", bindingText: $discount)
+                    
+                    
+                    HStack {
+                        Text("Total : \(Int(totalFee))")
+                    }
+                   
+                    
+                    NavigationLink(destination: AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: name, patientContact: contact, docor: selectedDoctor, slot: selectedSlot, ConsultationFee: fee, Discount: discount, total: totalFee)), isActive: $invoiceGenerated) {
+                        Button {
+                            /*
+                            let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
+                            
+                            manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
+                             
+                            */
+                            
+                            let newAppoint = AppointmentInvoiceModel(patientName: name, patientContact: contact, docor: selectedDoctor, slot: selectedSlot, ConsultationFee: fee, Discount: discount, total: totalFee)
+                            
+                            invoiceGenerated = true
+                          
+                            
+                        } label: {
+                            Text("book".uppercased())
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity, minHeight: 60, alignment: .center)
+                                .background(Color("PrimaryColor"))
+                                .cornerRadius(10)
+                                .padding(.vertical)
+                            
+                        } //: BUTTON
+                    }
+                    
                    
                     
                     
-                    
                    
-                    
-                    
-                    Button {
-                        /*
-                        let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
-                        
-                        manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
-                         
-                        */
-                      
-                        self.presentationMode.wrappedValue.dismiss()
-                        
-                    } label: {
-                        Text("book".uppercased())
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity, minHeight: 60, alignment: .center)
-                            .background(Color("PrimaryColor"))
-                            .cornerRadius(10)
-                            .padding(.vertical)
-                        
-                    } //: BUTTON
                     
                 }//: SCROLL
                 

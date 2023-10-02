@@ -124,7 +124,7 @@ struct BookInvestigationForm: View {
                 
             
                 
-                NavigationLink(destination: InvestigationInvoiceView(invoice: InvestigationInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, investigation: selectedInvestigation, totalFee: Int(totalFee))), isActive: $invoiceGenerated) {
+                NavigationLink(destination: InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationDTOList: selectedInvestigation, total: Double(totalFee))), isActive: $invoiceGenerated) {
                     Button {
                         /*
                          let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
@@ -136,6 +136,9 @@ struct BookInvestigationForm: View {
                         /*
                         manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee))
                         */
+                        
+                        manager.bookInvestigation(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationDTOList: selectedInvestigation, total: Double(totalFee)))
+                        
                         invoiceGenerated = true
                         
                         

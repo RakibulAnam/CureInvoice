@@ -221,13 +221,13 @@ struct InvestigationInvoiceView: View {
                 HStack {
                     Text("Patient Name: ")
                     Spacer()
-                    Text("\(invoice.patientName)")
+                    Text("\(invoice.p_name)")
                 }
                 
                 HStack {
                     Text("Contact: ")
                     Spacer()
-                    Text("\(invoice.patientContact)")
+                    Text("\(invoice.contact)")
                 }
                 
             }
@@ -247,7 +247,7 @@ struct InvestigationInvoiceView: View {
                 
                 Divider()
                 
-                ForEach(invoice.investigation, id: \.serviceName) { item in
+                ForEach(invoice.investigationDTOList, id: \.serviceName) { item in
                     HStack {
                         Text(item.serviceName)
                         Spacer()
@@ -264,7 +264,7 @@ struct InvestigationInvoiceView: View {
                 HStack {
                     Text("Total (Taka) :")
                     Spacer()
-                    Text("\(Int(invoice.totalFee))/=")
+                    Text("\(Int(invoice.total))/=")
                 }
                 .fontWeight(.medium)
                 
@@ -331,7 +331,7 @@ struct InvestigationInvoiceView: View {
     @MainActor private func makePDF(){
         let renderer = ImageRenderer(content:
                                         
-                                        InvestigationInvoiceView(invoice: invoice, hideButton: true)
+                    InvestigationInvoiceView(invoice: invoice, hideButton: true)
         )
         
         let url = URL.documentsDirectory.appending(path: "investigationInvoice.pdf")
@@ -362,7 +362,7 @@ struct InvestigationInvoiceView: View {
 
 struct InvoiceView_Previews: PreviewProvider {
     static var previews: some View {
-        InvestigationInvoiceView(invoice: InvestigationInvoiceModel(patientName: "Rohid", patientContact: "01911362438", orgId: 5, investigation: [InvestigationModel(serviceName: "Dengue", serviceCharge: 100), InvestigationModel(serviceName: "blood", serviceCharge: 200)], totalFee: 300), hideButton: false)
+        InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: "Rohid", contact: "01911362438", org_id: 5, investigationDTOList: [InvestigationModel(serviceName: "Dengue", serviceCharge: 100), InvestigationModel(serviceName: "blood", serviceCharge: 200)], total: 300), hideButton: false)
         // invoice: Invoice(patientName: "Rohid", patientContact: "01911362438", investigation: [Investigation(name: "Dengue", fee: 100), Investigation(name: "blood", fee: 200)], totalFee: 300)
     }
 }

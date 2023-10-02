@@ -19,6 +19,13 @@
 		E245C85C2AC44D5600B22CDE /* InvoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E245C85B2AC44D5600B22CDE /* InvoiceCell.swift */; };
 		E24FBC442AB2CEA900E661B0 /* OrganizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24FBC432AB2CEA900E661B0 /* OrganizationManager.swift */; };
 		E24FBC462AB2D11800E661B0 /* OrgListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24FBC452AB2D11800E661B0 /* OrgListView.swift */; };
+		E25D29F92ACA72BF00C37E8B /* DiagnosticAdminListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25D29F82ACA72BF00C37E8B /* DiagnosticAdminListView.swift */; };
+		E25D29FB2ACA841D00C37E8B /* DrugListGlobal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25D29FA2ACA841D00C37E8B /* DrugListGlobal.swift */; };
+		E25D29FD2ACA8E2900C37E8B /* AddDrugForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25D29FC2ACA8E2900C37E8B /* AddDrugForm.swift */; };
+		E25D2A002ACABF8900C37E8B /* InvestigationListGlobal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25D29FF2ACABF8900C37E8B /* InvestigationListGlobal.swift */; };
+		E25D2A022ACAD1D700C37E8B /* AppointmentInvoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25D2A012ACAD1D700C37E8B /* AppointmentInvoiceModel.swift */; };
+		E25D2A042ACADB7200C37E8B /* DiagnosticInvoiceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25D2A032ACADB7200C37E8B /* DiagnosticInvoiceList.swift */; };
+		E25D2A062ACAE45500C37E8B /* AppointmentInvoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25D2A052ACAE45500C37E8B /* AppointmentInvoiceView.swift */; };
 		E27736A32AC2E5FB009BC7CB /* PharmacyStaffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27736A22AC2E5FB009BC7CB /* PharmacyStaffView.swift */; };
 		E27736A52AC2E886009BC7CB /* DrugModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27736A42AC2E886009BC7CB /* DrugModel.swift */; };
 		E27736A72AC2E9C6009BC7CB /* PharmacyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27736A62AC2E9C6009BC7CB /* PharmacyManager.swift */; };
@@ -81,6 +88,13 @@
 		E245C85B2AC44D5600B22CDE /* InvoiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceCell.swift; sourceTree = "<group>"; };
 		E24FBC432AB2CEA900E661B0 /* OrganizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationManager.swift; sourceTree = "<group>"; };
 		E24FBC452AB2D11800E661B0 /* OrgListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgListView.swift; sourceTree = "<group>"; };
+		E25D29F82ACA72BF00C37E8B /* DiagnosticAdminListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticAdminListView.swift; sourceTree = "<group>"; };
+		E25D29FA2ACA841D00C37E8B /* DrugListGlobal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrugListGlobal.swift; sourceTree = "<group>"; };
+		E25D29FC2ACA8E2900C37E8B /* AddDrugForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDrugForm.swift; sourceTree = "<group>"; };
+		E25D29FF2ACABF8900C37E8B /* InvestigationListGlobal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestigationListGlobal.swift; sourceTree = "<group>"; };
+		E25D2A012ACAD1D700C37E8B /* AppointmentInvoiceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentInvoiceModel.swift; sourceTree = "<group>"; };
+		E25D2A032ACADB7200C37E8B /* DiagnosticInvoiceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticInvoiceList.swift; sourceTree = "<group>"; };
+		E25D2A052ACAE45500C37E8B /* AppointmentInvoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentInvoiceView.swift; sourceTree = "<group>"; };
 		E27736A22AC2E5FB009BC7CB /* PharmacyStaffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmacyStaffView.swift; sourceTree = "<group>"; };
 		E27736A42AC2E886009BC7CB /* DrugModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrugModel.swift; sourceTree = "<group>"; };
 		E27736A62AC2E9C6009BC7CB /* PharmacyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmacyManager.swift; sourceTree = "<group>"; };
@@ -156,6 +170,7 @@
 			children = (
 				E2D71DBB2AC186F6006FEDC2 /* InvestigationInvoiceView.swift */,
 				E245C8532AC4051800B22CDE /* DrugInvoiceView.swift */,
+				E25D2A052ACAE45500C37E8B /* AppointmentInvoiceView.swift */,
 			);
 			path = " Invoice Views";
 			sourceTree = "<group>";
@@ -206,14 +221,13 @@
 				E2825B742AB027A7006EF669 /* CareInvoiceApp.swift */,
 				E2825B762AB027A7006EF669 /* ContentView.swift */,
 				E23621412AC000B40047B2BC /* HospitalStaffView.swift */,
+				E2A9FE112AC94DB500A57641 /* DiagnosticStaffView.swift */,
+				E27736A22AC2E5FB009BC7CB /* PharmacyStaffView.swift */,
 				E2825B842AB02A64006EF669 /* SuperAdminHomeView.swift */,
 				E2825B862AB02A8A006EF669 /* OnboardingView.swift */,
 				E23621402AC0001C0047B2BC /* Organization Screens */,
 				E28AA1312AC02BF4009A2354 /* SpecialityDetailView.swift */,
-				E27736A22AC2E5FB009BC7CB /* PharmacyStaffView.swift */,
 				E27736AC2AC2F8CA009BC7CB /* DrugDetailView.swift */,
-				E245C84E2AC3EB3D00B22CDE /* DrugBillForm.swift */,
-				E2A9FE112AC94DB500A57641 /* DiagnosticStaffView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -254,6 +268,7 @@
 				E245C8552AC406BF00B22CDE /* InvestigationInvoiceModel.swift */,
 				E245C8572AC4073800B22CDE /* DrugInvoiceModel.swift */,
 				E2A9FE0F2AC94BB200A57641 /* InvestigationModel.swift */,
+				E25D2A012ACAD1D700C37E8B /* AppointmentInvoiceModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -296,6 +311,10 @@
 				E27736A82AC2EC8A009BC7CB /* DrugListView.swift */,
 				E245C8592AC43BA400B22CDE /* PharmacyInvoiceList.swift */,
 				E2A9FE0B2AC9399F00A57641 /* PharmacyAdminListView.swift */,
+				E25D29F82ACA72BF00C37E8B /* DiagnosticAdminListView.swift */,
+				E25D29FA2ACA841D00C37E8B /* DrugListGlobal.swift */,
+				E25D29FF2ACABF8900C37E8B /* InvestigationListGlobal.swift */,
+				E25D2A032ACADB7200C37E8B /* DiagnosticInvoiceList.swift */,
 			);
 			path = "List Views";
 			sourceTree = "<group>";
@@ -310,6 +329,8 @@
 				E2D71DB52AC12F61006FEDC2 /* DoctorFormView.swift */,
 				E2D71DB72AC14121006FEDC2 /* AddInvestigationForm.swift */,
 				E2D71DB92AC1437D006FEDC2 /* BookInvestigationForm.swift */,
+				E245C84E2AC3EB3D00B22CDE /* DrugBillForm.swift */,
+				E25D29FC2ACA8E2900C37E8B /* AddDrugForm.swift */,
 			);
 			path = Forms;
 			sourceTree = "<group>";
@@ -389,6 +410,7 @@
 				E23621442AC004B70047B2BC /* SpecialityCell.swift in Sources */,
 				E27736AD2AC2F8CA009BC7CB /* DrugDetailView.swift in Sources */,
 				E2D71DB62AC12F61006FEDC2 /* DoctorFormView.swift in Sources */,
+				E25D29FB2ACA841D00C37E8B /* DrugListGlobal.swift in Sources */,
 				E28AA1302AC01633009A2354 /* RevenueView.swift in Sources */,
 				E2E6DF6B2AB19F4D00707BEE /* OrganizationDetailView.swift in Sources */,
 				E28AA1382AC037BF009A2354 /* DoctorListView.swift in Sources */,
@@ -421,15 +443,20 @@
 				E28AA13E2AC04559009A2354 /* InvestigationCell.swift in Sources */,
 				E28AA12C2AC00D0B009A2354 /* HospitalManager.swift in Sources */,
 				E2A19A052AB7048C00474973 /* OrgAdminModel.swift in Sources */,
+				E25D2A002ACABF8900C37E8B /* InvestigationListGlobal.swift in Sources */,
+				E25D2A042ACADB7200C37E8B /* DiagnosticInvoiceList.swift in Sources */,
 				E27736AB2AC2EF76009BC7CB /* DrugCell.swift in Sources */,
 				E24FBC442AB2CEA900E661B0 /* OrganizationManager.swift in Sources */,
 				E2825B872AB02A8A006EF669 /* OnboardingView.swift in Sources */,
 				E28AA13C2AC04517009A2354 /* InvestigationListView.swift in Sources */,
+				E25D29F92ACA72BF00C37E8B /* DiagnosticAdminListView.swift in Sources */,
 				E28AA12A2AC0079C009A2354 /* SpecialityListModel.swift in Sources */,
 				E2E6DF6D2AB1BC5300707BEE /* OrganizationFormView.swift in Sources */,
 				E2A9FE0C2AC9399F00A57641 /* PharmacyAdminListView.swift in Sources */,
+				E25D29FD2ACA8E2900C37E8B /* AddDrugForm.swift in Sources */,
 				E28AA1402AC04630009A2354 /* ServiceModel.swift in Sources */,
 				E28AA1342AC02E4E009A2354 /* SpecialityDetailModel.swift in Sources */,
+				E25D2A022ACAD1D700C37E8B /* AppointmentInvoiceModel.swift in Sources */,
 				E245C8562AC406BF00B22CDE /* InvestigationInvoiceModel.swift in Sources */,
 				E2E9AA4A2AB8433300BC3969 /* LoginService.swift in Sources */,
 				E27736A52AC2E886009BC7CB /* DrugModel.swift in Sources */,
@@ -437,6 +464,7 @@
 				E2825B932AB07965006EF669 /* Constants.swift in Sources */,
 				E2825B752AB027A7006EF669 /* CareInvoiceApp.swift in Sources */,
 				E28AA12E2AC00D73009A2354 /* SpecialityListView.swift in Sources */,
+				E25D2A062ACAE45500C37E8B /* AppointmentInvoiceView.swift in Sources */,
 				E29812642AB6B4B400117451 /* FormTextFieldView.swift in Sources */,
 				E28AA1492AC05775009A2354 /* AppointmentFormView.swift in Sources */,
 				E2825B852AB02A64006EF669 /* SuperAdminHomeView.swift in Sources */,

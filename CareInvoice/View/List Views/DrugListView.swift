@@ -14,6 +14,7 @@ struct DrugListView: View {
     @State var drugSearch = ""
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
+    @AppStorage("OrgID") var OrgID : Int = 0
     
     var body: some View {
         
@@ -29,7 +30,7 @@ struct DrugListView: View {
                 .padding(.horizontal, 20)
                 .onChange(of: drugSearch) { newValue in
                     if newValue == ""{
-                        manager.getAllDrugs()
+                        manager.getAllDrugs(orgID: OrgID)
                     }else {
                         manager.getDrugBrand(name: newValue)
                     }
@@ -101,7 +102,7 @@ struct DrugListView: View {
                 .navigationTitle("")
                 .onAppear {
                     DispatchQueue.main.async {
-                        manager.getAllDrugs()
+                        manager.getAllDrugs(orgID: OrgID )
                     }
                 }
             }//: VSTACK

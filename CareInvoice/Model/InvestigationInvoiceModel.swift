@@ -8,11 +8,12 @@
 import Foundation
 
 struct InvestigationInvoiceModel : Codable, Identifiable {
+    
     var id : Int?
-    let patientName : String
-    let patientContact : String
-    var orgId : Int
-    let investigation : [InvestigationModel]
-    let totalFee : Int
+    let p_name : String
+    let contact : String
+    var org_id : Int
+    let investigationDTOList : [InvestigationModel]
+    let total : Double
     
 }

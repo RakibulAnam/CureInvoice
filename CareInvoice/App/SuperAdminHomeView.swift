@@ -49,11 +49,11 @@ struct SuperAdminHomeView: View {
                             Text(K.OrgType.HOSPITAL)
                         }
                     
-                    OrgListView(listURL: K.Chamber.GETALLCHAMBER, title: "\(K.OrgType.CHAMBER)s", orgType: K.OrgType.CHAMBER)
-                        .tabItem {
-                            Image(systemName: "house.fill")
-                            Text(K.OrgType.CHAMBER)
-                        }
+//                    OrgListView(listURL: K.Chamber.GETALLCHAMBER, title: "\(K.OrgType.CHAMBER)s", orgType: K.OrgType.CHAMBER)
+//                        .tabItem {
+//                            Image(systemName: "house.fill")
+//                            Text(K.OrgType.CHAMBER)
+//                        }
                     
                     OrgListView(listURL: K.DiagnosticCenter.GETALLDC, title: "\(K.OrgType.DIAGNOSTIC_CENTER)s", orgType: K.OrgType.DIAGNOSTIC_CENTER)
                         .tabItem {
@@ -61,11 +61,29 @@ struct SuperAdminHomeView: View {
                             Text(K.OrgType.DIAGNOSTIC_CENTER)
                         }
                     
-                    OrgListView(listURL: K.Pharmacy.GET_ALL_PHARMA, title: "\(K.OrgType.PHARMACY)s", orgType: K.OrgType.PHARMACY)
+                    OrgListView(listURL: K.Pharmacy.GET_ALL_PHARMA, title: "\(K.OrgType.PHARMACY)", orgType: K.OrgType.PHARMACY)
                         .tabItem {
                             Image(systemName: "menucard")
                             Text(K.OrgType.PHARMACY)
                         }
+                    
+                    DrugListGlobal()
+                        .tabItem {
+                            Image(systemName: "pill")
+                            Text("Drug List")
+                        }
+                    
+                    InvestigationListGlobal()
+                        .tabItem {
+                            Image(systemName: "bandage")
+                            Text("Investigations")
+                        }
+                    Text("Specialities")
+                        .tabItem {
+                            Image(systemName: "bandage")
+                            Text("Specialities")
+                        }
+                    
                     
                     
                 }//TABVIEW

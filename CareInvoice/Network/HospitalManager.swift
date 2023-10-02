@@ -14,15 +14,16 @@ class HospitalManager : ObservableObject {
     @Published var specialities : [SpecialityListModel] = []
     
     @AppStorage("AuthToken") var AuthToken : String = ""
+    @AppStorage("OrgID") var OrgID : Int = 0
     
     var tt : String = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic29oYW4xIiwiaWF0IjoxNjk1NzIxOTYyLCJleHAiOjE2OTU4MDgzNjJ9.mLW7OC3gPehVnaGj8wQc1uamgGPEmFUVGqm-_ZWmqbU"
     
     
     
     //MARK: - GET ALL SPECIALITY
-    func getAllSepciality(){
+    func getAllSepcialityByOrg(orgID : Int){
         
-        guard let url = URL(string: K.GET_ALL_SPECIALITY)
+        guard let url = URL(string: K.GET_ALL_SPECIALITY_GLOBAL)
         else
         {
             print("Invalid URL")

@@ -1,16 +1,15 @@
 //
-//  InvestigationListView.swift
+//  InvestigationListGlobal.swift
 //  CareInvoice
 //
-//  Created by Jotno on 9/24/23.
+//  Created by Jotno on 10/2/23.
 //
 
 import SwiftUI
 
-struct InvestigationListView: View {
+struct InvestigationListGlobal: View {
     
-   
-    @StateObject var manager = DiagnosticCenterManager()
+    @StateObject var manager = OrganizationManager()
     
     @State private var isMenuOpen = false
     @State var drugSearch = ""
@@ -18,7 +17,6 @@ struct InvestigationListView: View {
     @AppStorage("AuthToken") var AuthToken : String = ""
     
     var body: some View {
-        
         ZStack(alignment: .bottomTrailing) {
             VStack {
                 HStack() {
@@ -36,20 +34,7 @@ struct InvestigationListView: View {
                     Text("Investigations")
                         .font(.title)
                     Spacer()
-                    /*
-                    if userRole == K.Role.NORMAL_ADMIN{
-                        NavigationLink(destination: DrugBillForm().navigationBarTitleDisplayMode(.inline)) {
-                            Text("Book Investigation")
-                                .padding(5)
-                                .background(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke()
-                                )
-                                .foregroundColor(Color("PrimaryColor"))
-                                
-                        }
-                    }
-                    */
+               
                     
                     NavigationLink(destination: BookInvestigationForm().navigationBarTitleDisplayMode(.inline)) {
                         Text("Book Investigation")
@@ -98,13 +83,11 @@ struct InvestigationListView: View {
             
             
         }//: ZSTACK
-        
-        
     }
 }
 
-struct InvestigationListView_Previews: PreviewProvider {
+struct InvestigationListGlobal_Previews: PreviewProvider {
     static var previews: some View {
-        InvestigationListView()
+        InvestigationListGlobal()
     }
 }

@@ -22,13 +22,14 @@ struct DrugModel : Codable, Identifiable{
      
      */
     
-    var id : Int
+    var id : Int?
     var brandName : String
     var price : Double
     var vendorName : String
     var genericName : String
     var formationName : String
     var strengthName : String
+    var quantity : Int?
     
     
     

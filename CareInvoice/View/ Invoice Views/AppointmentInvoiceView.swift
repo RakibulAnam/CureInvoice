@@ -1,15 +1,16 @@
 //
-//  DrugInvoiceView.swift
+//  AppointmentInvoiceView.swift
 //  CareInvoice
 //
-//  Created by Jotno on 9/27/23.
+//  Created by Jotno on 10/2/23.
 //
 
 import SwiftUI
 
-struct DrugInvoiceView: View {
+struct AppointmentInvoiceView: View {
     
-    @State var invoice : DrugInvoiceModel
+    
+    @State var invoice : AppointmentInvoiceModel
     @StateObject var manager = OrganizationManager()
     @State var hideButton : Bool = false
     let dateFormatter = DateFormatter()
@@ -23,11 +24,6 @@ struct DrugInvoiceView: View {
     @AppStorage("OrgID") var OrgID : Int = 0
     
     var body: some View {
-        
-
-        
-        
-        
         VStack(alignment: .leading, spacing: 20){
             HStack(){
                 
@@ -72,6 +68,12 @@ struct DrugInvoiceView: View {
                     Text("\(invoice.patientContact)")
                 }
                 
+                HStack {
+                    Text("Doctor: ")
+                    Spacer()
+                    Text("\(invoice.docor)")
+                }
+                
             }
             .font(.system(size: 20))
             .fontWeight(.light)
@@ -80,22 +82,25 @@ struct DrugInvoiceView: View {
             
             VStack(alignment: .leading, spacing: 20){
                 HStack {
-                    Text("Investigations: ")
+                    Text("Fees ")
                     Spacer()
-                    Text("Amount")
+                    
                 }
                 .font(.title2)
                 .fontWeight(.semibold)
                 
                 Divider()
                 
-                ForEach(invoice.drugList) { item in
-                    HStack {
-                        Text(item.brandName)
-                        Spacer()
-                        Text("\(Int(item.price))")
-                    }
-                    .fontWeight(.light)
+                HStack {
+                    Text("Consultaion: ")
+                    Spacer()
+                    Text("\(invoice.ConsultationFee)")
+                }
+                
+                HStack {
+                    Text("Discount: ")
+                    Spacer()
+                    Text("\(invoice.Discount)")
                 }
                 
                 
@@ -139,20 +144,16 @@ struct DrugInvoiceView: View {
                 manager.getSingleOrganization(from: K.GET_ORGANIZATION_BY_ID, for: OrgID)
             }
         }
-        
-        
-        
-        
-        
     }
+    
     
     @MainActor private func makePDF(){
         let renderer = ImageRenderer(content:
         
-            DrugInvoiceView(invoice: invoice, hideButton: true)
+            AppointmentInvoiceView(invoice: invoice)
         )
         
-        let url = URL.documentsDirectory.appending(path: "drugInvoice.pdf")
+        let url = URL.documentsDirectory.appending(path: "appointmentInvoice.pdf")
         
         renderer.render { size, context in
             var box = CGRect(x: 0, y: 0, width: size.width, height: size.height)
@@ -178,8 +179,8 @@ struct DrugInvoiceView: View {
     
 }
 
-struct DrugInvoiceView_Previews: PreviewProvider {
+struct AppointmentInvoiceView_Previews: PreviewProvider {
     static var previews: some View {
-        DrugInvoiceView(invoice: DrugInvoiceModel(patientName: "Rohid", patientContact: "01911362438", orgId: 1, drugList: [DrugModel(id: 1, brandName: "SomeBrand", price: 200.0, vendorName: "SomeVendor", genericName: "SomeGeneric", formationName: "SomeFormation", strengthName: "SomeStength"), DrugModel(id: 2, brandName: "SomeBrand2", price: 200.0, vendorName: "SomeVendor2", genericName: "SomeGeneric2", formationName: "SomeFormation2", strengthName: "SomeStength2")], total: 200), hideButton: false)
+        AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: "Ro", patientContact: "0123232", docor: "Jahangir", slot: "1231", ConsultationFee: "100", Discount: "5", total: 95.0))
     }
 }

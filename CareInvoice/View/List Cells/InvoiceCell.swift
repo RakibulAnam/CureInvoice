@@ -52,6 +52,42 @@ struct InvoiceCell: View {
             
         }
         
+        if let model = model as? InvestigationInvoiceModel{
+            VStack {
+                HStack(spacing: 20){
+                    
+                    Image(systemName: "doc.text")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50, alignment: .leading)
+                    
+                    
+                    VStack(alignment: .leading, spacing: 5) {
+                        
+                        Text(model.p_name)
+                            .font(.title2)
+                            .fontWeight(.medium)
+                        
+                        Text(model.contact)
+                        
+                        
+                        
+                    }
+                    .font(.caption)
+                    Spacer()
+                    Text("Tk. \(Int(model.total))")
+                        .font(.title2)
+                    
+                
+                    
+                    
+                }
+                .padding()
+                
+                Divider()
+            }//:VSTACK
+        }
+        
     }
 }
 

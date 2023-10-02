@@ -29,7 +29,11 @@ struct PharmacyInvoiceList: View {
              
              List {
                  ForEach(manager.invoiceList) { item in
-                     InvoiceCell(model: item)
+                     
+                     NavigationLink(destination: DrugInvoiceView(invoice: item)) {
+                         InvoiceCell(model: item)
+                     }
+                     
                  }
                  .listRowInsets(EdgeInsets())
                  .listRowSeparator(.hidden)

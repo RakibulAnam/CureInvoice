@@ -18,8 +18,8 @@ class Pharmacymanager : ObservableObject {
     
     var tt = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic2FyaWYxIiwiaWF0IjoxNjk1ODE0MDg4LCJleHAiOjE2OTU5MDA0ODh9.7XYdDB-IU5AO-sWHo6CE55VsYCGh9mkbPEQoq9eHBvc"
     
-    func getAllDrugs() {
-        guard let url = URL(string: K.GET_ALL_DRUGS)
+    func getAllDrugs(orgID : Int) {
+        guard let url = URL(string: "\(K.GET_ALL_DRUGS_BY_ORG)\(orgID)")
         else
         {
             print("Invalid URL")
