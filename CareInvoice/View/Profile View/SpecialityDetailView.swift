@@ -18,7 +18,7 @@ struct SpecialityDetailView: View {
         TabView{
             
             
-            DoctorListView(speciality: SpecialityDetailModel(id: 1, doctor: [DoctorModel(id: 1, doctorName: "Nafis", doctorDegree: "MBBS"), DoctorModel(id: 2, doctorName: "Pritom", doctorDegree: "MBBS")], patients: [], services: []))
+            DoctorListView(speciality: SpecialityListModel(id: 1, medSpecName: "SomeThing", iconUrl: "SomeTing"))
                 .tabItem {
                     Image(systemName: "syringe")
                     Text("Doctors")

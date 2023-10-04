@@ -1,39 +1,36 @@
 //
-//  AddInvestigationForm.swift
+//  AddSpecialityForm.swift
 //  CareInvoice
 //
-//  Created by Jotno on 9/25/23.
+//  Created by Jotno on 10/3/23.
 //
 
 import SwiftUI
 
-struct AddInvestigationForm: View {
+struct AddSpecialityForm: View {
     
-    @State var name = ""
-    @State var fee = ""
+    @State var medSpecName : String = ""
     @StateObject var manager = OrganizationManager()
     
-    var profile : InvestigationModel?
+    var profile : SpecialityListModel?
     
-    @State var title = "Add Investigation"
+    @State var title = "Add Speciality"
     @State var buttonName = "Add"
     
     @Environment(\.presentationMode) var presentationMode
     
     
-    init(profile : InvestigationModel? = nil){
+    init(profile : SpecialityListModel? = nil){
         self.profile = profile
         
         if let org = profile {
-            self._name = State(initialValue: org.serviceName)
-            self._fee = State(initialValue: String(org.serviceCharge))
-            self._title = State(initialValue: String("Edit Investigation"))
+            self._medSpecName = State(initialValue: org.medSpecName)
+            self._title = State(initialValue: String("Edit Speciality"))
             self._buttonName = State(initialValue: String("Update"))
         }
     }
     
     var body: some View {
-        
         ZStack {
         
             VStack(alignment: .leading){
@@ -45,10 +42,7 @@ struct AddInvestigationForm: View {
                     
 
                     
-                    FormTextFieldView(title: "Name", bindingText: $name)
-                    FormTextFieldView(title: "Fee", bindingText: $fee)
-                        .keyboardType(.numberPad)
-                    
+                    FormTextFieldView(title: "Speciality Name", bindingText: $medSpecName)
                     
                     
                     Button {
@@ -59,12 +53,20 @@ struct AddInvestigationForm: View {
                          
                         */
                         
-                        let newInvestigation = InvestigationModel(serviceName: name, serviceCharge: Double(fee)!)
+                        
+                        
+//                        if let profile = profile {
+//                            manager.updateInvestigation(investigation: newInvestigation, investigationId: profile.id!)
+//                        }else {
+//                            manager.addInvestigation(investigation: newInvestigation)
+//                        }
+                        
+                        let spec = SpecialityListModel(medSpecName: medSpecName, iconUrl: "stethoscope.png")
                         
                         if let profile = profile {
-                            manager.updateInvestigation(investigation: newInvestigation, investigationId: profile.id!)
+                            manager.updateSpeciality(speciality: spec, specialityId: profile.id!)
                         }else {
-                            manager.addInvestigation(investigation: newInvestigation)
+                            manager.addSpeciality(speciality: spec)
                         }
                         
                         
@@ -93,12 +95,11 @@ struct AddInvestigationForm: View {
             
             
         }//: ZSTACK
-        
     }
 }
 
-struct AddInvestigationForm_Previews: PreviewProvider {
+struct AddSpecialityForm_Previews: PreviewProvider {
     static var previews: some View {
-        AddInvestigationForm()
+        AddSpecialityForm()
     }
 }

@@ -17,12 +17,20 @@ struct DoctorFormView: View {
     @State var consultaionFee = ""
     @State var minimumDiscount = ""
     @State var maximumDiscount = ""
-    @State var slots : [Slot] = []
+    //@State var slots : [Slot] = []
+    let day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     let times = ["Morning", "Evening", "Night"]
-    @State private var slotDay = ""
-    @State private var selectedTime = "Morning"
+    @State private var selectedDay = "Sunday"
+    @State private var startTime = Date()
+    @State private var endTime = Date()
     
     @Environment(\.presentationMode) var presentationMode
+    
+    @AppStorage("OrgID") var OrgID : Int = 0
+    
+    var speciality : SpecialityListModel
+    
+    @StateObject var manager = HospitalManager()
     
     
     var body: some View {
@@ -44,8 +52,8 @@ struct DoctorFormView: View {
                     FormTextFieldView(title: "Email", bindingText: $email, validate: isValidEmail)
                     FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
                     FormTextFieldView(title: "Degrees", bindingText: $degree)
-                    FormTextFieldView(title: "Follow-Up Fee", bindingText: $degree)
-                    FormTextFieldView(title: "Consultation Fee", bindingText: $degree)
+                    FormTextFieldView(title: "Follow-Up Fee", bindingText: $followUpFee)
+                    FormTextFieldView(title: "Consultation Fee", bindingText: $consultaionFee)
                     
                     HStack {
                         FormTextFieldView(title: "Minimum Discount", bindingText: $minimumDiscount)
@@ -59,20 +67,19 @@ struct DoctorFormView: View {
                     }
                     
                     VStack {
-                        FormTextFieldView(title: "Day", bindingText: $slotDay)
                         
                         VStack (spacing: 5){
                             
                             HStack{
-                                Text("Select Time")
+                                Text("Select Day")
                                     .font(.title3)
                                     .fontWeight(.light)
                                 Spacer()
                             }
                             
                             
-                            Picker("Select a Doctor", selection: $selectedTime) {
-                                          ForEach(times, id: \.self) { time in
+                            Picker("Select a Doctor", selection: $selectedDay) {
+                                          ForEach(day, id: \.self) { time in
                                               Text(time)
                                                   .foregroundColor(.black)
                                           }
@@ -85,6 +92,33 @@ struct DoctorFormView: View {
                                         .stroke()
                                   )
                         }
+                        
+                        VStack (spacing: 5){
+                            
+                            HStack{
+                                Text("Select Time")
+                                    .font(.title3)
+                                    .fontWeight(.light)
+                                Spacer()
+                            }
+                            
+                            HStack {
+                                DatePicker("", selection: $startTime, displayedComponents: .hourAndMinute)
+                                    .labelsHidden()
+                                    
+                                Text("-")
+                                DatePicker("", selection: $endTime, displayedComponents: .hourAndMinute)
+                                    .labelsHidden()
+                                
+                                
+                               
+                            }
+                                
+                            
+                            
+                            
+                        
+                        }// Vstack
                         
                     }
                         
@@ -100,6 +134,10 @@ struct DoctorFormView: View {
                         manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
                          
                         */
+                        
+                        let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: [Slot(day: selectedDay, time: "\(startTime) - \(endTime)")], orgId: [OrgID], spId: [speciality.id!])
+                        
+                        manager.createDoctor(doctor: newDoctor, orgId: OrgID)
                       
                         self.presentationMode.wrappedValue.dismiss()
                         
@@ -142,13 +180,10 @@ struct DoctorFormView: View {
 }
 
 
-struct Slot {
-    var day : String
-    var time : String
-}
+
 
 struct DoctorFormView_Previews: PreviewProvider {
     static var previews: some View {
-        DoctorFormView()
+        DoctorFormView(speciality: SpecialityListModel(id: 1, medSpecName: "Heloo", iconUrl: "Hello"))
     }
 }

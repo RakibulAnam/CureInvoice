@@ -21,11 +21,14 @@ class DiagnosticCenterManager : ObservableObject {
     
     var tt = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic2FyaWYxIiwiaWF0IjoxNjk2MTQ0NTIzLCJleHAiOjE2OTYyMzA5MjN9.BCkV6dP7kohJbrdWzxU47sTgi6Xe5hu4fuZS-sSEpiA"
     
+    @Published var page = 0
+    @Published var size = 50
+    
     
     
     //MARK: - GET INVESTIGATIONS
-    func getAllInvestigation() {
-        guard let url = URL(string: K.GET_ALL_INVESTIGATIONS)
+    func getAllInvestigation(orgId : Int) {
+        guard let url = URL(string: "\(K.GET_ALL_INVESTIGATIONS_GLOBAL)?page=\(page)&size=\(size)")
         else
         {
             print("Invalid URL")
@@ -72,7 +75,7 @@ class DiagnosticCenterManager : ObservableObject {
     }
    
     func getInvestigationByName(name: String){
-        guard let url = URL(string: "\(K.GET_INVESTIGATOIN_BY_NAME)\(name)") else {
+        guard let url = URL(string: "\(K.GET_INVESTIGATOIN_BY_NAME)\(name)?page=\(page)&size=\(size)") else {
             print("invalid URL")
             return
         }
@@ -120,7 +123,7 @@ class DiagnosticCenterManager : ObservableObject {
     //MARK: - GET AND CREATE ADMIN
     
     func getAllAdmin(orgID : Int){
-        guard let url = URL(string: "\(K.GET_ADMIN)\(orgID)")
+        guard let url = URL(string: "\(K.GET_ADMIN)\(orgID)?page=\(page)&size=\(size)")
         else
         {
             print("Invalid URL")
@@ -254,7 +257,7 @@ class DiagnosticCenterManager : ObservableObject {
     // MARK: - GET ALL INVOICE
     
     func getAllInvoice(orgId : Int){
-        guard let url = URL(string: "\(K.GET_INVESTIGATION_INVOICE)\(orgId)")
+        guard let url = URL(string: "\(K.GET_INVESTIGATION_INVOICE)\(orgId)?page=\(page)&size=\(size)")
         else
         {
             print("Invalid URL")

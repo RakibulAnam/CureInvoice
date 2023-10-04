@@ -13,6 +13,7 @@ struct PharmacyStaffView: View {
     @State var drugSearch = ""
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
+    @AppStorage("UserId") var UserId : Int = 0
     
     var body: some View {
         NavigationView {
@@ -31,12 +32,26 @@ struct PharmacyStaffView: View {
                             .frame(width: 20, height: 20)
                     }
                     .sheet(isPresented: $isMenuOpen) {
-                        Button {
-                            userRole = ""
-                            AuthToken = ""
-                        } label: {
-                            Text("Logout")
+                        
+                        VStack {
+                            UserProfileView(userId: UserId)
+                            
+                            Button {
+                                userRole = ""
+                                AuthToken = ""
+                            } label: {
+                                
+                                Text("Logout")
+                                    .font(.title3)
+                                    .padding()
+                                    .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke(lineWidth: 1)
+                                        
+                                    )
+                            }
                         }
+                        .padding()
                     }
 
                 }

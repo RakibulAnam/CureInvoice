@@ -12,6 +12,8 @@ struct SuperAdminHomeView: View {
     @State private var isMenuOpen = false
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
+    @AppStorage("UserName") var userName : String = ""
+    @AppStorage("UserId") var UserId : Int = 0
     var body: some View {
         
         ZStack {
@@ -28,14 +30,28 @@ struct SuperAdminHomeView: View {
                             .frame(width: 20, height: 20)
                     }
                     .sheet(isPresented: $isMenuOpen) {
-                        Button {
-                            userRole = ""
-                            AuthToken = ""
-                        } label: {
-                            Text("Logout")
+                        
+                        VStack {
+                            UserProfileView(userId: UserId)
+                            
+                            Button {
+                                userRole = ""
+                                AuthToken = ""
+                            } label: {
+                                
+                                Text("Logout")
+                                    .font(.title3)
+                                    .padding()
+                                    .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke(lineWidth: 1)
+                                        
+                                    )
+                            }
                         }
+                        .padding()
                     }
-
+                    
                 }
                 .padding(.horizontal, 20)
                 
@@ -49,11 +65,11 @@ struct SuperAdminHomeView: View {
                             Text(K.OrgType.HOSPITAL)
                         }
                     
-//                    OrgListView(listURL: K.Chamber.GETALLCHAMBER, title: "\(K.OrgType.CHAMBER)s", orgType: K.OrgType.CHAMBER)
-//                        .tabItem {
-//                            Image(systemName: "house.fill")
-//                            Text(K.OrgType.CHAMBER)
-//                        }
+                    //                    OrgListView(listURL: K.Chamber.GETALLCHAMBER, title: "\(K.OrgType.CHAMBER)s", orgType: K.OrgType.CHAMBER)
+                    //                        .tabItem {
+                    //                            Image(systemName: "house.fill")
+                    //                            Text(K.OrgType.CHAMBER)
+                    //                        }
                     
                     OrgListView(listURL: K.DiagnosticCenter.GETALLDC, title: "\(K.OrgType.DIAGNOSTIC_CENTER)s", orgType: K.OrgType.DIAGNOSTIC_CENTER)
                         .tabItem {
@@ -78,7 +94,7 @@ struct SuperAdminHomeView: View {
                             Image(systemName: "bandage")
                             Text("Investigations")
                         }
-                    Text("Specialities")
+                    SpecialityListGlobal()
                         .tabItem {
                             Image(systemName: "bandage")
                             Text("Specialities")
@@ -87,12 +103,13 @@ struct SuperAdminHomeView: View {
                     
                     
                 }//TABVIEW
-              
-
+                
+                
+                
             }//Vstack
             
-         
-
+            
+            
         }//Zastack
         
         

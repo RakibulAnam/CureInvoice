@@ -52,6 +52,9 @@ struct BookInvestigationForm: View {
                     .font(.title)
                 
                 
+                
+                
+                
                 FormTextFieldView(title: "Patient Name", bindingText: $name)
                 
                 FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)

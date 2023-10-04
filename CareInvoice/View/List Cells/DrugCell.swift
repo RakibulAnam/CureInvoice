@@ -13,29 +13,36 @@ struct DrugCell: View {
     
     var body: some View {
         VStack {
-            HStack(spacing: 20){
+            HStack(spacing: 10){
                 
                 Image(systemName: "pills.circle")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 50, height: 50, alignment: .leading)
+                    .foregroundColor(Color("PrimaryColor"))
+                    .frame(width: 60, height: 60, alignment: .leading)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
+                    )
+                    .padding(1)
                 
                 
-                VStack(alignment: .leading, spacing: 5) {
+                VStack(alignment: .leading, spacing: 10) {
                     
                     Text(drugModel.brandName)
                         .font(.title2)
-                        .fontWeight(.medium)
+                        .fontWeight(.regular)
                     
-                    Text(drugModel.strengthName)
-                    
-                    Text(drugModel.genericName)
+//                    Text(drugModel.strengthName)
+//                    
+//                    Text(drugModel.genericName)
                     
                     Text(drugModel.vendorName)
+                        .font(.subheadline)
                     
                     
                 }
-                .font(.caption)
+                
                 
                 Spacer()
                 

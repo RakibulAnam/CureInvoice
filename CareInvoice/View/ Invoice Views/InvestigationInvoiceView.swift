@@ -255,7 +255,7 @@ struct InvestigationInvoiceView: View {
                     }
                     .fontWeight(.light)
                 }
-                
+                .layoutPriority(1)
                 
                 Divider()
                 

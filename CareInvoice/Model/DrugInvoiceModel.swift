@@ -10,6 +10,7 @@ import Foundation
 struct DrugInvoiceModel : Codable, Identifiable {
     var id : Int?
     var patientName : String
+    var patientId : Int?
     var patientContact : String
     var orgId : Int
     var drugList : [DrugModel]

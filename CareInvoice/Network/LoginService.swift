@@ -18,6 +18,8 @@ struct loginResponse : Codable{
     var orgCode : String?
     var orgId : Int
     var orgType : String
+    var username : String
+    var userId : Int
 }
 
 struct userRoleModel : Codable {
@@ -30,6 +32,8 @@ class LoginService : ObservableObject{
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("OrgID") var OrgID : Int = 0
     @AppStorage("OrgType") var OrgType : String = ""
+    @AppStorage("UserName") var userName : String = ""
+    @AppStorage("UserId") var UserId : Int = 0
     
     
     var orgManager = OrganizationManager()
@@ -69,6 +73,8 @@ class LoginService : ObservableObject{
                                 print(self.AuthToken)
                                 self.OrgID = safeData.orgId
                                 self.OrgType = safeData.orgType
+                                self.userName = safeData.username
+                                self.UserId = safeData.userId
                                 
                                 self.getRole()
                                 

@@ -34,8 +34,8 @@ struct AddDrugForm: View {
             self._formation = State(initialValue: org.formationName)
             self._strength = State(initialValue: org.strengthName)
             self._price = State(initialValue: String(org.price))
-            self.title = "Edit Drug"
-            self.buttonName = "Update"
+            self._title = State(initialValue: String("Edit Drug"))
+            self._buttonName = State(initialValue: String("Update"))
         }
     }
     

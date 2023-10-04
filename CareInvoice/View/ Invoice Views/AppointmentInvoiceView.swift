@@ -71,7 +71,13 @@ struct AppointmentInvoiceView: View {
                 HStack {
                     Text("Doctor: ")
                     Spacer()
-                    Text("\(invoice.docor)")
+                    Text("\(invoice.doc_name)")
+                }
+                
+                HStack {
+                    Text("Slot: ")
+                    Spacer()
+                    Text("\(invoice.slot)")
                 }
                 
             }
@@ -94,13 +100,13 @@ struct AppointmentInvoiceView: View {
                 HStack {
                     Text("Consultaion: ")
                     Spacer()
-                    Text("\(invoice.ConsultationFee)")
+                    Text("\(invoice.consultationFee)")
                 }
                 
                 HStack {
                     Text("Discount: ")
                     Spacer()
-                    Text("\(invoice.Discount)")
+                    Text("\(invoice.discount)")
                 }
                 
                 
@@ -111,7 +117,7 @@ struct AppointmentInvoiceView: View {
                 HStack {
                     Text("Total (Taka) :")
                     Spacer()
-                    Text("\(Int(invoice.total))")
+                    Text("\(Int(invoice.totalFees))")
                 }
                 .fontWeight(.medium)
                 
@@ -181,6 +187,6 @@ struct AppointmentInvoiceView: View {
 
 struct AppointmentInvoiceView_Previews: PreviewProvider {
     static var previews: some View {
-        AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: "Ro", patientContact: "0123232", docor: "Jahangir", slot: "1231", ConsultationFee: "100", Discount: "5", total: 95.0))
+        AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: "MAruf", orgId: 1, patientContact: "01232323", doc_name: "BroDOC", doc_id: 1, slot: "mornig-tuesday", consultationFee: "100", discount: "100", totalFees: 500.0))
     }
 }

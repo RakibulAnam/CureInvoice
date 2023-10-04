@@ -27,7 +27,7 @@ struct SpecialityListView: View {
             ForEach(manager.specialities) { list in
                 
                 NavigationLink {
-                    SpecialityDetailView(id: list.id!)
+                    DoctorListView(speciality: list)
                 } label: {
                     SpecialityCell(model: list)
                 }

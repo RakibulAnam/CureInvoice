@@ -24,7 +24,7 @@ struct DoctorCell: View {
                 
                 
                 
-                Text(docModel.doctorName)
+                Text(docModel.name)
                     .font(.title2)
                     .fontWeight(.light)
                     .layoutPriority(1)
@@ -43,7 +43,7 @@ struct DoctorCell: View {
 
 struct DoctorCell_Previews: PreviewProvider {
     static var previews: some View {
-        DoctorCell(docModel: DoctorModel(id: 1, doctorName: "Pritom", doctorDegree: "MBBS"))
+        DoctorCell(docModel: DoctorModel(name: "Rohid", degrees: "msc", contact: "10123233", email: "edsd", followUp: "400", consultation: "200", minDiscount: "100", maxDiscount: "200", doctorSlotDTOList: [Slot(day: "Monday", time: "12")], orgId: [1], spId: [1]))
             .previewLayout(.sizeThatFits)
     }
 }

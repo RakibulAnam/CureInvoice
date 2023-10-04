@@ -13,6 +13,7 @@ struct OrgListView: View {
     let listURL : String
     let title : String
     let orgType : String
+    @State var orgSearch : String = ""
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
     
@@ -22,21 +23,70 @@ struct OrgListView: View {
         NavigationView {
             ZStack(alignment: .bottomTrailing) {
                 
-                List{
-                    ForEach(manager.organization) { organization in
-                        NavigationLink(destination: OrganizationDetailView(org: organization, listUrl: listURL).navigationBarTitleDisplayMode(.inline)) {
-                            CellView(model: organization)
+                VStack {
+                    HStack() {
+                        Image(systemName: "magnifyingglass.circle")
+                        TextField("Search Organization", text: $orgSearch)
+                        
+                    }
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
+                    .padding(.horizontal, 20)
+                    .onChange(of: orgSearch) { newValue in
+                        if newValue == ""{
+                            manager.getOrganizationDetails(from: listURL)
+                        }else {
+                            if orgType == K.OrgType.DIAGNOSTIC_CENTER
+                            {
+                                
+                                manager.searchOrganization(orgType: "Diagnostic%20Center", name: newValue)
+                            }
+                            else{
+                                manager.searchOrganization(orgType: orgType, name: newValue)
+                            }
                             
                         }
-                        .listRowInsets(EdgeInsets())
-                        .listRowSeparator(.hidden)
-                        .listSectionSeparator(.hidden)
                     }
+                    
+                    List{
+                        
+                        if orgSearch == "" {
+                            ForEach(manager.organization) { organization in
+                                NavigationLink(destination: OrganizationDetailView(org: organization, listUrl: listURL).navigationBarTitleDisplayMode(.inline)) {
+                                    CellView(model: organization)
+//                                        .onAppear{
+//                                            if(manager.organization.last?.id == organization.id){
+//                                                manager.getOrganizationDetails(from: listURL)
+//                                            }
+//                                        }
+                                }
+                                .listRowInsets(EdgeInsets())
+                                .listRowSeparator(.hidden)
+                                .listSectionSeparator(.hidden)
+                            }
+                        }
+                        else {
+                            ForEach(manager.searchedOrganization) { organization in
+                                NavigationLink(destination: OrganizationDetailView(org: organization, listUrl: listURL).navigationBarTitleDisplayMode(.inline)) {
+                                    CellView(model: organization)
+                                    
+                                }
+                                .listRowInsets(EdgeInsets())
+                                .listRowSeparator(.hidden)
+                                .listSectionSeparator(.hidden)
+                            }
+                        }
+                        
+                      
+                    }
+                    .listStyle(.plain)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle("")
+                    //: LIST
+                    
+                    
                 }
-                .listStyle(.plain)
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle(title)
-                //: LIST
+               
                 
                 NavigationLink(destination: OrganizationFormView(manager: manager, orgType: orgType).navigationBarTitleDisplayMode(.inline)) {
                     Image(systemName: "plus")

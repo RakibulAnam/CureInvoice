@@ -80,7 +80,7 @@ struct DrugInvoiceView: View {
             
             VStack(alignment: .leading, spacing: 20){
                 HStack {
-                    Text("Investigations: ")
+                    Text("Drugs: ")
                     Spacer()
                     Text("Amount")
                 }

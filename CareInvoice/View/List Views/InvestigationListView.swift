@@ -13,9 +13,10 @@ struct InvestigationListView: View {
     @StateObject var manager = DiagnosticCenterManager()
     
     @State private var isMenuOpen = false
-    @State var drugSearch = ""
+    @State var investigationSearch = ""
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
+    @AppStorage("OrgID") var OrgID : Int = 0
     
     var body: some View {
         
@@ -23,7 +24,15 @@ struct InvestigationListView: View {
             VStack {
                 HStack() {
                     Image(systemName: "bandage")
-                    TextField("Search Investigation", text: $drugSearch)
+                    TextField("Search Investigation", text: $investigationSearch)
+                        .onChange(of: investigationSearch) { newValue in
+                            if newValue == ""{
+                                manager.getAllInvestigation(orgId: OrgID)
+                            }else {
+                                manager.getInvestigationByName(name: newValue)
+                            }
+
+                        }
 
                 }
                 .textInputAutocapitalization(.never)
@@ -68,30 +77,40 @@ struct InvestigationListView: View {
                 
                 List{
                     
-                    ForEach(manager.investigationList){ item in
-                        
-                        InvestigationCell(investigation: item)
-                        
-                    }
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets())
-                    
-//                    ForEach(manager.drugList) { drug in
+//                    ForEach(manager.investigationList){ item in
 //
-//                        NavigationLink {
-//                            DrugDetailView(drugModel: drug)
-//                        } label: {
-//                            DrugCell(drugModel: drug)
-//                        }
+//                        InvestigationCell(investigation: item)
+//
 //                    }
 //                    .listRowSeparator(.hidden)
 //                    .listRowInsets(EdgeInsets())
+//
+                    
+                    if investigationSearch == "" {
+                        ForEach(manager.investigationList){ item in
+                            
+                            InvestigationCell(investigation: item)
+                            
+                        }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
+                    }else {
+                        ForEach(manager.searchedInvestigationList){ item in
+                            
+                            InvestigationCell(investigation: item)
+                            
+                        }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
+                    }
+                   
+                    
                 }
                 .listStyle(.plain)
                 .navigationTitle("")
                 .onAppear {
                     DispatchQueue.main.async {
-                        manager.getAllInvestigation()
+                        manager.getAllInvestigation(orgId: OrgID)
                     }
                 }
             }//: VSTACK

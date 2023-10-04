@@ -16,9 +16,14 @@ struct AppointmentFormView: View {
     @State var fee = ""
     @State var discount = ""
     
+    @State var searchedPatient = ""
+    
+    @State var patientId : Int?
+    
+    
+    
     var totalFee : Double {
         var total = (Double(fee) ?? 0.0) - (Double(discount) ?? 0.0)
-        
         
         
         return total
@@ -28,11 +33,19 @@ struct AppointmentFormView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    let doctorNames = ["Dr. Smith", "Dr. Johnson", "Dr. Williams", "Dr. Brown", "Dr. Jones"]
     let slots = ["Morning - 10AM", "Evening - 3PM", "Night - 9PM"]
-    @State private var selectedDoctor = "Dr. Smith"
-    @State private var selectedSlot = "Morning - 10AM"
+   
+    @State private var selectedSlot = ""
     
+    
+    @AppStorage("OrgID") var OrgID : Int = 0
+    @StateObject var manager = HospitalManager()
+    //var spId : Int
+    
+    var docModel : DoctorModel
+    
+    
+ 
     
     var body: some View {
         
@@ -40,63 +53,99 @@ struct AppointmentFormView: View {
             
             VStack(alignment: .leading, spacing: 5){
                 
-                Text("Make Appointment")
-                    .font(.title)
+//                Text("Make Appointment")
+//                    .font(.title)
                 
-                ScrollView(showsIndicators: false){
+                
+                HStack() {
+                    Image(systemName: "magnifyingglass.circle")
+                    TextField("Search Patient", text: $searchedPatient)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                        .padding(.horizontal, 20)
+                        .onChange(of: searchedPatient) { newValue in
+                           
+                            manager.getPatientList(orgId: OrgID, name: newValue)
+                        }
+                }
+                
+                ZStack{
+                    
+                    if searchedPatient.isEmpty {
+                        VStack{
+                            FormTextFieldView(title: "Patient Name", bindingText: $name)
+                            
+                            FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
+                        }
+                    } else {
+                        
+                        List{
+                            ForEach(manager.patientList) { item in
+                                PatientCell(patModel: item)
+                                    .onTapGesture {
+                                        name = item.name
+                                        contact = item.contact
+                                        patientId = item.id
+                                        searchedPatient = ""
+                                    }
+                            }
+                            .listRowInsets(EdgeInsets())
+                        }
+                        .listStyle(.plain)
+                        
+                    }
+                    
+                    
+                    
+                }
+                
+                
                     
                     
                     
                     
-                    FormTextFieldView(title: "Patient Name", bindingText: $name)
-                    FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
+//                    FormTextFieldView(title: "Patient Name", bindingText: $name)
+//                    FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
                     VStack(alignment: .leading, spacing: 5) {
                         
+                      
                         HStack{
-                            Text("Select Doctor")
+                            Text("Select Slot:")
                                 .font(.title3)
                                 .fontWeight(.light)
                             Spacer()
+                            
+                            Text(selectedSlot)
+                                .font(.title3)
+                                .fontWeight(.light)
                         }
                         .padding(.vertical, 5)
                         .padding(.top)
                         
-                        Picker("Dr. Smith", selection: $selectedDoctor) {
-                                      ForEach(doctorNames, id: \.self) { doctorName in
-                                          Text(doctorName)
-                                              .foregroundColor(.black)
-                                      }
-                                  }
-                        .frame(width: 350)
-                                  .pickerStyle(MenuPickerStyle())
-                                  .padding(10)
-                                  .background(
-                                  RoundedRectangle(cornerRadius: 8)
-                                    .stroke()
-                                  )
                         
-                        HStack{
-                            Text("Select Slot")
-                                .font(.title3)
-                                .fontWeight(.light)
-                            Spacer()
+                        List{
+                            ForEach(docModel.doctorSlotDTOList) { item in
+                                Text("\(item.day) - \(item.time)")
+                                    .listRowInsets(EdgeInsets())
+                                    .onTapGesture {
+                                        selectedSlot = "\(item.day) - \(item.time)"
+                                    }
+                            }
                         }
-                        .padding(.vertical, 5)
-                        .padding(.top)
+                        .listStyle(.plain)
                         
-                        Picker("Morning - 10AM", selection: $selectedSlot) {
-                                      ForEach(slots, id: \.self) { doctorName in
-                                          Text(doctorName)
-                                              .foregroundColor(.black)
-                                      }
-                                  }
-                        .frame(width: 350)
-                                  .pickerStyle(MenuPickerStyle())
-                                  .padding(10)
-                                  .background(
-                                  RoundedRectangle(cornerRadius: 8)
-                                    .stroke()
-                                  )
+//                        Picker("Morning - 10AM", selection: $selectedSlot) {
+//                            ForEach(docModel.doctorSlotDTOList, id: \.id) { slot in
+//                                Text("\(slot.day) - \(slot.time)").tag(Optional<String>(nil))
+//                                      }
+//                                  }
+//                        .frame(width: 350)
+//                                  .pickerStyle(MenuPickerStyle())
+//                                  .padding(10)
+//                                  .background(
+//                                  RoundedRectangle(cornerRadius: 8)
+//                                    .stroke()
+//                                  )
 
                                   
                               
@@ -110,7 +159,7 @@ struct AppointmentFormView: View {
                     }
                    
                     
-                    NavigationLink(destination: AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: name, patientContact: contact, docor: selectedDoctor, slot: selectedSlot, ConsultationFee: fee, Discount: discount, total: totalFee)), isActive: $invoiceGenerated) {
+                    NavigationLink(destination: AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee)), isActive: $invoiceGenerated) {
                         Button {
                             /*
                             let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
@@ -119,7 +168,14 @@ struct AppointmentFormView: View {
                              
                             */
                             
-                            let newAppoint = AppointmentInvoiceModel(patientName: name, patientContact: contact, docor: selectedDoctor, slot: selectedSlot, ConsultationFee: fee, Discount: discount, total: totalFee)
+                            if let patID = patientId {
+                                manager.makeAppointment(invoice: AppointmentInvoiceModel( patientName: name, orgId: OrgID, patientContact: contact, patientId: patID, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee))
+                            }else {
+                                let newAppoint = AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee)
+                                manager.makeAppointment(invoice: newAppoint)
+                            }
+                            
+                           
                             
                             invoiceGenerated = true
                           
@@ -142,8 +198,7 @@ struct AppointmentFormView: View {
                     
                    
                     
-                }//: SCROLL
-                
+                                
             } //: VSTACK
             .padding()
             .background(Color.white)
@@ -152,6 +207,10 @@ struct AppointmentFormView: View {
             
             
         }//: ZSTACK
+        .onAppear{
+//            manager.getDoctors(orgID: OrgID, specialityID: spId)
+        }
+        
         
     }
     
@@ -171,6 +230,6 @@ struct AppointmentFormView: View {
 
 struct AppointmentFormView_Previews: PreviewProvider {
     static var previews: some View {
-        AppointmentFormView()
+        AppointmentFormView(docModel: DoctorModel(id: 1, name: "Rohid", degrees: "msc", contact: "10123233", email: "edsd", followUp: "400", consultation: "200", minDiscount: "100", maxDiscount: "200", doctorSlotDTOList: [Slot(day: "Monday", time: "12")], orgId: [1], spId: [1]))
     }
 }

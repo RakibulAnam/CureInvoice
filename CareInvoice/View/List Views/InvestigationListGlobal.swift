@@ -12,7 +12,7 @@ struct InvestigationListGlobal: View {
     @StateObject var manager = OrganizationManager()
     
     @State private var isMenuOpen = false
-    @State var drugSearch = ""
+    @State var investigationSearch = ""
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
     
@@ -20,8 +20,16 @@ struct InvestigationListGlobal: View {
         ZStack(alignment: .bottomTrailing) {
             VStack {
                 HStack() {
-                    Image(systemName: "bandage")
-                    TextField("Search Investigation", text: $drugSearch)
+                    Image(systemName: "magnifyingglass.circle")
+                    TextField("Search Investigation", text: $investigationSearch)
+                        .onChange(of: investigationSearch) { newValue in
+                            if newValue == ""{
+                                manager.getAllInvestigation()
+                            }else {
+                                manager.getInvestigationByName(name: newValue)
+                            }
+                            
+                        }
 
                 }
                 .textInputAutocapitalization(.never)
@@ -29,48 +37,49 @@ struct InvestigationListGlobal: View {
                 .padding(.horizontal, 20)
              
                 
-                HStack{
-                    
-                    Text("Investigations")
-                        .font(.title)
-                    Spacer()
-               
-                    
-                    NavigationLink(destination: BookInvestigationForm().navigationBarTitleDisplayMode(.inline)) {
-                        Text("Book Investigation")
-                            .padding(5)
-                            .background(
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke()
-                            )
-                            .foregroundColor(Color("PrimaryColor"))
-                            
-                    }
-                    
-                }
-                .padding(.horizontal)
+//                HStack{
+//                    
+//                    Text("Investigations")
+//                        .font(.title)
+//                    Spacer()
+//               
+//                    
+//                }
+//                .padding(.horizontal)
                 
                 
                 List{
                     
-                    ForEach(manager.investigationList){ item in
-                        
-                        InvestigationCell(investigation: item)
-                        
+                    if investigationSearch == "" {
+                        ForEach(manager.investigationList){ item in
+                            
+                            NavigationLink {
+                                AddInvestigationForm(profile: item)
+                            } label: {
+                                InvestigationCell(investigation: item)
+                            }
+
+                            
+                            
+                            
+                        }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
+                    }else {
+                        ForEach(manager.searchedInvestigationList){ item in
+                            
+                            NavigationLink {
+                                AddInvestigationForm(profile: item)
+                            } label: {
+                                InvestigationCell(investigation: item)
+                            }
+                            
+                        }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
                     }
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets())
                     
-//                    ForEach(manager.drugList) { drug in
-//
-//                        NavigationLink {
-//                            DrugDetailView(drugModel: drug)
-//                        } label: {
-//                            DrugCell(drugModel: drug)
-//                        }
-//                    }
-//                    .listRowSeparator(.hidden)
-//                    .listRowInsets(EdgeInsets())
+
                 }
                 .listStyle(.plain)
                 .navigationTitle("")
@@ -80,6 +89,16 @@ struct InvestigationListGlobal: View {
                     }
                 }
             }//: VSTACK
+            
+            NavigationLink(destination: AddInvestigationForm()) {
+                Image(systemName: "plus")
+                    .font(.title.weight(.semibold))
+                    .padding()
+                    .background(Color("PrimaryColor"))
+                    .foregroundColor(.white)
+                    .clipShape(Circle())
+                    .shadow(radius: 4, x: 0, y: 4)
+            }.padding() //: FLOATING BUTTON
             
             
         }//: ZSTACK

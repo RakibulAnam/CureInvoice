@@ -32,9 +32,13 @@ struct DrugBillForm: View {
     
     @State var searchedText = ""
     
+    @State var searchedPatient = ""
+    
     @StateObject var manager = Pharmacymanager()
     
     @State var selectedDrug : [DrugModel] = []
+    
+    @State var patientId : Int?
     
     @AppStorage("OrgID") var OrgID : Int = 0
     
@@ -53,9 +57,50 @@ struct DrugBillForm: View {
                     .font(.title)
                 
                 
-                FormTextFieldView(title: "Patient Name", bindingText: $name)
+                HStack() {
+                    Image(systemName: "magnifyingglass.circle")
+                    TextField("Search Patient", text: $searchedPatient)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                        .padding(.horizontal, 20)
+                        .onChange(of: searchedPatient) { newValue in
+                           
+                            manager.getPatientList(orgId: OrgID, name: newValue)
+                        }
+                }
                 
-                FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
+                ZStack{
+                    
+                    if searchedPatient.isEmpty {
+                        VStack{
+                            FormTextFieldView(title: "Patient Name", bindingText: $name)
+                            
+                            FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
+                        }
+                    } else {
+                        
+                        List{
+                            ForEach(manager.patientList) { item in
+                                PatientCell(patModel: item)
+                                    .onTapGesture {
+                                        name = item.name
+                                        contact = item.contact
+                                        patientId = item.id
+                                        searchedPatient = ""
+                                    }
+                            }
+                            .listRowInsets(EdgeInsets())
+                        }
+                        .listStyle(.plain)
+                        
+                    }
+                    
+                    
+                    
+                }
+                
+                
+                
                 
                 Text("Select Drug")
                     .font(.title)
@@ -66,7 +111,7 @@ struct DrugBillForm: View {
                         if newValue == ""{
                             manager.getDrugBrand(name: "1")
                         }
-                        manager.getDrugBrand(name: newValue)
+                        manager.searchDuringOrder(orgId: OrgID, name: newValue)
                     })
                     .padding(3)
                     .textInputAutocapitalization(.none)
@@ -106,6 +151,7 @@ struct DrugBillForm: View {
                                 .onTapGesture {
                                     print(drug.brandName)
                                     selectedDrug.append(drug)
+                                    
                                     searchedText = ""
                                 }
                                 .listRowSeparator(.hidden)
@@ -134,7 +180,13 @@ struct DrugBillForm: View {
                          
                          */
                         
-                        manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee))
+                        if let patID = patientId {
+                            manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientId: patID, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee))
+                        }else {
+                            manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee))
+                        }
+                        
+                      
                         
                         invoiceGenerated = true
                         

@@ -20,7 +20,7 @@ struct DrugListGlobal: View {
             ZStack(alignment: .bottomTrailing) {
                 VStack {
                     HStack() {
-                        Image(systemName: "pill")
+                        Image(systemName: "magnifyingglass.circle")
                         TextField("Search Drugs", text: $drugSearch)
                         
                     }
@@ -36,28 +36,13 @@ struct DrugListGlobal: View {
                         
                     }
                     
-                    HStack{
-                        
-                        Text("Drug List")
-                            .font(.title)
-                        Spacer()
-                        
-    //                    if userRole == K.Role.NORMAL_ADMIN{
-    //                        NavigationLink(destination: DrugBillForm().navigationBarTitleDisplayMode(.inline)) {
-    //                            Text("Make Bill")
-    //                                .padding(5)
-    //                                .background(
-    //                                    RoundedRectangle(cornerRadius: 5)
-    //                                        .stroke()
-    //                                )
-    //                                .foregroundColor(Color("PrimaryColor"))
-    //
-    //                        }
-    //                    }
-                        
-                        
-                    }
-                    .padding(.horizontal)
+//                    HStack{
+//                        
+//                        Text("Drug List")
+//                            .font(.title)
+//                        Spacer()
+//                    }
+//                    .padding(.horizontal)
                     
                     
                     List{
@@ -86,16 +71,6 @@ struct DrugListGlobal: View {
                             .listRowInsets(EdgeInsets())
                         }
                         
-                        //                    ForEach(manager.drugList) { drug in
-                        //
-                        //                        NavigationLink {
-                        //                            DrugDetailView(drugModel: drug)
-                        //                        } label: {
-                        //                            DrugCell(drugModel: drug)
-                        //                        }
-                        //                    }
-                        //                    .listRowSeparator(.hidden)
-                        //                    .listRowInsets(EdgeInsets())
                     }
                     .listStyle(.plain)
                     .navigationTitle("")

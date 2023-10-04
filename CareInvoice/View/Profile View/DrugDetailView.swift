@@ -14,12 +14,27 @@ struct DrugDetailView: View {
     
     var body: some View {
         ZStack (alignment: .bottomTrailing){
-          
-                
                 
                 VStack {
+                    
+                    
+                    HStack{
+                        Spacer()
+                        NavigationLink(destination: OrgDrugEditForm(drugModel: drugModel)) {
+                            Text("Edit Price and Quantity")
+                                .padding()
+                                .background(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke()
+                                )
+                                .padding()
+                        }
+                        
+                    }
                     Spacer()
                     VStack{
+                        
+                        
                         Image(systemName: "pill")
                             .resizable()
                             .frame(width: 150, height: 150, alignment: .center)
@@ -39,6 +54,15 @@ struct DrugDetailView: View {
                             .font(.title2)
                             .fontWeight(.medium)
                             .foregroundColor(.secondary)
+                        
+                        if userRole != K.Role.ROOT {
+                            Text("Quantity: \(drugModel.quantity ?? 0)")
+                                .font(.title2)
+                                .fontWeight(.medium)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        
                     }
                     
                     

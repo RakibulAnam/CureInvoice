@@ -19,17 +19,22 @@ struct InvestigationCell: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60, alignment: .leading)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
+                    )
+                    .padding(1)
                 
                 
                 
-                VStack(alignment: .leading, spacing: 5) {
+                VStack(alignment: .leading, spacing: 10) {
                     Text(investigation.serviceName)
                         .font(.title2)
-                        .fontWeight(.light)
+                        .fontWeight(.regular)
                     
                     
                     Text("\(Int(investigation.serviceCharge)) /=")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.light)
                     
                 }

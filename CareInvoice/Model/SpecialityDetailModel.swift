@@ -34,29 +34,12 @@ medSpecId:any;
     
     */
     var id : Int?
-    var doctor : [DoctorModel]
-    var patients : [PatientModel]
-    var services : [ServiceModel]
+//    var doctor : [DoctorModel]
+//    var patients : [PatientModel]
+//    var services : [ServiceModel]
     
 }
 
-struct DoctorModel : Codable, Identifiable{
-  
-    
-    
-    var id : Int?
-    let doctorName : String
-    let doctorDegree : String
-}
 
-struct PatientModel : Codable, Identifiable{
-    
-    var id : Int?
-    let patientName : String
-    let age : String
-    let since : String
-    let medSpecName : String
-    let doctorId : Int
-    let doctorName : String
-    
-}
+
+

@@ -88,6 +88,44 @@ struct InvoiceCell: View {
             }//:VSTACK
         }
         
+        if let model = model as? AppointmentInvoiceModel{
+            VStack {
+                HStack(spacing: 20){
+                    
+                    Image(systemName: "doc.text")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50, alignment: .leading)
+                    
+                    
+                    VStack(alignment: .leading, spacing: 5) {
+                        
+                        Text(model.patientName)
+                            .font(.title2)
+                            .fontWeight(.medium)
+                        
+                        Text(model.patientContact)
+                        
+                        
+                        
+                    }
+                    .font(.caption)
+                    Spacer()
+                    Text("Tk. \(Int(model.totalFees))")
+                        .font(.title2)
+                    
+                
+                    
+                    
+                }
+                .padding()
+                
+                Divider()
+            }//:VSTACK
+        }
+        
+        
+        
     }
 }
 

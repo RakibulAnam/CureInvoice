@@ -9,33 +9,43 @@ import SwiftUI
 
 struct DoctorListView: View {
     
-    var speciality : SpecialityDetailModel
+    @StateObject var manager = HospitalManager()
+    @AppStorage("OrgID") var OrgID : Int = 0
+    @State var speciality : SpecialityListModel
     
     var body: some View {
         
         ZStack(alignment: .bottomTrailing) {
             VStack(alignment: .leading, spacing: 10) {
                 
-                HStack{
-                    Spacer()
-                    
-                    NavigationLink(destination: AppointmentFormView()) {
-                        Text("Make Appointment")                             }
-                    
-                }
-                .padding()
+//                HStack{
+//                    Spacer()
+//                    
+//                    NavigationLink(destination: AppointmentFormView(spId: speciality.id!)) {
+//                        Text("Make Appointment")                             }
+//                    
+//                }
+//                .padding()
                 
                 List {
-                    ForEach(speciality.doctor) { doctor in
-                        DoctorCell(docModel: doctor)
+                    ForEach(manager.doctorList) { doctor in
+                        
+                        NavigationLink(destination: DoctorProfileView(docModel: doctor)) {
+                            DoctorCell(docModel: doctor)
+                        }
+                        
+                       
                     }
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
                 }
                 .listStyle(.plain)
             }//: VSTACK
+            .onAppear {
+                manager.getDoctors(orgID: OrgID, specialityID: speciality.id ?? 1)
+            }
             
-            NavigationLink(destination: DoctorFormView().navigationBarTitleDisplayMode(.inline)) {
+            NavigationLink(destination: DoctorFormView(speciality: speciality).navigationBarTitleDisplayMode(.inline)) {
                 Image(systemName: "plus")
                     .font(.title.weight(.semibold))
                     .padding()
@@ -54,6 +64,6 @@ struct DoctorListView: View {
 
 struct DoctorListView_Previews: PreviewProvider {
     static var previews: some View {
-        DoctorListView(speciality: SpecialityDetailModel(id: 1, doctor: [DoctorModel(id: 1, doctorName: "Nafis", doctorDegree: "MBBS"), DoctorModel(id: 2, doctorName: "Pritom", doctorDegree: "MBBS")], patients: [], services: []))
+        DoctorListView(speciality: SpecialityListModel(id: 1, medSpecName: "SomeThing", iconUrl: "SomeTing"))
     }
 }

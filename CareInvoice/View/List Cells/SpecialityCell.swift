@@ -22,12 +22,17 @@ struct SpecialityCell: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60, alignment: .leading)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
+                    )
+                    .padding(1)
                 
                 
                 
                 Text(model.medSpecName)
                     .font(.title2)
-                    .fontWeight(.light)
+                    .fontWeight(.regular)
                     .layoutPriority(1)
                 
                 Spacer()

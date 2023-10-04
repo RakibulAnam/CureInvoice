@@ -37,6 +37,7 @@ struct CellView: View {
                             
                             Text(orgModel.name)
                                 .font(.title2)
+                                .fontWeight(.regular)
                             
                             Text(orgModel.address)
                                 .foregroundColor(.black)
@@ -153,9 +154,10 @@ struct CellView: View {
 
 struct HospitalCellView_Previews: PreviewProvider {
     static var previews: some View {
-        CellView(model: OrgAdminModel(name: "Rohid", username: "roro", password: "123456", email: "rohid@gmail.com", contact: "01911362438", orgId: 1))
+//        CellView(model: OrgAdminModel(name: "Rohid", username: "roro", password: "123456", email: "rohid@gmail.com", contact: "01911362438", orgId: 1))
+//            .previewLayout(.sizeThatFits)
+        CellView(model: OrganizationModel(name: "Rohid", address: "Dhaka", contact: "1923", type: "asd", email: "1233", emergencyContact: "123", operatingHour: "123", orgCode: "asd"))
             .previewLayout(.sizeThatFits)
-       
     }
     
 }

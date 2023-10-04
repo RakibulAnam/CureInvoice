@@ -43,7 +43,6 @@ struct DrugListView: View {
                         .font(.title)
                     Spacer()
                     
-                    if userRole == K.Role.NORMAL_ADMIN{
                         NavigationLink(destination: DrugBillForm().navigationBarTitleDisplayMode(.inline)) {
                             Text("Make Bill")
                                 .padding(5)
@@ -54,7 +53,7 @@ struct DrugListView: View {
                                 .foregroundColor(Color("PrimaryColor"))
                                 
                         }
-                    }
+                    
                     
                     
                 }
