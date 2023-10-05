@@ -23,13 +23,13 @@ struct InvestigationListView: View {
         ZStack(alignment: .bottomTrailing) {
             VStack {
                 HStack() {
-                    Image(systemName: "bandage")
+                    Image(systemName: "magnifyingglass.circle")
                     TextField("Search Investigation", text: $investigationSearch)
                         .onChange(of: investigationSearch) { newValue in
                             if newValue == ""{
                                 manager.getAllInvestigationByOrg(orgId: OrgID)
                             }else {
-                                manager.getInvestigationByName(name: newValue)
+                                manager.getInvestigationByName(orgId: OrgID, name: newValue)
                             }
 
                         }
@@ -89,15 +89,37 @@ struct InvestigationListView: View {
                     if investigationSearch == "" {
                         ForEach(manager.investigationList){ item in
                             
-                            InvestigationCell(investigation: item)
+                            if userRole == K.Role.ORG_ADMIN{
+                                NavigationLink {
+                                   OrgInvestigationEditForm(model: item)
+                                } label: {
+                                    InvestigationCell(investigation: item)
+                                }
+                            }
+                            else {
+                                InvestigationCell(investigation: item)
+                            }
+                         
+
+                            
+                          
                             
                         }
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets())
                     }else {
                         ForEach(manager.searchedInvestigationList){ item in
-                            
-                            InvestigationCell(investigation: item)
+                           
+                            if userRole == K.Role.ORG_ADMIN{
+                                NavigationLink {
+                                   OrgInvestigationEditForm(model: item)
+                                } label: {
+                                    InvestigationCell(investigation: item)
+                                }
+                            }
+                            else {
+                                InvestigationCell(investigation: item)
+                            }
                             
                         }
                         .listRowSeparator(.hidden)

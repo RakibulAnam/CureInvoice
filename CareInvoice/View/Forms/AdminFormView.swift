@@ -20,6 +20,7 @@ struct AdminFormView: View {
     
     @StateObject var pharmacyManager = Pharmacymanager()
     @StateObject var diagnosticManager = DiagnosticCenterManager()
+    @StateObject var hospitalManager = HospitalManager()
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -64,6 +65,9 @@ struct AdminFormView: View {
                         }
                         else if OrgType == K.OrgType.DIAGNOSTIC_CENTER {
                             diagnosticManager.createAdmin(admin: newAdmin)
+                        }
+                        else if OrgType == K.OrgType.HOSPITAL {
+                            hospitalManager.createAdmin(admin: newAdmin)
                         }
                         
                         

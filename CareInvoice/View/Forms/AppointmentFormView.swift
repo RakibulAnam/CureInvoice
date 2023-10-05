@@ -51,158 +51,166 @@ struct AppointmentFormView: View {
         
         ZStack {
             
-            VStack(alignment: .leading, spacing: 5){
-                
-//                Text("Make Appointment")
-//                    .font(.title)
-                
-                
-                HStack() {
-                    Image(systemName: "magnifyingglass.circle")
-                    TextField("Search Patient", text: $searchedPatient)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled(true)
-                        .padding(.horizontal, 20)
-                        .onChange(of: searchedPatient) { newValue in
-                           
-                            manager.getPatientList(orgId: OrgID, name: newValue)
-                        }
-                }
-                
-                ZStack{
+            ScrollView {
+                VStack(alignment: .leading, spacing: 5){
                     
-                    if searchedPatient.isEmpty {
-                        VStack{
-                            FormTextFieldView(title: "Patient Name", bindingText: $name)
-                            
-                            FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
-                        }
-                    } else {
-                        
-                        List{
-                            ForEach(manager.patientList) { item in
-                                PatientCell(patModel: item)
-                                    .onTapGesture {
-                                        name = item.name
-                                        contact = item.contact
-                                        patientId = item.id
-                                        searchedPatient = ""
-                                    }
+    //                Text("Make Appointment")
+    //                    .font(.title)
+                    
+                    
+                    HStack() {
+                        Image(systemName: "magnifyingglass.circle")
+                        TextField("Search Patient", text: $searchedPatient)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                            .padding(.horizontal, 20)
+                            .onChange(of: searchedPatient) { newValue in
+                               
+                                manager.getPatientList(orgId: OrgID, name: newValue)
                             }
-                            .listRowInsets(EdgeInsets())
+                    }.ignoresSafeArea(.keyboard, edges: .bottom)
+                    
+                    ZStack{
+                        
+                        if searchedPatient.isEmpty {
+                            VStack{
+                                FormTextFieldView(title: "Patient Name", bindingText: $name)
+                                
+                                FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
+                            }
+                        } else {
+                            
+                            List{
+                                ForEach(manager.patientList) { item in
+                                    PatientCell(patModel: item)
+                                        .onTapGesture {
+                                            name = item.name
+                                            contact = item.contact
+                                            patientId = item.id
+                                            searchedPatient = ""
+                                        }
+                                }
+                                .listRowInsets(EdgeInsets())
+                            }
+                            .frame(width: 300, height: 200)
+                            .listStyle(.plain)
+                            
                         }
-                        .listStyle(.plain)
                         
-                    }
-                    
-                    
-                    
-                }
-                
-                
-                    
-                    
-                    
-                    
-//                    FormTextFieldView(title: "Patient Name", bindingText: $name)
-//                    FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
-                    VStack(alignment: .leading, spacing: 5) {
                         
-                      
-                        HStack{
-                            Text("Select Slot:")
-                                .font(.title3)
-                                .fontWeight(.light)
-                            Spacer()
+                        
+                    }.ignoresSafeArea(.keyboard, edges: .bottom)
+                    
+                    
+                        
+                        
+                        
+                        
+    //                    FormTextFieldView(title: "Patient Name", bindingText: $name)
+    //                    FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
+                        VStack(alignment: .leading, spacing: 5) {
+                            
+                          
+                            HStack{
+                                Text("Select Slot:")
+                                    .font(.title3)
+                                    .fontWeight(.light)
+                                Spacer()
+                            
+                            }
+                            .padding(.vertical, 5)
+                            .padding(.top)
+                            
+                            
+                            List{
+                                ForEach(docModel.doctorSlotDTOList) { item in
+                                    Text("\(item.day) - \(item.time)")
+                                        .listRowInsets(EdgeInsets())
+                                        .onTapGesture {
+                                            selectedSlot = "\(item.day) - \(item.time)"
+                                        }
+                                }
+                            }
+                            .environment(\.editMode, .constant(.active))
+                            .frame(width: 300, height: 100)
+                            .listStyle(.plain)
                             
                             Text(selectedSlot)
+                                .foregroundColor(.black)
                                 .font(.title3)
-                                .fontWeight(.light)
-                        }
-                        .padding(.vertical, 5)
-                        .padding(.top)
-                        
-                        
-                        List{
-                            ForEach(docModel.doctorSlotDTOList) { item in
-                                Text("\(item.day) - \(item.time)")
-                                    .listRowInsets(EdgeInsets())
-                                    .onTapGesture {
-                                        selectedSlot = "\(item.day) - \(item.time)"
-                                    }
-                            }
-                        }
-                        .listStyle(.plain)
-                        
-//                        Picker("Morning - 10AM", selection: $selectedSlot) {
-//                            ForEach(docModel.doctorSlotDTOList, id: \.id) { slot in
-//                                Text("\(slot.day) - \(slot.time)").tag(Optional<String>(nil))
-//                                      }
-//                                  }
-//                        .frame(width: 350)
-//                                  .pickerStyle(MenuPickerStyle())
-//                                  .padding(10)
-//                                  .background(
-//                                  RoundedRectangle(cornerRadius: 8)
-//                                    .stroke()
-//                                  )
+                                .fontWeight(.regular)
+                            
+    //                        Picker("Morning - 10AM", selection: $selectedSlot) {
+    //                            ForEach(docModel.doctorSlotDTOList, id: \.id) { slot in
+    //                                Text("\(slot.day) - \(slot.time)").tag(Optional<String>(nil))
+    //                                      }
+    //                                  }
+    //                        .frame(width: 350)
+    //                                  .pickerStyle(MenuPickerStyle())
+    //                                  .padding(10)
+    //                                  .background(
+    //                                  RoundedRectangle(cornerRadius: 8)
+    //                                    .stroke()
+    //                                  )
 
+                                      
                                   
-                              
-                    }//:Vstack
-                    FormTextFieldView(title: "Consultation Fee", bindingText: $fee)
-                    FormTextFieldView(title: "Discount", bindingText: $discount)
-                    
-                    
-                    HStack {
-                        Text("Total : \(Int(totalFee))")
-                    }
-                   
-                    
-                    NavigationLink(destination: AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee)), isActive: $invoiceGenerated) {
-                        Button {
-                            /*
-                            let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
-                            
-                            manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
-                             
-                            */
-                            
-                            if let patID = patientId {
-                                manager.makeAppointment(invoice: AppointmentInvoiceModel( patientName: name, orgId: OrgID, patientContact: contact, patientId: patID, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee))
-                            }else {
-                                let newAppoint = AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee)
-                                manager.makeAppointment(invoice: newAppoint)
-                            }
-                            
-                           
-                            
-                            invoiceGenerated = true
-                          
-                            
-                        } label: {
-                            Text("book".uppercased())
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity, minHeight: 60, alignment: .center)
-                                .background(Color("PrimaryColor"))
-                                .cornerRadius(10)
-                                .padding(.vertical)
-                            
-                        } //: BUTTON
-                    }
-                    
-                   
-                    
-                    
-                   
-                    
+                        }//:Vstack
+                        FormTextFieldView(title: "Consultation Fee", bindingText: $fee)
+                        FormTextFieldView(title: "Discount", bindingText: $discount)
+                        
+                        
+                        HStack {
+                            Text("Total : \(Int(totalFee))")
+                        }.padding()
+                       
+                        
+                        NavigationLink(destination: AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee)), isActive: $invoiceGenerated) {
+                            Button {
+                                /*
+                                let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
                                 
-            } //: VSTACK
-            .padding()
-            .background(Color.white)
-            .cornerRadius(20)
+                                manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
+                                 
+                                */
+                                
+                                if let patID = patientId {
+                                    manager.makeAppointment(invoice: AppointmentInvoiceModel( patientName: name, orgId: OrgID, patientContact: contact, patientId: patID, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee))
+                                }else {
+                                    let newAppoint = AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee)
+                                    manager.makeAppointment(invoice: newAppoint)
+                                }
+                                
+                               
+                                
+                                invoiceGenerated = true
+                              
+                                
+                            } label: {
+                                Text("book".uppercased())
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, minHeight: 60, alignment: .center)
+                                    .background(Color("PrimaryColor"))
+                                    .cornerRadius(10)
+                                    .padding(.vertical)
+                                
+                            } //: BUTTON
+                        }
+                        
+                       
+                        
+                        
+                       
+                        
+                                    
+                } //: VSTACK
+                .padding()
+            }
+            
+            
+            
             
             
             

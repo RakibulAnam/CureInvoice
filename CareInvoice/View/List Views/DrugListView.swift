@@ -21,7 +21,7 @@ struct DrugListView: View {
         ZStack(alignment: .bottomTrailing) {
             VStack {
                 HStack() {
-                    Image(systemName: "pill")
+                    Image(systemName: "magnifyingglass.circle")
                     TextField("Search Drugs", text: $drugSearch)
 
                 }

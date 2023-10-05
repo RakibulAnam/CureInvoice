@@ -73,6 +73,13 @@ struct HospitalStaffView: View {
                             Text("Invoice")
                         }
                     
+                    if userRole == K.Role.ORG_ADMIN{
+                        HospitalAdminList()
+                            .tabItem {
+                                Image(systemName: "person.circle")
+                                Text("Admins")
+                            }
+                    }
                     
 //                    RevenueView()
 //                        .tabItem {

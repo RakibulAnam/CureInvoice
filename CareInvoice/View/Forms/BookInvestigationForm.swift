@@ -46,176 +46,181 @@ struct BookInvestigationForm: View {
         
         ZStack {
             
-            
-            
-            VStack(alignment: .leading){
-                
-                Text("Investigation Bill")
-                    .font(.title)
-                
-                
-                HStack() {
-                    Image(systemName: "magnifyingglass.circle")
-                    TextField("Search Patient", text: $searchedPatient)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled(true)
-                        .padding(.horizontal, 20)
-                        .onChange(of: searchedPatient) { newValue in
-                           
-                            manager.getPatientList(orgId: OrgID, name: newValue)
-                        }
-                }
-                
-                
-                ZStack{
+            ScrollView {
+                VStack(alignment: .leading){
                     
-                    if searchedPatient.isEmpty {
-                        VStack{
-                            FormTextFieldView(title: "Patient Name", bindingText: $name)
+                    Text("Investigation Bill")
+                        .font(.title)
+                    
+                    
+                    HStack() {
+                        Image(systemName: "magnifyingglass.circle")
+                        TextField("Search Patient", text: $searchedPatient)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                            .padding(.horizontal, 20)
+                            .onChange(of: searchedPatient) { newValue in
+                               
+                                manager.getPatientList(orgId: OrgID, name: newValue)
+                            }
+                    }.ignoresSafeArea(.keyboard, edges: .bottom)
+                    
+                    
+                    ZStack{
+                        
+                        if searchedPatient.isEmpty {
+                            VStack{
+                                FormTextFieldView(title: "Patient Name", bindingText: $name)
+                                
+                                FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
+                            }
+                        } else {
                             
-                            FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
+                            List{
+                                ForEach(manager.patientList) { item in
+                                    PatientCell(patModel: item)
+                                        .onTapGesture {
+                                            name = item.name
+                                            contact = item.contact
+                                            patientId = item.id
+                                            searchedPatient = ""
+                                        }
+                                }
+                                .listRowInsets(EdgeInsets())
+                            }
+                            .frame(width: 300, height: 200)
+                            .listStyle(.plain)
+                            
                         }
-                    } else {
+                        
+                        
+                        
+                    }.ignoresSafeArea(.keyboard, edges: .bottom)
+                    
+                    Text("Select Investigation")
+                        .font(.title)
+                        .padding(.top)
+                    
+                    TextField("Enter Investigation Name", text: $searchedText)
+                        .onChange(of: searchedText, perform: { newValue in
+                            if newValue == ""{
+                                manager.getInvestigationByName(orgId: OrgID, name: "1")
+                            }
+                            manager.getInvestigationByName(orgId: OrgID, name: newValue)
+                        })
+                        .padding(3)
+                        .textInputAutocapitalization(.never)
+                        .font(.title3)
+                        .fontWeight(.light)
+                        .autocorrectionDisabled(true)
+                        .background(RoundedRectangle(cornerRadius: 3).stroke(Color(.gray), lineWidth: 1))
+                    
+                    ZStack{
+                   
                         
                         List{
-                            ForEach(manager.patientList) { item in
-                                PatientCell(patModel: item)
-                                    .onTapGesture {
-                                        name = item.name
-                                        contact = item.contact
-                                        patientId = item.id
-                                        searchedPatient = ""
-                                    }
+                            ForEach(selectedInvestigation) { drug in
+                                Text("\(drug.serviceName) - \(Int(drug.serviceCharge))/=")
                             }
-                            .listRowInsets(EdgeInsets())
+                            .onDelete { indexSet in
+                                selectedInvestigation.remove(atOffsets:  indexSet)
+                            }
                         }
+                        .frame(width: 300, height: 200)
                         .listStyle(.plain)
                         
-                    }
-                    
-                    
-                    
-                }
-                
-                Text("Select Investigation")
-                    .font(.title)
-                    .padding(.top)
-                
-                TextField("Enter Investigation Name", text: $searchedText)
-                    .onChange(of: searchedText, perform: { newValue in
-                        if newValue == ""{
-                            manager.getInvestigationByName(name: "1")
-                        }
-                        manager.getInvestigationByName(name: newValue)
-                    })
-                    .padding(3)
-                    .textInputAutocapitalization(.never)
-                    .font(.title3)
-                    .fontWeight(.light)
-                    .autocorrectionDisabled(true)
-                    .background(RoundedRectangle(cornerRadius: 3).stroke(Color(.gray), lineWidth: 1))
-                
-                ZStack{
-               
-                    
-                    List{
-                        ForEach(selectedInvestigation) { drug in
-                            Text("\(drug.serviceName) - \(Int(drug.serviceCharge))/=")
-                        }
-                        .onDelete { indexSet in
-                            selectedInvestigation.remove(atOffsets:  indexSet)
-                        }
-                    }
-                    .listStyle(.plain)
-                    
-//                    List(selectedDrug){ drug in
-//
-//
-//                        Text("\(drug.brandName) - \(Int(drug.price))/=")
-//
-//                    }
-//                    .listStyle(.plain)
-                    
-                    
-                    if searchedText.isEmpty {
+    //                    List(selectedDrug){ drug in
+    //
+    //
+    //                        Text("\(drug.brandName) - \(Int(drug.price))/=")
+    //
+    //                    }
+    //                    .listStyle(.plain)
                         
-                    } else {
-                        List(manager.searchedInvestigationList){ investigation in
+                        
+                        if searchedText.isEmpty {
                             
-                            InvestigationCell(investigation: investigation)
-                                .onTapGesture {
-                                    print(investigation.serviceName)
-                                    selectedInvestigation.append(investigation)
-                                    searchedText = ""
-                                }
-                                .listRowSeparator(.hidden)
+                        } else {
+                            List(manager.searchedInvestigationList){ investigation in
+                                
+                                InvestigationCell(investigation: investigation)
+                                    .onTapGesture {
+                                        print(investigation.serviceName)
+                                        selectedInvestigation.append(investigation)
+                                        searchedText = ""
+                                    }
+                                    .listRowSeparator(.hidden)
+                                
+                            }
+                            .frame(width: 300, height: 200)
+                            .listStyle(.plain)
+                        }
+                        
+                        
+                        
+                    }
+                    HStack{
+                        Text("Total Fee: \(Int(totalFee)) /=")
+                    }
+                    .font(.title2)
+                    
+                    
+                
+                    
+                    NavigationLink(destination: InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee))), isActive: $invoiceGenerated) {
+                        Button {
+                            /*
+                             let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
+                             
+                             manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
+                             
+                             */
+                            
+                            /*
+                            manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee))
+                            */
+                            
+                            
+                            if let patID = patientId {
+                                manager.bookInvestigation(invoice: InvestigationInvoiceModel( p_name: name, pid: patID, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)))
+                            }else {
+                                manager.bookInvestigation(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)))
+                            }
+                            
+                            
+                            
+                            invoiceGenerated = true
+                            
+                            
+                            
+                        } label: {
+                            Text("Add".uppercased())
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity, minHeight: 60, alignment: .center)
+                                .background(Color("PrimaryColor"))
+                                .cornerRadius(10)
+                                .padding(.vertical)
                             
                         }
-                        .listStyle(.plain)
                     }
                     
                     
                     
-                }
-                HStack{
-                    Text("Total Fee: \(Int(totalFee)) /=")
-                }
-                .font(.title2)
-                
-                
+                    
+                    
+                    
+                    
+                    
+                    Spacer()
+                } //: VSTACK
+                .padding()
+                .background(Color.white)
+                .cornerRadius(20)
+            }
             
-                
-                NavigationLink(destination: InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee))), isActive: $invoiceGenerated) {
-                    Button {
-                        /*
-                         let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
-                         
-                         manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
-                         
-                         */
-                        
-                        /*
-                        manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee))
-                        */
-                        
-                        
-                        if let patID = patientId {
-                            manager.bookInvestigation(invoice: InvestigationInvoiceModel( p_name: name, pid: patID, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)))
-                        }else {
-                            manager.bookInvestigation(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)))
-                        }
-                        
-                        
-                        
-                        invoiceGenerated = true
-                        
-                        
-                        
-                    } label: {
-                        Text("Add".uppercased())
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity, minHeight: 60, alignment: .center)
-                            .background(Color("PrimaryColor"))
-                            .cornerRadius(10)
-                            .padding(.vertical)
-                        
-                    }
-                }
-                
-                
-                
-                
-                
-                
-                
-                
-                Spacer()
-            } //: VSTACK
-            .padding()
-            .background(Color.white)
-            .cornerRadius(20)
+            
             
             
             

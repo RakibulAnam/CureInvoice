@@ -27,7 +27,7 @@ class OrganizationManager : ObservableObject {
     @Published var searchedSpecialityList : [SpecialityListModel] = []
     
     @Published var page = 0
-    @Published var size = 50
+    @Published var size = 100
     
     
     @AppStorage("AuthToken") var AuthToken : String = ""

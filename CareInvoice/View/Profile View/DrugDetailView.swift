@@ -17,20 +17,22 @@ struct DrugDetailView: View {
                 
                 VStack {
                     
-                    
-                    HStack{
-                        Spacer()
-                        NavigationLink(destination: OrgDrugEditForm(drugModel: drugModel)) {
-                            Text("Edit Price and Quantity")
-                                .padding()
-                                .background(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke()
-                                )
-                                .padding()
+                    if userRole == K.Role.ORG_ADMIN{
+                        HStack{
+                            Spacer()
+                            NavigationLink(destination: OrgDrugEditForm(drugModel: drugModel)) {
+                                Text("Edit Price and Quantity")
+                                    .padding()
+                                    .background(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke()
+                                    )
+                                    .padding()
+                            }
+                            
                         }
-                        
                     }
+                    
                     Spacer()
                     VStack{
                         

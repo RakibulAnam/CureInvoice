@@ -19,10 +19,10 @@ struct DoctorFormView: View {
     @State var maximumDiscount = ""
     //@State var slots : [Slot] = []
     let day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    let times = ["Morning", "Evening", "Night"]
+    //let times = ["Morning", "Evening", "Night"]
     @State private var selectedDay = "Sunday"
-    @State private var startTime = Date()
-    @State private var endTime = Date()
+//    @State private var startTime = Date()
+//    @State private var endTime = Date()
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -31,6 +31,23 @@ struct DoctorFormView: View {
     var speciality : SpecialityListModel
     
     @StateObject var manager = HospitalManager()
+    
+    let hr = Array(1...12)
+    let min = Array(0...59)
+    
+    let amPm = ["AM", "PM"]
+    
+    let times = [
+         "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM",
+         "6:00 AM", "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM",
+         "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM",
+         "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"
+     ]
+    
+    @State var startTime = "12:00 AM"
+    @State var endTime = "12:00 AM"
+    
+    
     
     
     var body: some View {
@@ -103,12 +120,28 @@ struct DoctorFormView: View {
                             }
                             
                             HStack {
-                                DatePicker("", selection: $startTime, displayedComponents: .hourAndMinute)
-                                    .labelsHidden()
-                                    
+//                                DatePicker("", selection: $startTime, displayedComponents: .hourAndMinute)
+//                                    .labelsHidden()
+//
+//                                Text("-")
+//                                DatePicker("", selection: $endTime, displayedComponents: .hourAndMinute)
+//                                    .labelsHidden()
+                                
+                                Picker("Time", selection: $startTime) {
+                                                       ForEach(times, id: \.self) { time in
+                                                           Text(time)
+                                                       }
+                                                   }
+                                                   .pickerStyle(DefaultPickerStyle())
+                                
                                 Text("-")
-                                DatePicker("", selection: $endTime, displayedComponents: .hourAndMinute)
-                                    .labelsHidden()
+                                
+                                Picker("Time", selection: $endTime) {
+                                                       ForEach(times, id: \.self) { time in
+                                                           Text(time)
+                                                       }
+                                                   }
+                                                   .pickerStyle(DefaultPickerStyle())
                                 
                                 
                                

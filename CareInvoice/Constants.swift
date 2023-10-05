@@ -35,6 +35,9 @@ struct K{
     static let ADD_INVESTIGATION = "\(base.BASE_URL)/investigation/addInvestigation"
     static let UPDATE_INVESTIGATION_BY_ID = "\(base.BASE_URL)/investigation/updateInvestigation/"
     static let GET_ORG_INVESTIGATION_LIST = "\(base.BASE_URL)/investigation/getAllInvestigationByOrg/"
+    static let UPDATE_INVESTIGATION_PRICE_FOR_ORG = "\(base.BASE_URL)/orgInvestigation/updateInvestigationOrgPrice"
+   // static let SEARCH_INVESTIGATION_FOR_ORG = "\(base.BASE_URL)/investigation/search/{orgId}/{name}"
+    
     
     
     static let GET_BRAND_DRUG = "\(base.BASE_URL)/drugs/searchDrugByBrandName/"
@@ -99,5 +102,7 @@ struct K{
 }
 
 struct base {
+    // http://localhost:9191
+    // https://gw4.jotno.dev
     static let BASE_URL = "http://localhost:9191"
 }

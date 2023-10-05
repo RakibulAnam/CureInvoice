@@ -49,13 +49,14 @@ struct OnboardingView: View {
                     .background(Color("CardBackground"))
                     .cornerRadius(10)
                     .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
                 TextField("Password", text: $password)
                     .padding()
                     .frame(width: 350, height: 50, alignment: .center)
                     .background(Color("CardBackground"))
                     .cornerRadius(10)
                     .textInputAutocapitalization(.never)
-                
+                    .autocorrectionDisabled(true)
                 
                 
                 
@@ -72,7 +73,7 @@ struct OnboardingView: View {
                     
                     
                 }
-                .font(.title2)
+                .font(.custom("Cairo-Regular", size: 20))
                 .fontWeight(.bold)
                 .foregroundColor(.white)
                 .frame(width: 350, height: 50, alignment: .center)

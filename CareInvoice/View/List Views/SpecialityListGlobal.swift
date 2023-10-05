@@ -29,7 +29,7 @@ struct SpecialityListGlobal: View {
             VStack {
                 
                 HStack() {
-                    Image(systemName: "pill")
+                    Image(systemName: "magnifyingglass.circle")
                     TextField("Search Speciality", text: $specialitySearch)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled(true)

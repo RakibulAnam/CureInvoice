@@ -18,7 +18,7 @@ class Pharmacymanager : ObservableObject {
     @AppStorage("AuthToken") var AuthToken : String = ""
     
     @Published var page = 0
-    @Published var size = 50
+    @Published var size = 100
     
     var tt = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic2FyaWYxIiwiaWF0IjoxNjk1ODE0MDg4LCJleHAiOjE2OTU5MDA0ODh9.7XYdDB-IU5AO-sWHo6CE55VsYCGh9mkbPEQoq9eHBvc"
     
