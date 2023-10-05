@@ -13,13 +13,13 @@ class DiagnosticCenterManager : ObservableObject {
     @Published var investigationList : [InvestigationModel] = []
     @Published var searchedInvestigationList : [InvestigationModel] = []
     
-    
+    @Published var patientList : [PatientModel] = []
     @Published var invoiceList : [InvestigationInvoiceModel] = []
     
     @Published var adminList : [AdminModel] = []
     @AppStorage("AuthToken") var AuthToken : String = ""
     
-    var tt = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic2FyaWYxIiwiaWF0IjoxNjk2MTQ0NTIzLCJleHAiOjE2OTYyMzA5MjN9.BCkV6dP7kohJbrdWzxU47sTgi6Xe5hu4fuZS-sSEpiA"
+//    var tt = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic2FyaWYxIiwiaWF0IjoxNjk2MTQ0NTIzLCJleHAiOjE2OTYyMzA5MjN9.BCkV6dP7kohJbrdWzxU47sTgi6Xe5hu4fuZS-sSEpiA"
     
     @Published var page = 0
     @Published var size = 50
@@ -73,6 +73,57 @@ class DiagnosticCenterManager : ObservableObject {
                 } //:DispatchQueue
             }.resume()
     }
+    
+    //MARK: - GET INVSTIGATION BY ORG
+    
+    func getAllInvestigationByOrg(orgId : Int) {
+        guard let url = URL(string: "\(K.GET_ORG_INVESTIGATION_LIST)\(orgId)?page=\(page)&size=\(size)")
+        else
+        {
+            print("Invalid URL")
+            return
+        }
+      
+        let token = AuthToken
+        var request = URLRequest(url: url)
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession
+            .shared
+            .dataTask(with: request) {[weak self] data, response, error in
+                
+                
+                DispatchQueue.main.async {
+                    
+                    if let error = error {
+                        print("There was an error starting the session \(error)")
+                    }
+                    else{
+                        
+                        let decoder = JSONDecoder()
+                        
+                        if let data = data {
+                            
+                            
+                            do {
+                                let decodedData = try decoder.decode([InvestigationModel].self, from: data)
+                                self?.investigationList = decodedData
+                                
+                            } catch  {
+                                print("Could not decode Investigation List \(error.localizedDescription)")
+                            }
+                        
+                            
+                            
+                        }else{
+                            print("Could Not Fetch Data")
+                        }
+                    }
+                } //:DispatchQueue
+            }.resume()
+    }
+    
+    
    
     func getInvestigationByName(name: String){
         guard let url = URL(string: "\(K.GET_INVESTIGATOIN_BY_NAME)\(name)?page=\(page)&size=\(size)") else {
@@ -288,6 +339,55 @@ class DiagnosticCenterManager : ObservableObject {
                             do {
                                 let decodedData = try decoder.decode([InvestigationInvoiceModel].self, from: data)
                                 self?.invoiceList = decodedData
+                                
+                            } catch  {
+                                print("Could not decode Drug List \(error)")
+                            }
+                        
+                            
+                            
+                        }else{
+                            print("Could Not Fetch Data")
+                        }
+                    }
+                } //:DispatchQueue
+            }.resume()
+    }
+    
+    
+    //MARK: - GET PATient
+    
+    func getPatientList(orgId: Int, name : String){
+        guard let url = URL(string: "\(K.GET_PATIENT_BY_ORG)\(orgId)/\(name)?page=\(page)&size=\(size)") else {
+            print("invalid URL")
+            return
+        }
+        
+        let token = AuthToken
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession
+            .shared
+            .dataTask(with: request) {[weak self] data, response, error in
+                
+                
+                DispatchQueue.main.async {
+                    
+                    if let error = error {
+                        print("There was an error starting the session \(error)")
+                    }
+                    else{
+                        
+                        let decoder = JSONDecoder()
+                        
+                        if let data = data {
+                            
+                            
+                            do {
+                                let decodedData = try decoder.decode([PatientModel].self, from: data)
+                                self?.patientList = decodedData
                                 
                             } catch  {
                                 print("Could not decode Drug List \(error)")

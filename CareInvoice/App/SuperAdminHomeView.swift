@@ -83,6 +83,8 @@ struct SuperAdminHomeView: View {
                             Text(K.OrgType.PHARMACY)
                         }
                     
+                        
+                    
                     DrugListGlobal()
                         .tabItem {
                             Image(systemName: "pill")

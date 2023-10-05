@@ -11,9 +11,10 @@ struct InvestigationInvoiceModel : Codable, Identifiable {
     
     var id : Int?
     let p_name : String
+    var pid : Int?
     let contact : String
     var org_id : Int
-    let investigationDTOList : [InvestigationModel]
+    let investigationList : [InvestigationModel]
     let total : Double
     
 }

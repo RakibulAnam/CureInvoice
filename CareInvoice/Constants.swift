@@ -34,7 +34,7 @@ struct K{
     static let GET_INVESTIGATION_INVOICE = "\(base.BASE_URL)/bookInvestigation/getInvestigationBookingsByOrgId/"
     static let ADD_INVESTIGATION = "\(base.BASE_URL)/investigation/addInvestigation"
     static let UPDATE_INVESTIGATION_BY_ID = "\(base.BASE_URL)/investigation/updateInvestigation/"
-    static let GET_ORG_INVESTIGATION_LIST = "\(base.BASE_URL)/investigation//getAllInvestigationByOrg/"
+    static let GET_ORG_INVESTIGATION_LIST = "\(base.BASE_URL)/investigation/getAllInvestigationByOrg/"
     
     
     static let GET_BRAND_DRUG = "\(base.BASE_URL)/drugs/searchDrugByBrandName/"
@@ -51,32 +51,32 @@ struct K{
     
     
     
-    static let GET_DOCTOR_BY_ORG_SPT = "http://localhost:9191/doctors/getAllDoctors/"
-    static let CREATE_DOCTOR_BY_ORG = "http://localhost:9191/doctors/addDoctor/"
-    static let MAKE_APPOINTMENT = "http://localhost:9191/appointments/makeAppointment"
-    static let GET_APPOINTMENT_INVOICE = "http://localhost:9191/appointments/getAppointmentsByOrg/"
+    static let GET_DOCTOR_BY_ORG_SPT = "\(base.BASE_URL)/doctors/getAllDoctors/"
+    static let CREATE_DOCTOR_BY_ORG = "\(base.BASE_URL)/doctors/addDoctor/"
+    static let MAKE_APPOINTMENT = "\(base.BASE_URL)/appointments/makeAppointment"
+    static let GET_APPOINTMENT_INVOICE = "\(base.BASE_URL)/appointments/getAppointmentsByOrg/"
     
-    static let SEARCH_ORGANIZATION = "http://localhost:9191/organization/search/"
+    static let SEARCH_ORGANIZATION = "\(base.BASE_URL)/organization/search/"
     
-    static let GET_USER = "http://localhost:9191/users/"
+    static let GET_USER = "\(base.BASE_URL)/users/"
     
-    static let GET_PATIENT_BY_ORG = "http://localhost:9191/patient/search/"
+    static let GET_PATIENT_BY_ORG = "\(base.BASE_URL)/patient/search/"
     
     
     struct Hospitals{
-        static let GETALLHOSPITAL = "http://localhost:9191/organization/Hospital"
+        static let GETALLHOSPITAL = "\(base.BASE_URL)/organization/Hospital"
     }
     
     struct Chamber{
-        static let GETALLCHAMBER = "http://localhost:9191/organization/Chamber"
+        static let GETALLCHAMBER = "\(base.BASE_URL)/organization/Chamber"
     }
     
     struct DiagnosticCenter{
-        static let GETALLDC = "http://localhost:9191/organization/Diagnostic%20Center"
+        static let GETALLDC = "\(base.BASE_URL)/organization/Diagnostic%20Center"
     }
     
     struct Pharmacy{
-        static let GET_ALL_PHARMA = "http://localhost:9191/organization/Pharmacy"
+        static let GET_ALL_PHARMA = "\(base.BASE_URL)/organization/Pharmacy"
     }
     
     struct OrgType {
@@ -87,7 +87,7 @@ struct K{
     }
     
     struct Login{
-        static let AUTHENTICATE = "http://localhost:9191/authenticate"
+        static let AUTHENTICATE = "\(base.BASE_URL)/authenticate"
     }
     
     struct Role {

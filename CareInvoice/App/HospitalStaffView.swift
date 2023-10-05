@@ -74,11 +74,11 @@ struct HospitalStaffView: View {
                         }
                     
                     
-                    RevenueView()
-                        .tabItem {
-                            Image(systemName: "dollarsign")
-                            Text("Revenue")
-                        }
+//                    RevenueView()
+//                        .tabItem {
+//                            Image(systemName: "dollarsign")
+//                            Text("Revenue")
+//                        }
                     
                     
                 }

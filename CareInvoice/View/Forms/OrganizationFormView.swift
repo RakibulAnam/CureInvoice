@@ -107,7 +107,12 @@ struct OrganizationFormView: View {
             
         }//: ZSTACK
         .onAppear{
-            formTitle = "Create New \(orgType)"
+            if profile != nil {
+                formTitle = " Update \(orgType)"
+            } else {
+                formTitle = "Create New \(orgType)"
+            }
+            
         }
         
         

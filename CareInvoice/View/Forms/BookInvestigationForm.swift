@@ -32,6 +32,8 @@ struct BookInvestigationForm: View {
     @State var contact = ""
     
     @State var searchedText = ""
+    @State var searchedPatient = ""
+    @State var patientId : Int?
     
     @StateObject var manager = DiagnosticCenterManager()
     
@@ -52,12 +54,48 @@ struct BookInvestigationForm: View {
                     .font(.title)
                 
                 
+                HStack() {
+                    Image(systemName: "magnifyingglass.circle")
+                    TextField("Search Patient", text: $searchedPatient)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                        .padding(.horizontal, 20)
+                        .onChange(of: searchedPatient) { newValue in
+                           
+                            manager.getPatientList(orgId: OrgID, name: newValue)
+                        }
+                }
                 
                 
-                
-                FormTextFieldView(title: "Patient Name", bindingText: $name)
-                
-                FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
+                ZStack{
+                    
+                    if searchedPatient.isEmpty {
+                        VStack{
+                            FormTextFieldView(title: "Patient Name", bindingText: $name)
+                            
+                            FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
+                        }
+                    } else {
+                        
+                        List{
+                            ForEach(manager.patientList) { item in
+                                PatientCell(patModel: item)
+                                    .onTapGesture {
+                                        name = item.name
+                                        contact = item.contact
+                                        patientId = item.id
+                                        searchedPatient = ""
+                                    }
+                            }
+                            .listRowInsets(EdgeInsets())
+                        }
+                        .listStyle(.plain)
+                        
+                    }
+                    
+                    
+                    
+                }
                 
                 Text("Select Investigation")
                     .font(.title)
@@ -127,7 +165,7 @@ struct BookInvestigationForm: View {
                 
             
                 
-                NavigationLink(destination: InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationDTOList: selectedInvestigation, total: Double(totalFee))), isActive: $invoiceGenerated) {
+                NavigationLink(destination: InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee))), isActive: $invoiceGenerated) {
                     Button {
                         /*
                          let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
@@ -140,7 +178,14 @@ struct BookInvestigationForm: View {
                         manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee))
                         */
                         
-                        manager.bookInvestigation(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationDTOList: selectedInvestigation, total: Double(totalFee)))
+                        
+                        if let patID = patientId {
+                            manager.bookInvestigation(invoice: InvestigationInvoiceModel( p_name: name, pid: patID, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)))
+                        }else {
+                            manager.bookInvestigation(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)))
+                        }
+                        
+                        
                         
                         invoiceGenerated = true
                         

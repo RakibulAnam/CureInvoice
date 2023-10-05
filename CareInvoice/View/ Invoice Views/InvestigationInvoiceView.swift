@@ -247,7 +247,7 @@ struct InvestigationInvoiceView: View {
                 
                 Divider()
                 
-                ForEach(invoice.investigationDTOList, id: \.serviceName) { item in
+                ForEach(invoice.investigationList, id: \.serviceName) { item in
                     HStack {
                         Text(item.serviceName)
                         Spacer()
@@ -362,7 +362,7 @@ struct InvestigationInvoiceView: View {
 
 struct InvoiceView_Previews: PreviewProvider {
     static var previews: some View {
-        InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: "Rohid", contact: "01911362438", org_id: 5, investigationDTOList: [InvestigationModel(serviceName: "Dengue", serviceCharge: 100), InvestigationModel(serviceName: "blood", serviceCharge: 200)], total: 300), hideButton: false)
+        InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: "Rohid", contact: "01911362438", org_id: 5, investigationList: [InvestigationModel(serviceName: "Dengue", serviceCharge: 100), InvestigationModel(serviceName: "blood", serviceCharge: 200)], total: 300), hideButton: false)
         // invoice: Invoice(patientName: "Rohid", patientContact: "01911362438", investigation: [Investigation(name: "Dengue", fee: 100), Investigation(name: "blood", fee: 200)], totalFee: 300)
     }
 }

@@ -27,7 +27,7 @@ struct InvestigationListView: View {
                     TextField("Search Investigation", text: $investigationSearch)
                         .onChange(of: investigationSearch) { newValue in
                             if newValue == ""{
-                                manager.getAllInvestigation(orgId: OrgID)
+                                manager.getAllInvestigationByOrg(orgId: OrgID)
                             }else {
                                 manager.getInvestigationByName(name: newValue)
                             }
@@ -110,7 +110,7 @@ struct InvestigationListView: View {
                 .navigationTitle("")
                 .onAppear {
                     DispatchQueue.main.async {
-                        manager.getAllInvestigation(orgId: OrgID)
+                        manager.getAllInvestigationByOrg(orgId: OrgID)
                     }
                 }
             }//: VSTACK
