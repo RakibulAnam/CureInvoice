@@ -12,6 +12,6 @@ struct SpecialityListModel : Codable, Identifiable {
     
     var id : Int?
     let medSpecName : String
-    let iconUrl : String
+    let iconUrl : String?
     
 }

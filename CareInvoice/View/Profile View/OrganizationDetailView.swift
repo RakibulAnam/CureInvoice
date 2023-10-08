@@ -30,136 +30,143 @@ struct OrganizationDetailView: View {
         
         ZStack(alignment: .bottomTrailing) {
             
-            
-            VStack(alignment: .leading, spacing: 10) {
+            ScrollView {
                 
-                /*
-                 ScrollView(showsIndicators: false) {
-                 
-                 if let nOrg = manager.orgModel{
-                 
-                 VStack(alignment: .center, spacing: 10){
-                 
-                 Image("organization")
-                 .resizable()
-                 .frame(width: 150, height: 150, alignment: .center)
-                 .scaledToFit()
-                 
-                 Text(nOrg.name)
-                 .font(.largeTitle)
-                 .fontWeight(.heavy)
-                 .foregroundColor(Color("PrimaryColor"))
-                 
-                 Text(nOrg.address)
-                 .font(.title2)
-                 .fontWeight(.medium)
-                 .foregroundColor(.secondary)
-                 
-                 Spacer()
-                 
-                 VStack(alignment: .leading, spacing: 5){
-                 Text("Contact: \(nOrg.contact)")
-                 
-                 Text("Email: \(nOrg.email)")
-                 
-                 Text("Operating Hour: \(nOrg.operatingHour)")
-                 }
-                 .padding()
-                 .font(.headline)
-                 .frame(maxWidth: .infinity, alignment: .leading)
-                 .background(
-                 RoundedRectangle(cornerRadius: 5)
-                 .stroke(lineWidth: 1)
-                 .foregroundColor(Color("Symboltint"))
-                 )
-                 
-                 
-                 }//Vstack
-                 .padding()
-                 
-                 AdminListView(org: OrganizationModel(name: "TestOrg", address: "TEst", contact: "test", type: "test", email: "test", emergencyContact: "test", operatingHour: "test", admin: [OrgAdminModel(id: 1, name: "Rohid", username: "rohid", password: "123123123", email: "rohid@gmail.com", contact: "01911362438"), OrgAdminModel(id: 2,  name: "Mohit", username: "mohid", password: "123123123", email: "mohit@gmail.com", contact: "01911362438")]))
-                 
-                 } //: IfLET
-                 
-                 
-                 
-                 }//ScrollView
-                 */
-                
-                if let nOrg = manager.orgModel{
+                VStack(alignment: .leading, spacing: 10) {
                     
-                    VStack(alignment: .center, spacing: 20){
+                    /*
+                     ScrollView(showsIndicators: false) {
+                     
+                     if let nOrg = manager.orgModel{
+                     
+                     VStack(alignment: .center, spacing: 10){
+                     
+                     Image("organization")
+                     .resizable()
+                     .frame(width: 150, height: 150, alignment: .center)
+                     .scaledToFit()
+                     
+                     Text(nOrg.name)
+                     .font(.largeTitle)
+                     .fontWeight(.heavy)
+                     .foregroundColor(Color("PrimaryColor"))
+                     
+                     Text(nOrg.address)
+                     .font(.title2)
+                     .fontWeight(.medium)
+                     .foregroundColor(.secondary)
+                     
+                     Spacer()
+                     
+                     VStack(alignment: .leading, spacing: 5){
+                     Text("Contact: \(nOrg.contact)")
+                     
+                     Text("Email: \(nOrg.email)")
+                     
+                     Text("Operating Hour: \(nOrg.operatingHour)")
+                     }
+                     .padding()
+                     .font(.headline)
+                     .frame(maxWidth: .infinity, alignment: .leading)
+                     .background(
+                     RoundedRectangle(cornerRadius: 5)
+                     .stroke(lineWidth: 1)
+                     .foregroundColor(Color("Symboltint"))
+                     )
+                     
+                     
+                     }//Vstack
+                     .padding()
+                     
+                     AdminListView(org: OrganizationModel(name: "TestOrg", address: "TEst", contact: "test", type: "test", email: "test", emergencyContact: "test", operatingHour: "test", admin: [OrgAdminModel(id: 1, name: "Rohid", username: "rohid", password: "123123123", email: "rohid@gmail.com", contact: "01911362438"), OrgAdminModel(id: 2,  name: "Mohit", username: "mohid", password: "123123123", email: "mohit@gmail.com", contact: "01911362438")]))
+                     
+                     } //: IfLET
+                     
+                     
+                     
+                     }//ScrollView
+                     */
+                    
+                    if let nOrg = manager.orgModel{
                         
-                        VStack{
-                            Image("organization")
-                                .resizable()
-                                .frame(width: 150, height: 150, alignment: .center)
-                                .scaledToFit()
+                        VStack(alignment: .center, spacing: 20){
                             
-                            Text(nOrg.name)
-                                .font(.largeTitle)
-                                .fontWeight(.heavy)
-                                .foregroundColor(Color("PrimaryColor"))
-                            
-                            Text(nOrg.address)
-                                .font(.title2)
-                                .fontWeight(.medium)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        
-                        
-                        
-                        
-                        VStack(alignment: .leading, spacing: 5){
-                            Text("Contact: \(nOrg.contact)")
-                            
-                            Text("Email: \(nOrg.email)")
-                            
-                            Text("Operating Hour: \(nOrg.operatingHour)")
-                        }
-                        .padding()
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke(lineWidth: 1)
-                                .foregroundColor(Color("Symboltint"))
-                        )
-                        
-                        VStack(alignment: .leading){
-                            
-                            HStack{
-                                Text("Admins")
-                                    .font(.title)
-                                Spacer()
+                            VStack{
+                                Image("organization")
+                                    .resizable()
+                                    .frame(width: 150, height: 150, alignment: .center)
+                                    .scaledToFit()
                                 
-                                NavigationLink(destination: OrgAdminFormView(org: nOrg)) {
-                                    Image(systemName: "cross")                                }
+                                Text(nOrg.name)
+                                    .font(.largeTitle)
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(Color("PrimaryColor"))
+                                
+                                Text(nOrg.address)
+                                    .font(.title2)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(.secondary)
+                                    
+                            }.lineLimit(nil)
+                            
+                            
+                            
+                            
+                            
+                            VStack(alignment: .leading, spacing: 5){
+                                Text("Contact: \(nOrg.contact)")
+                                
+                                Text("Email: \(nOrg.email)")
+                                
+                                Text("Operating Hour: \(nOrg.operatingHour)")
+                            }
+                            .padding()
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke(lineWidth: 1)
+                                    .foregroundColor(Color("Symboltint"))
+                            )
+                            
+                            VStack(alignment: .leading){
+                                
+                                HStack{
+                                    Text("Admins")
+                                        .font(.title)
+                                    Spacer()
+                                    
+                                    NavigationLink(destination: OrgAdminFormView(org: nOrg)) {
+                                        Image(systemName: "cross")                                }
+                                    
+                                }
+                                
+                                
+                                OrgAdminListView(org: nOrg)
+                                    .frame(width: 300, height: 300, alignment: .center)
+                                
                                 
                             }
+                            .frame(alignment: .leading)
                             
                             
-                            OrgAdminListView(org: nOrg)
                             
-                            
-                        }
-                        .frame(alignment: .leading)
+                        }//Vstack
+                        .padding()
                         
                         
                         
-                    }//Vstack
-                    .padding()
+                    } //: IfLET
                     
                     
                     
-                } //: IfLET
+                    //ScrollView
+                    
+                }//:Vstack
                 
-                
-                
-                //ScrollView
-                
-            }//:Vstack
+            }
+            
+            
             
             
             NavigationLink(destination: OrganizationFormView(manager: manager, profile: org, orgType: org.type).navigationBarTitleDisplayMode(.inline)) {

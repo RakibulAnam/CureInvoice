@@ -23,13 +23,15 @@ class HospitalManager : ObservableObject {
     
     var tt : String = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic29oYW4xIiwiaWF0IjoxNjk1NzIxOTYyLCJleHAiOjE2OTU4MDgzNjJ9.mLW7OC3gPehVnaGj8wQc1uamgGPEmFUVGqm-_ZWmqbU"
     
-    @Published var page = 0
-    @Published var size = 100
+    @Published var page = -1
+    @Published var size = 10
     
     
     
     //MARK: - GET ALL SPECIALITY
     func getAllSepcialityByOrg(orgID : Int){
+        
+        page += 1
         
         guard let url = URL(string: "\(K.GET_ALL_SPECIALITY_GLOBAL)?page=\(page)&size=\(size)")
         else
@@ -61,7 +63,7 @@ class HospitalManager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([SpecialityListModel].self, from: data)
-                                self?.specialities = decodedData
+                                self?.specialities.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Speciality List \(error)")
@@ -82,7 +84,7 @@ class HospitalManager : ObservableObject {
     
     func getDoctors(orgID : Int, specialityID : Int){
         
-        guard let url = URL(string: "\(K.GET_DOCTOR_BY_ORG_SPT)\(orgID)/\(specialityID)?page=\(page)&size=\(size)")
+        guard let url = URL(string: "\(K.GET_DOCTOR_BY_ORG_SPT)\(orgID)/\(specialityID)?page=0&size=100")
         else
         {
             print("Invalid URL")
@@ -220,6 +222,8 @@ class HospitalManager : ObservableObject {
     
     func getInvoice(orgId : Int){
         
+        page += 1
+        
         guard let url = URL(string: "\(K.GET_APPOINTMENT_INVOICE)\(orgId)?page=\(page)&size=\(size)")
         else
         {
@@ -250,7 +254,7 @@ class HospitalManager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([AppointmentInvoiceModel].self, from: data)
-                                self?.invoiceList = decodedData
+                                self?.invoiceList.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Speciality List \(error)")
@@ -270,7 +274,7 @@ class HospitalManager : ObservableObject {
     
     //MARK: - GET PATIENT LIST
     func getPatientList(orgId: Int, name : String){
-        guard let url = URL(string: "\(K.GET_PATIENT_BY_ORG)\(orgId)/\(name)") else {
+        guard let url = URL(string: "\(K.GET_PATIENT_BY_ORG)\(orgId)/\(name)?page=0&size=50") else {
             print("invalid URL")
             return
         }
@@ -318,7 +322,7 @@ class HospitalManager : ObservableObject {
     //MARK: GET ADMIN LIST
     
     func getAllAdmin(orgID : Int){
-        guard let url = URL(string: "\(K.GET_ADMIN)\(orgID)?page=\(page)&size=\(size)")
+        guard let url = URL(string: "\(K.GET_ADMIN)\(orgID)?page=0&size=50")
         else
         {
             print("Invalid URL")

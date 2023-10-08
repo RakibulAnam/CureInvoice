@@ -16,6 +16,7 @@ struct BookInvestigationForm: View {
     // @State var selectedItem : Investigation?
    
     @State var invoiceGenerated : Bool = false
+    @State var orgModel : OrganizationModel
  
     var totalFee : Double {
         var total = 0.0
@@ -167,7 +168,7 @@ struct BookInvestigationForm: View {
                     
                 
                     
-                    NavigationLink(destination: InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee))), isActive: $invoiceGenerated) {
+                    NavigationLink(destination: InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)), orgModel: orgModel), isActive: $invoiceGenerated) {
                         Button {
                             /*
                              let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
@@ -242,6 +243,6 @@ struct BookInvestigationForm: View {
 
 struct BookInvestigationForm_Previews: PreviewProvider {
     static var previews: some View {
-        BookInvestigationForm()
+        BookInvestigationForm( orgModel: OrganizationModel(name: "org", address: "dhaka", contact: "01911232323", type: "hos", email: "ceo@gmail.com", emergencyContact: "0191123232", operatingHour: "23/3", orgCode: "hos"))
     }
 }

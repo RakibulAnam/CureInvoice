@@ -26,8 +26,8 @@ class OrganizationManager : ObservableObject {
     @Published var specialityList : [SpecialityListModel] = []
     @Published var searchedSpecialityList : [SpecialityListModel] = []
     
-    @Published var page = 0
-    @Published var size = 100
+    @Published var page = -1
+    @Published var size = 10
     
     
     @AppStorage("AuthToken") var AuthToken : String = ""
@@ -36,6 +36,9 @@ class OrganizationManager : ObservableObject {
     
     //MARK: - GET ALL ORGANIZATION
     func getOrganizationDetails(from apiUrl : String){
+        
+        page += 1
+        
         guard let url = URL(string: "\(apiUrl)?page=\(page)&size=\(size)")
         else
         {
@@ -65,7 +68,8 @@ class OrganizationManager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([OrganizationModel].self, from: data)
-                                self?.organization = decodedData
+                               // self?.organization = decodedData
+                                self?.organization.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Organization \(error)")
@@ -234,7 +238,7 @@ class OrganizationManager : ObservableObject {
     func searchOrganization(orgType : String, name : String){
    // http://localhost:9191/organization/search/Hospital/rain?page=0&size=25
        
-        guard let url = URL(string: "\(K.SEARCH_ORGANIZATION)\(orgType)/\(name)?page=\(page)&size=\(size)") else {
+        guard let url = URL(string: "\(K.SEARCH_ORGANIZATION)\(orgType)/\(name)?page=0&size=50") else {
             print("invalid URL")
             return
         }
@@ -331,7 +335,7 @@ class OrganizationManager : ObservableObject {
     
     //MARK: - GET ORGANIZATION ADMIN
     func getOrgAdmin(orgID : Int){
-        guard let url = URL(string: "\(K.GET_ORG_ADMIN)\(orgID)?page=\(page)&size=\(size)")
+        guard let url = URL(string: "\(K.GET_ORG_ADMIN)\(orgID)?page=0&size=50")
         else
         {
             print("Invalid URL")
@@ -383,6 +387,7 @@ class OrganizationManager : ObservableObject {
     
     func getAllGlobalDrugs(){
         
+        page += 1
         guard let url = URL(string: "\(K.GET_ALL_DRUGS_GLOBAL)?page=\(page)&size=\(size)")
         else
         {
@@ -413,7 +418,8 @@ class OrganizationManager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([DrugModel].self, from: data)
-                                self?.drugList = decodedData
+                                //self?.drugList = decodedData
+                                self?.drugList.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Drug List \(error)")
@@ -433,7 +439,7 @@ class OrganizationManager : ObservableObject {
     func getDrugBrand(name : String){
      
         
-        guard let url = URL(string: "\(K.GET_BRAND_DRUG)\(name)?page=\(page)&size=\(size)") else {
+        guard let url = URL(string: "\(K.GET_BRAND_DRUG)\(name)?page=0&size=50") else {
             print("invalid URL")
             return
         }
@@ -576,6 +582,7 @@ class OrganizationManager : ObservableObject {
     
     func getAllInvestigation() {
       
+        page += 1
         guard let url = URL(string: "\(K.GET_ALL_INVESTIGATIONS_GLOBAL)?page=\(page)&size=\(size)")
         else
         {
@@ -606,7 +613,7 @@ class OrganizationManager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([InvestigationModel].self, from: data)
-                                self?.investigationList = decodedData
+                                self?.investigationList.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Investigation List \(error)")
@@ -624,7 +631,7 @@ class OrganizationManager : ObservableObject {
     
     func getInvestigationByName(name: String){
    
-        guard let url = URL(string: "\(K.GET_INVESTIGATOIN_BY_NAME)\(name)?page=\(page)&size=\(size)") else {
+        guard let url = URL(string: "\(K.GET_INVESTIGATOIN_BY_NAME)\(name)?page=0&size=50") else {
             print("invalid URL")
             return
         }
@@ -764,6 +771,7 @@ class OrganizationManager : ObservableObject {
     
     func getAllSepcialityGlobal(){
      
+        page += 1
         
         guard let url = URL(string: "\(K.GET_ALL_SPECIALITY_GLOBAL)?page=\(page)&size=\(size)")
         else
@@ -795,7 +803,7 @@ class OrganizationManager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([SpecialityListModel].self, from: data)
-                                self?.specialityList = decodedData
+                                self?.specialityList.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Speciality List \(error)")
@@ -905,7 +913,7 @@ class OrganizationManager : ObservableObject {
     func getSearchedSpeciality(name : String){
        
         
-        guard let url = URL(string: "\(K.GET_SPECIALITY_BY_NAME)\(name)?page=\(page)&size=\(size)") else {
+        guard let url = URL(string: "\(K.GET_SPECIALITY_BY_NAME)\(name)?page=0&size=50") else {
             print("invalid URL")
             return
         }

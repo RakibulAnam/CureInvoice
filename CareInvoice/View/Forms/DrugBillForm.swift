@@ -15,6 +15,8 @@ struct DrugBillForm: View {
     // @State var selectedItem : Investigation?
    
     @State var invoiceGenerated : Bool = false
+    @StateObject var orgManager = OrganizationManager()
+    @State var orgModel : OrganizationModel
  
     var totalFee : Double {
         var total = 0.0
@@ -176,7 +178,7 @@ struct DrugBillForm: View {
                     
                 
                     
-                    NavigationLink(destination: DrugInvoiceView(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), hideButton: false), isActive: $invoiceGenerated) {
+                    NavigationLink(destination: DrugInvoiceView(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), orgModel: orgModel, hideButton: false), isActive: $invoiceGenerated) {
                         Button {
                             /*
                              let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
@@ -244,6 +246,6 @@ struct DrugBillForm: View {
 
 struct DrugBillView_Previews: PreviewProvider {
     static var previews: some View {
-        DrugBillForm()
+        DrugBillForm( orgModel: OrganizationModel(name: "org", address: "dhaka", contact: "01911232323", type: "hos", email: "ceo@gmail.com", emergencyContact: "0191123232", operatingHour: "23/3", orgCode: "hos"))
     }
 }

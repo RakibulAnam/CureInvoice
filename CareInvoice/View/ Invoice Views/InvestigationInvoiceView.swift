@@ -10,7 +10,11 @@ import SwiftUI
 struct InvestigationInvoiceView: View {
     
     @State var invoice : InvestigationInvoiceModel
+    @State var orgModel : OrganizationModel
     @State var hideButton : Bool = false
+    
+    @State var showAlert : Bool = false
+    
     let dateFormatter = DateFormatter()
     let currentDate = Date()
     var formattedDate : String {
@@ -193,9 +197,9 @@ struct InvestigationInvoiceView: View {
                     .resizable()
                     .frame(width: 50, height: 50, alignment: .center)
                 VStack(alignment: .leading){
-                    Text(manager.orgModel?.name ?? "Organization Name")
+                    Text(orgModel.name)
                         .font(.title)
-                    Text(manager.orgModel?.type ?? "Organization Type")
+                    Text(orgModel.address)
                         .font(.subheadline)
                         .fontWeight(.light)
                 }
@@ -280,12 +284,18 @@ struct InvestigationInvoiceView: View {
                 Spacer()
                 Button {
                     makePDF()
+                    showAlert = true
                 } label: {
                     if hideButton == false {
                         Text("Download PDF")
                     }
                     
                 }
+                .alert("Invoice Downloaded", isPresented: $showAlert, actions: {
+                    Button("OK", role: .cancel) {
+                        
+                    }
+                })
             .padding()
             }
             
@@ -301,37 +311,13 @@ struct InvestigationInvoiceView: View {
         
     }
     
-    @MainActor
-    private func exportPDF() {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        
-        let renderedUrl = documentDirectory.appending(path: "Investigationinvoice.pdf")
-        
-        if let consumer = CGDataConsumer(url: renderedUrl as CFURL),
-           let pdfContext = CGContext(consumer: consumer, mediaBox: nil, nil) {
-            
-            let renderer = ImageRenderer(content: InvestigationInvoiceView(invoice: invoice, hideButton: true))
-            renderer.render { size, renderer in
-                let options: [CFString: Any] = [
-                    kCGPDFContextMediaBox: CGRect(origin: .zero, size: size)
-                ]
-                
-                pdfContext.beginPDFPage(options as CFDictionary)
-                
-                renderer(pdfContext)
-                pdfContext.endPDFPage()
-                pdfContext.closePDF()
-            }
-        }
-        
-        print("Saving PDF to \(renderedUrl.path())")
-    }
+    
     
     
     @MainActor private func makePDF(){
         let renderer = ImageRenderer(content:
                                         
-                    InvestigationInvoiceView(invoice: invoice, hideButton: true)
+                                        InvestigationInvoiceView(invoice: invoice, orgModel: orgModel, hideButton: true)
         )
         
         let url = URL.documentsDirectory.appending(path: "investigationInvoice.pdf")
@@ -362,7 +348,7 @@ struct InvestigationInvoiceView: View {
 
 struct InvoiceView_Previews: PreviewProvider {
     static var previews: some View {
-        InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: "Rohid", contact: "01911362438", org_id: 5, investigationList: [InvestigationModel(serviceName: "Dengue", serviceCharge: 100), InvestigationModel(serviceName: "blood", serviceCharge: 200)], total: 300), hideButton: false)
+        InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: "Rohid", contact: "01911362438", org_id: 5, investigationList: [InvestigationModel(serviceName: "Dengue", serviceCharge: 100), InvestigationModel(serviceName: "blood", serviceCharge: 200)], total: 300), orgModel: OrganizationModel(name: "org", address: "dhaka", contact: "01911232323", type: "hos", email: "ceo@gmail.com", emergencyContact: "0191123232", operatingHour: "23/3", orgCode: "hos"), hideButton: false)
         // invoice: Invoice(patientName: "Rohid", patientContact: "01911362438", investigation: [Investigation(name: "Dengue", fee: 100), Investigation(name: "blood", fee: 200)], totalFee: 300)
     }
 }

@@ -20,6 +20,9 @@ struct DoctorListView: View {
         ZStack(alignment: .bottomTrailing) {
             VStack(alignment: .leading, spacing: 10) {
                 
+                Text("Drug List")
+                    .font(.title)
+                    .padding()
 //                HStack{
 //                    Spacer()
 //                    

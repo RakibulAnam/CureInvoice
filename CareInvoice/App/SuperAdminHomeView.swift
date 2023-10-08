@@ -14,6 +14,7 @@ struct SuperAdminHomeView: View {
     @AppStorage("AuthToken") var AuthToken : String = ""
     @AppStorage("UserName") var userName : String = ""
     @AppStorage("UserId") var UserId : Int = 0
+    @AppStorage("isLoggedIn") var isLoggedIn : Bool = false
     var body: some View {
         
         ZStack {
@@ -37,6 +38,7 @@ struct SuperAdminHomeView: View {
                             Button {
                                 userRole = ""
                                 AuthToken = ""
+                                isLoggedIn = false
                             } label: {
                                 
                                 Text("Logout")
@@ -79,7 +81,7 @@ struct SuperAdminHomeView: View {
                     
                     OrgListView(listURL: K.Pharmacy.GET_ALL_PHARMA, title: "\(K.OrgType.PHARMACY)", orgType: K.OrgType.PHARMACY)
                         .tabItem {
-                            Image(systemName: "menucard")
+                            Image(systemName: "cross.vial")
                             Text(K.OrgType.PHARMACY)
                         }
                     
@@ -98,7 +100,7 @@ struct SuperAdminHomeView: View {
                         }
                     SpecialityListGlobal()
                         .tabItem {
-                            Image(systemName: "bandage")
+                            Image(systemName: "allergens.fill")
                             Text("Specialities")
                         }
                     

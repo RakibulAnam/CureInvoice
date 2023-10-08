@@ -54,6 +54,12 @@ struct DrugListGlobal: View {
                                     DrugDetailView(drugModel: drug)
                                 } label: {
                                     DrugCell(drugModel: drug)
+                                        .onAppear{
+                                            if(manager.drugList.last?.id == drug.id){
+                                                manager.getAllGlobalDrugs()
+                                                print("paginated")
+                                            }
+                                        }
                                 }
                             }
                             .listRowSeparator(.hidden)
@@ -76,6 +82,15 @@ struct DrugListGlobal: View {
                     .navigationTitle("")
                     .onAppear {
                         DispatchQueue.main.async {
+                            manager.page = -1
+                            manager.drugList.removeAll()
+                            manager.getAllGlobalDrugs()
+                        }
+                    }
+                    .refreshable {
+                        DispatchQueue.main.async {
+                            manager.page = -1
+                            manager.drugList.removeAll()
                             manager.getAllGlobalDrugs()
                         }
                     }

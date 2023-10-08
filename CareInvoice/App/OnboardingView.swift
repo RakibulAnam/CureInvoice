@@ -18,6 +18,7 @@ struct OnboardingView: View {
     @AppStorage("OrgID") var OrgID : Int = 0
     @AppStorage("OrgType") var OrgType : String = ""
     @AppStorage("isLoggedIn") var isLoggedIn : Bool = false
+    @State private var showAlert = false
     
     
     
@@ -38,7 +39,7 @@ struct OnboardingView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 25, height: 25, alignment: .center)
-                    Text("CureInvoice")
+                    Text("CareInvoice")
                         .font(.custom("Cairo-Regular", size: 30))
                         .foregroundColor(.accentColor)
                 }
@@ -64,11 +65,17 @@ struct OnboardingView: View {
                 Button("login".uppercased()) {
                     DispatchQueue.main.async {
                         
-                        loginService.Login(userName: userName, password: password)
-                        
-                        
+                        loginService.Login(userName: userName, password: password, completion: {success in
+                            if success {
+                                
+                            } else {
+                                showAlert = true
+                            }
+                        })
                         
                     }
+                    
+                   
                    
                     
                     
@@ -80,7 +87,11 @@ struct OnboardingView: View {
                 .background(Color("PrimaryColor"))
                 .cornerRadius(10)
                 .padding()
-                
+                .alert("Please Enter Valid UserName and Password", isPresented: $showAlert){
+                    Button("OK", role: .cancel) {
+                        
+                    }
+                }
                 Spacer()
                 
             }//: VSTACK

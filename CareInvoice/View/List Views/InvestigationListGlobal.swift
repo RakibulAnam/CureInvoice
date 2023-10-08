@@ -57,6 +57,12 @@ struct InvestigationListGlobal: View {
                                 AddInvestigationForm(profile: item)
                             } label: {
                                 InvestigationCell(investigation: item)
+                                    .onAppear{
+                                        if(manager.investigationList.last?.id == item.id){
+                                            manager.getAllInvestigation()
+                                            print("paginated")
+                                        }
+                                    }
                             }
 
                             
@@ -85,6 +91,15 @@ struct InvestigationListGlobal: View {
                 .navigationTitle("")
                 .onAppear {
                     DispatchQueue.main.async {
+                        manager.page = -1
+                        manager.investigationList.removeAll()
+                        manager.getAllInvestigation()
+                    }
+                }
+                .refreshable {
+                    DispatchQueue.main.async {
+                        manager.page = -1
+                        manager.investigationList.removeAll()
                         manager.getAllInvestigation()
                     }
                 }

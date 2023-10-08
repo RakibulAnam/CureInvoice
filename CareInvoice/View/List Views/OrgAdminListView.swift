@@ -52,7 +52,11 @@ struct OrgAdminListView: View {
             .listStyle(.plain)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("")
-            
+            .refreshable {
+                DispatchQueue.main.async {
+                    manager.getOrgAdmin(orgID: org.id!)
+                }
+            }
             
             
         }

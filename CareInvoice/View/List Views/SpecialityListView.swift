@@ -30,6 +30,12 @@ struct SpecialityListView: View {
                     DoctorListView(speciality: list)
                 } label: {
                     SpecialityCell(model: list)
+                        .onAppear{
+                            if(manager.specialities.last?.id == list.id){
+                                manager.getAllSepcialityByOrg(orgID: OrgID)
+                                print("paginated")
+                            }
+                        }
                 }
 
                 
@@ -42,6 +48,8 @@ struct SpecialityListView: View {
         .navigationTitle("")
         .onAppear {
             DispatchQueue.main.async {
+                manager.page = -1
+                manager.specialities.removeAll()
                 manager.getAllSepcialityByOrg(orgID: OrgID)
             }
             

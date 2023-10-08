@@ -14,6 +14,7 @@ struct HospitalStaffView: View {
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
     @AppStorage("UserId") var UserId : Int = 0
+    @AppStorage("isLoggedIn") var isLoggedIn : Bool = false
     var body: some View {
         NavigationView {
             
@@ -38,6 +39,7 @@ struct HospitalStaffView: View {
                             Button {
                                 userRole = ""
                                 AuthToken = ""
+                                isLoggedIn = false
                             } label: {
                                 
                                 Text("Logout")

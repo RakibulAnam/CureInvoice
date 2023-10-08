@@ -20,10 +20,10 @@ struct AppointmentFormView: View {
     
     @State var patientId : Int?
     
-    
+    @StateObject var orgManager = OrganizationManager()
     
     var totalFee : Double {
-        var total = (Double(fee) ?? 0.0) - (Double(discount) ?? 0.0)
+        var total = (Double(docModel.consultation) ?? 0.0) - (Double(discount) ?? 0.0)
         
         
         return total
@@ -156,16 +156,24 @@ struct AppointmentFormView: View {
                                       
                                   
                         }//:Vstack
-                        FormTextFieldView(title: "Consultation Fee", bindingText: $fee)
+                    
+                       // FormTextFieldView(title: "Consultation Fee", bindingText: $fee)
+                    
+                        
+                    Text("Consultation Fee : \(docModel.consultation)")
+                        .font(.title3)
+                        .fontWeight(.light)
                         FormTextFieldView(title: "Discount", bindingText: $discount)
                         
                         
                         HStack {
                             Text("Total : \(Int(totalFee))")
-                        }.padding()
+                                .font(.title)
+                        }.padding(.top)
                        
                         
-                        NavigationLink(destination: AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee)), isActive: $invoiceGenerated) {
+                    if let orgModel = orgManager.orgModel {
+                        NavigationLink(destination: AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: fee, discount: discount, totalFees: totalFee), orgModel: orgModel), isActive: $invoiceGenerated) {
                             Button {
                                 /*
                                 let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
@@ -198,6 +206,9 @@ struct AppointmentFormView: View {
                                 
                             } //: BUTTON
                         }
+                    }
+                    
+                       
                         
                        
                         
@@ -217,6 +228,7 @@ struct AppointmentFormView: View {
         }//: ZSTACK
         .onAppear{
 //            manager.getDoctors(orgID: OrgID, specialityID: spId)
+            orgManager.getSingleOrganization(from: K.GET_ORGANIZATION_BY_ID, for: OrgID)
         }
         
         

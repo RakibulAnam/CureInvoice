@@ -54,11 +54,11 @@ struct OrgListView: View {
                             ForEach(manager.organization) { organization in
                                 NavigationLink(destination: OrganizationDetailView(org: organization, listUrl: listURL).navigationBarTitleDisplayMode(.inline)) {
                                     CellView(model: organization)
-//                                        .onAppear{
-//                                            if(manager.organization.last?.id == organization.id){
-//                                                manager.getOrganizationDetails(from: listURL)
-//                                            }
-//                                        }
+                                        .onAppear{
+                                            if(manager.organization.last?.id == organization.id){
+                                                manager.getOrganizationDetails(from: listURL)
+                                            }
+                                        }
                                 }
                                 .listRowInsets(EdgeInsets())
                                 .listRowSeparator(.hidden)
@@ -82,6 +82,14 @@ struct OrgListView: View {
                     .listStyle(.plain)
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationTitle("")
+                    .refreshable {
+                        DispatchQueue.main.async {
+                            manager.page = -1
+                            manager.organization.removeAll()
+                            manager.getOrganizationDetails(from: listURL)
+                            
+                        }
+                    }
                     //: LIST
                     
                     
@@ -101,7 +109,10 @@ struct OrgListView: View {
             }//: ZSTACK
             .onAppear {
                 DispatchQueue.main.async {
+                    manager.page = -1
+                    manager.organization.removeAll()
                     manager.getOrganizationDetails(from: listURL)
+                    
                 }
                 
             }

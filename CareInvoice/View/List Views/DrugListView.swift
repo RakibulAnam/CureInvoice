@@ -10,6 +10,7 @@ import SwiftUI
 struct DrugListView: View {
     
     @StateObject var manager = Pharmacymanager()
+    @StateObject var orgManager = OrganizationManager()
     @State private var isMenuOpen = false
     @State var drugSearch = ""
     @AppStorage("ROLE") var userRole : String = ""
@@ -43,16 +44,20 @@ struct DrugListView: View {
                         .font(.title)
                     Spacer()
                     
-                        NavigationLink(destination: DrugBillForm().navigationBarTitleDisplayMode(.inline)) {
-                            Text("Make Bill")
-                                .padding(5)
-                                .background(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke()
-                                )
-                                .foregroundColor(Color("PrimaryColor"))
-                                
-                        }
+                    if let orgModel = orgManager.orgModel{
+                        NavigationLink(destination: DrugBillForm(orgModel: orgModel).navigationBarTitleDisplayMode(.inline)) {
+                                Text("Make Bill")
+                                    .padding(5)
+                                    .background(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke()
+                                    )
+                                    .foregroundColor(Color("PrimaryColor"))
+                                    
+                            }
+                    }
+                    
+                    
                     
                     
                     
@@ -69,6 +74,12 @@ struct DrugListView: View {
                                 DrugDetailView(drugModel: drug)
                             } label: {
                                 DrugCell(drugModel: drug)
+                                    .onAppear{
+                                        if(manager.drugList.last?.id == drug.id){
+                                            manager.getAllDrugs(orgID: OrgID)
+                                            print("paginated")
+                                        }
+                                    }
                             }
                         }
                         .listRowSeparator(.hidden)
@@ -99,9 +110,19 @@ struct DrugListView: View {
                 }
                 .listStyle(.plain)
                 .navigationTitle("")
+                .refreshable {
+                    DispatchQueue.main.async {
+                        manager.page = -1
+                        manager.drugList.removeAll()
+                        manager.getAllDrugs(orgID: OrgID)
+                    }
+                }
                 .onAppear {
                     DispatchQueue.main.async {
+                        manager.page = -1
+                        manager.drugList.removeAll()
                         manager.getAllDrugs(orgID: OrgID )
+                        orgManager.getSingleOrganization(from: K.GET_ORGANIZATION_BY_ID, for: OrgID)
                     }
                 }
             }//: VSTACK

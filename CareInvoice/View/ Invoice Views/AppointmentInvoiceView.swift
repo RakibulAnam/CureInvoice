@@ -12,6 +12,9 @@ struct AppointmentInvoiceView: View {
     
     @State var invoice : AppointmentInvoiceModel
     @StateObject var manager = OrganizationManager()
+    @State var orgModel : OrganizationModel
+    @State var showAlert : Bool = false
+    
     @State var hideButton : Bool = false
     let dateFormatter = DateFormatter()
     let currentDate = Date()
@@ -31,9 +34,9 @@ struct AppointmentInvoiceView: View {
                     .resizable()
                     .frame(width: 50, height: 50, alignment: .center)
                 VStack(alignment: .leading){
-                    Text(manager.orgModel?.name ?? "Organization Name")
+                    Text(orgModel.name)
                         .font(.title)
-                    Text(manager.orgModel?.type ?? "Organization Type")
+                    Text(orgModel.address)
                         .font(.subheadline)
                         .fontWeight(.light)
                 }
@@ -112,7 +115,7 @@ struct AppointmentInvoiceView: View {
                 
                 Divider()
                 
-               
+                
                 
                 HStack {
                     Text("Total (Taka) :")
@@ -133,13 +136,19 @@ struct AppointmentInvoiceView: View {
                 Spacer()
                 Button {
                     makePDF()
+                    showAlert = true
                 } label: {
                     if hideButton == false {
                         Text("Download PDF")
                     }
                     
                 }
-            .padding()
+                .alert("Invoice Downloaded", isPresented: $showAlert, actions: {
+                    Button("OK", role: .cancel) {
+                        
+                    }
+                })
+                .padding()
             }
             
             
@@ -155,8 +164,8 @@ struct AppointmentInvoiceView: View {
     
     @MainActor private func makePDF(){
         let renderer = ImageRenderer(content:
-        
-            AppointmentInvoiceView(invoice: invoice)
+                                        
+            AppointmentInvoiceView(invoice: invoice, orgModel: orgModel, hideButton: true)
         )
         
         let url = URL.documentsDirectory.appending(path: "appointmentInvoice.pdf")
@@ -168,13 +177,13 @@ struct AppointmentInvoiceView: View {
             guard let pdf = CGContext(url as CFURL, mediaBox: &box, nil) else {
                 return
             }
-
+            
             // 6: Start a new PDF page
             pdf.beginPDFPage(nil)
-
+            
             // 7: Render the SwiftUI view data onto the page
             context(pdf)
-
+            
             // 8: End the page and close the file
             pdf.endPDFPage()
             pdf.closePDF()
@@ -187,6 +196,6 @@ struct AppointmentInvoiceView: View {
 
 struct AppointmentInvoiceView_Previews: PreviewProvider {
     static var previews: some View {
-        AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: "MAruf", orgId: 1, patientContact: "01232323", doc_name: "BroDOC", doc_id: 1, slot: "mornig-tuesday", consultationFee: "100", discount: "100", totalFees: 500.0))
+        AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: "MAruf", orgId: 1, patientContact: "01232323", doc_name: "BroDOC", doc_id: 1, slot: "mornig-tuesday", consultationFee: "100", discount: "100", totalFees: 500.0), orgModel: OrganizationModel(name: "org", address: "dhaka", contact: "01911232323", type: "hos", email: "ceo@gmail.com", emergencyContact: "0191123232", operatingHour: "23/3", orgCode: "hos"))
     }
 }

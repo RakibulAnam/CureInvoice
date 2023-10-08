@@ -18,7 +18,7 @@ struct SpecialityCell: View {
         VStack {
             HStack(spacing: 20){
                 
-                Image(model.iconUrl.replacingOccurrences(of: ".png", with: ""))
+                Image(model.iconUrl?.replacingOccurrences(of: ".png", with: "") ?? "brain")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60, alignment: .leading)

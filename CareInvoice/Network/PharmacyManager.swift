@@ -17,13 +17,16 @@ class Pharmacymanager : ObservableObject {
     @Published var patientList : [PatientModel] = []
     @AppStorage("AuthToken") var AuthToken : String = ""
     
-    @Published var page = 0
-    @Published var size = 100
+    @Published var page = -1
+    @Published var size = 10
     
     var tt = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic2FyaWYxIiwiaWF0IjoxNjk1ODE0MDg4LCJleHAiOjE2OTU5MDA0ODh9.7XYdDB-IU5AO-sWHo6CE55VsYCGh9mkbPEQoq9eHBvc"
     
     //MARK: - GET ALL DRUGS
     func getAllDrugs(orgID : Int) {
+        
+        page += 1
+        
         guard let url = URL(string: "\(K.GET_ALL_DRUGS_BY_ORG)\(orgID)?page=\(page)&size=\(size)")
         else
         {
@@ -54,7 +57,7 @@ class Pharmacymanager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([DrugModel].self, from: data)
-                                self?.drugList = decodedData
+                                self?.drugList.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Drug List \(error)")
@@ -74,7 +77,7 @@ class Pharmacymanager : ObservableObject {
     
     func getDrugBrand(name : String){
         
-        guard let url = URL(string: "\(K.GET_BRAND_DRUG)\(name)?page=\(page)&size=\(size)") else {
+        guard let url = URL(string: "\(K.GET_BRAND_DRUG)\(name)?page=0&size=50") else {
             print("invalid URL")
             return
         }
@@ -168,6 +171,7 @@ class Pharmacymanager : ObservableObject {
     // MARK: - GET ALL INVOICE
     
     func getAllInvoice(orgId : Int){
+        page += 1
         guard let url = URL(string: "\(K.GET_PARMACY_INVOICE)\(orgId)?page=\(page)&size=\(size)")
         else
         {
@@ -198,7 +202,7 @@ class Pharmacymanager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([DrugInvoiceModel].self, from: data)
-                                self?.invoiceList = decodedData
+                                self?.invoiceList.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Drug List \(error)")
@@ -313,7 +317,7 @@ class Pharmacymanager : ObservableObject {
     //MARK: - Search patients
     
     func getPatientList(orgId: Int, name : String){
-        guard let url = URL(string: "\(K.GET_PATIENT_BY_ORG)\(orgId)/\(name)?page=\(page)&size=\(size)") else {
+        guard let url = URL(string: "\(K.GET_PATIENT_BY_ORG)\(orgId)/\(name)?page=0&size=50") else {
             print("invalid URL")
             return
         }
@@ -408,7 +412,7 @@ class Pharmacymanager : ObservableObject {
     
     func searchDuringOrder(orgId : Int, name : String){
         
-        guard let url = URL(string: "\(K.SEARCH_DRUGS_DURING_ORDER)\(orgId)/\(name)?page=\(page)&size=\(size)") else {
+        guard let url = URL(string: "\(K.SEARCH_DRUGS_DURING_ORDER)\(orgId)/\(name)?page=0&size=50") else {
             print("invalid URL")
             return
         }

@@ -11,7 +11,7 @@ struct InvestigationListView: View {
     
    
     @StateObject var manager = DiagnosticCenterManager()
-    
+    @StateObject var orgManager = OrganizationManager()
     @State private var isMenuOpen = false
     @State var investigationSearch = ""
     @AppStorage("ROLE") var userRole : String = ""
@@ -60,16 +60,20 @@ struct InvestigationListView: View {
                     }
                     */
                     
-                    NavigationLink(destination: BookInvestigationForm().navigationBarTitleDisplayMode(.inline)) {
-                        Text("Book Investigation")
-                            .padding(5)
-                            .background(
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke()
-                            )
-                            .foregroundColor(Color("PrimaryColor"))
-                            
+                    if let orgModel = orgManager.orgModel {
+                        NavigationLink(destination: BookInvestigationForm(orgModel: orgModel).navigationBarTitleDisplayMode(.inline)) {
+                            Text("Book Investigation")
+                                .padding(5)
+                                .background(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke()
+                                )
+                                .foregroundColor(Color("PrimaryColor"))
+                                
+                        }
                     }
+                    
+                    
                     
                 }
                 .padding(.horizontal)
@@ -94,10 +98,22 @@ struct InvestigationListView: View {
                                    OrgInvestigationEditForm(model: item)
                                 } label: {
                                     InvestigationCell(investigation: item)
+                                        .onAppear{
+                                            if(manager.investigationList.last?.id == item.id){
+                                                manager.getAllInvestigationByOrg(orgId: OrgID)
+                                                print("paginated")
+                                            }
+                                        }
                                 }
                             }
                             else {
                                 InvestigationCell(investigation: item)
+                                    .onAppear{
+                                        if(manager.investigationList.last?.id == item.id){
+                                            manager.getAllInvestigationByOrg(orgId: OrgID)
+                                            print("paginated")
+                                        }
+                                    }
                             }
                          
 
@@ -130,9 +146,20 @@ struct InvestigationListView: View {
                 }
                 .listStyle(.plain)
                 .navigationTitle("")
+                .refreshable {
+                    DispatchQueue.main.async {
+                        manager.page = -1
+                        manager.investigationList.removeAll()
+                        manager.getAllInvestigationByOrg(orgId: OrgID)
+                        orgManager.getSingleOrganization(from: K.GET_ORGANIZATION_BY_ID, for: OrgID)
+                    }
+                }
                 .onAppear {
                     DispatchQueue.main.async {
+                        manager.page = -1
+                        manager.investigationList.removeAll()
                         manager.getAllInvestigationByOrg(orgId: OrgID)
+                        orgManager.getSingleOrganization(from: K.GET_ORGANIZATION_BY_ID, for: OrgID)
                     }
                 }
             }//: VSTACK

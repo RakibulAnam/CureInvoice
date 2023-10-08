@@ -45,10 +45,6 @@ struct SpecialityListGlobal: View {
                 .padding(.horizontal, 20)
                 
                 List{
-                    
-                    
-                    
-                    
                     if specialitySearch == "" {
                         ForEach(manager.specialityList) { list in
                             
@@ -56,6 +52,12 @@ struct SpecialityListGlobal: View {
                                 AddSpecialityForm(profile: list)
                             } label: {
                                 SpecialityCell(model: list)
+                                    .onAppear{
+                                        if(manager.specialityList.last?.id == list.id){
+                                            manager.getAllGlobalDrugs()
+                                            print("paginated")
+                                        }
+                                    }
                             }
                         }
                         .listRowSeparator(.hidden)
@@ -96,9 +98,18 @@ struct SpecialityListGlobal: View {
                 .navigationTitle("")
                 .onAppear {
                     DispatchQueue.main.async {
+                        manager.page = -1
+                        manager.specialityList.removeAll()
                         manager.getAllSepcialityGlobal()
                     }
                     
+                }
+                .refreshable {
+                    DispatchQueue.main.async {
+                        manager.page = -1
+                        manager.specialityList.removeAll()
+                        manager.getAllSepcialityGlobal()
+                    }
                 }
             }
             

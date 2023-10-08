@@ -21,13 +21,14 @@ class DiagnosticCenterManager : ObservableObject {
     
 //    var tt = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX09SR19BRE1JTiJ9XSwic3ViIjoic2FyaWYxIiwiaWF0IjoxNjk2MTQ0NTIzLCJleHAiOjE2OTYyMzA5MjN9.BCkV6dP7kohJbrdWzxU47sTgi6Xe5hu4fuZS-sSEpiA"
     
-    @Published var page = 0
-    @Published var size = 100
+    @Published var page = -1
+    @Published var size = 10
     
     
     
     //MARK: - GET INVESTIGATIONS
     func getAllInvestigation(orgId : Int) {
+        page += 1
         guard let url = URL(string: "\(K.GET_ALL_INVESTIGATIONS_GLOBAL)?page=\(page)&size=\(size)")
         else
         {
@@ -58,7 +59,7 @@ class DiagnosticCenterManager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([InvestigationModel].self, from: data)
-                                self?.investigationList = decodedData
+                                self?.investigationList.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Investigation List \(error)")
@@ -77,6 +78,7 @@ class DiagnosticCenterManager : ObservableObject {
     //MARK: - GET INVSTIGATION BY ORG
     
     func getAllInvestigationByOrg(orgId : Int) {
+        page += 1
         guard let url = URL(string: "\(K.GET_ORG_INVESTIGATION_LIST)\(orgId)?page=\(page)&size=\(size)")
         else
         {
@@ -107,7 +109,7 @@ class DiagnosticCenterManager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([InvestigationModel].self, from: data)
-                                self?.investigationList = decodedData
+                                self?.investigationList.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Investigation List \(error.localizedDescription)")
@@ -126,7 +128,7 @@ class DiagnosticCenterManager : ObservableObject {
     
    
     func getInvestigationByName(orgId : Int, name: String){
-        guard let url = URL(string: "\(K.GET_INVESTIGATOIN_BY_NAME)\(orgId)/\(name)?page=\(page)&size=\(size)") else {
+        guard let url = URL(string: "\(K.GET_INVESTIGATOIN_BY_NAME)\(orgId)/\(name)?page=0&size=50") else {
             print("invalid URL")
             return
         }
@@ -174,7 +176,7 @@ class DiagnosticCenterManager : ObservableObject {
     //MARK: - GET AND CREATE ADMIN
     
     func getAllAdmin(orgID : Int){
-        guard let url = URL(string: "\(K.GET_ADMIN)\(orgID)?page=\(page)&size=\(size)")
+        guard let url = URL(string: "\(K.GET_ADMIN)\(orgID)?page=0&size=50")
         else
         {
             print("Invalid URL")
@@ -308,6 +310,7 @@ class DiagnosticCenterManager : ObservableObject {
     // MARK: - GET ALL INVOICE
     
     func getAllInvoice(orgId : Int){
+        page += 1
         guard let url = URL(string: "\(K.GET_INVESTIGATION_INVOICE)\(orgId)?page=\(page)&size=\(size)")
         else
         {
@@ -338,7 +341,7 @@ class DiagnosticCenterManager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([InvestigationInvoiceModel].self, from: data)
-                                self?.invoiceList = decodedData
+                                self?.invoiceList.append(contentsOf: decodedData)
                                 
                             } catch  {
                                 print("Could not decode Drug List \(error)")
@@ -358,7 +361,7 @@ class DiagnosticCenterManager : ObservableObject {
     //MARK: - GET PATient
     
     func getPatientList(orgId: Int, name : String){
-        guard let url = URL(string: "\(K.GET_PATIENT_BY_ORG)\(orgId)/\(name)?page=\(page)&size=\(size)") else {
+        guard let url = URL(string: "\(K.GET_PATIENT_BY_ORG)\(orgId)/\(name)?page=0&size=50") else {
             print("invalid URL")
             return
         }

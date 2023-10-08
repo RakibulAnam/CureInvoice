@@ -34,11 +34,12 @@ class LoginService : ObservableObject{
     @AppStorage("OrgType") var OrgType : String = ""
     @AppStorage("UserName") var userName : String = ""
     @AppStorage("UserId") var UserId : Int = 0
+    @AppStorage("isLoggedIn") var isLoggedIn : Bool = false
     
     
     var orgManager = OrganizationManager()
     
-    func Login(userName: String, password : String){
+    func Login(userName: String, password : String, completion: @escaping (Bool) -> Void){
         
         print("Got Called")
         
@@ -62,6 +63,7 @@ class LoginService : ObservableObject{
                 
                 if let error = error {
                     print("There was an error \(error)")
+                    completion(false)
                 } else {
                     if let data = data {
                         print("Got DATA")
@@ -75,15 +77,18 @@ class LoginService : ObservableObject{
                                 self.OrgType = safeData.orgType
                                 self.userName = safeData.username
                                 self.UserId = safeData.userId
-                                
+                                self.isLoggedIn = true
                                 self.getRole()
+                                completion(true)
                                 
                             } catch  {
+                                completion(false)
                                 print("Couldnt Decode")
                             }
                         }
                        
                     } else{
+                        completion(false)
                         print("Didnt Get Data")
                     }
                 }

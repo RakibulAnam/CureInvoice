@@ -11,7 +11,10 @@ struct DrugInvoiceView: View {
     
     @State var invoice : DrugInvoiceModel
     @StateObject var manager = OrganizationManager()
+    @State var orgModel : OrganizationModel
     @State var hideButton : Bool = false
+    @State var showAlert : Bool = false
+   
     let dateFormatter = DateFormatter()
     let currentDate = Date()
     var formattedDate : String {
@@ -34,13 +37,26 @@ struct DrugInvoiceView: View {
                 Image(systemName: "pill")
                     .resizable()
                     .frame(width: 50, height: 50, alignment: .center)
+                
+             
+//                    VStack(alignment: .leading){
+//                        Text(manager.orgModel?.name ?? "Organization Name")
+//                            .font(.title)
+//                        Text(manager.orgModel?.address ?? "Address")
+//                            .font(.subheadline)
+//                            .fontWeight(.light)
+//                    }
+                
+                
                 VStack(alignment: .leading){
-                    Text(manager.orgModel?.name ?? "Organization Name")
+                    Text(orgModel.name)
                         .font(.title)
-                    Text(manager.orgModel?.type ?? "Organization Type")
+                    Text(orgModel.address)
                         .font(.subheadline)
                         .fontWeight(.light)
                 }
+                
+                
                 Spacer()
             }//: HSTACK
             .padding()
@@ -122,12 +138,18 @@ struct DrugInvoiceView: View {
                 Spacer()
                 Button {
                     makePDF()
+                    showAlert = true
                 } label: {
                     if hideButton == false {
                         Text("Download PDF")
                     }
                     
                 }
+                .alert("Invoice Downloaded", isPresented: $showAlert, actions: {
+                    Button("OK", role: .cancel) {
+                        
+                    }
+                })
             .padding()
             }
             
@@ -148,8 +170,8 @@ struct DrugInvoiceView: View {
     
     @MainActor private func makePDF(){
         let renderer = ImageRenderer(content:
-        
-            DrugInvoiceView(invoice: invoice, hideButton: true)
+            
+                                        DrugInvoiceView(invoice: invoice, orgModel: orgModel, hideButton: true)
         )
         
         let url = URL.documentsDirectory.appending(path: "drugInvoice.pdf")
@@ -180,6 +202,6 @@ struct DrugInvoiceView: View {
 
 struct DrugInvoiceView_Previews: PreviewProvider {
     static var previews: some View {
-        DrugInvoiceView(invoice: DrugInvoiceModel(patientName: "Rohid", patientContact: "01911362438", orgId: 1, drugList: [DrugModel(id: 1, brandName: "SomeBrand", price: 200.0, vendorName: "SomeVendor", genericName: "SomeGeneric", formationName: "SomeFormation", strengthName: "SomeStength"), DrugModel(id: 2, brandName: "SomeBrand2", price: 200.0, vendorName: "SomeVendor2", genericName: "SomeGeneric2", formationName: "SomeFormation2", strengthName: "SomeStength2")], total: 200), hideButton: false)
+        DrugInvoiceView(invoice: DrugInvoiceModel(patientName: "Rohid", patientContact: "01911362438", orgId: 1, drugList: [DrugModel(id: 1, brandName: "SomeBrand", price: 200.0, vendorName: "SomeVendor", genericName: "SomeGeneric", formationName: "SomeFormation", strengthName: "SomeStength"), DrugModel(id: 2, brandName: "SomeBrand2", price: 200.0, vendorName: "SomeVendor2", genericName: "SomeGeneric2", formationName: "SomeFormation2", strengthName: "SomeStength2")], total: 200), orgModel: OrganizationModel(name: "org", address: "dhaka", contact: "01911232323", type: "hos", email: "ceo@gmail.com", emergencyContact: "0191123232", operatingHour: "23/3", orgCode: "hos"), hideButton: false)
     }
 }

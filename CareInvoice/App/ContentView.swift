@@ -12,6 +12,7 @@ struct ContentView: View {
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("AuthToken") var AuthToken : String = ""
     @AppStorage("OrgType") var OrgType : String = ""
+    @AppStorage("isLoggedIn") var isLoggedIn : Bool = false
     
     var body: some View {
         
@@ -38,6 +39,7 @@ struct ContentView: View {
         }
         .onAppear{
             userRole = ""
+            isLoggedIn = false
         }
         
       
