@@ -104,5 +104,5 @@ struct K{
 struct base {
     // http://localhost:9191
     // https://gw4.jotno.dev
-    static let BASE_URL = "http://localhost:9191"
+    static let BASE_URL = "https://gw4.jotno.dev"
 }

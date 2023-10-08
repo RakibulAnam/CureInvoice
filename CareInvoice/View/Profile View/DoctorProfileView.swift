@@ -10,15 +10,20 @@ import SwiftUI
 struct DoctorProfileView: View {
     
     var docModel : DoctorModel
+    @AppStorage("ROLE") var userRole : String = ""
     
     var body: some View {
         ZStack {
             VStack(alignment: .center, spacing: 20){
                 
-                HStack {
-                    Spacer()
-                    Image(systemName: "pencil")
+                
+                if userRole == K.Role.ORG_ADMIN{
+                    HStack {
+                        Spacer()
+                        Image(systemName: "pencil")
+                    }
                 }
+               
                 
                 VStack{
                     Image("doc3")

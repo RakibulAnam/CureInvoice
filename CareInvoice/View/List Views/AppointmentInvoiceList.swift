@@ -17,14 +17,14 @@ struct AppointmentInvoiceList: View {
         VStack {
           
 
-            HStack{
-                
-                Text("Invoices")
-                    .font(.title)
-                Spacer()
-            
-            }
-            .padding(.horizontal)
+//            HStack{
+//                
+//                Text("Invoices")
+//                    .font(.title)
+//                Spacer()
+//            
+//            }
+//            .padding(.horizontal)
             
             List {
                 ForEach(manager.invoiceList) { item in
