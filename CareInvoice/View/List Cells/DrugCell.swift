@@ -27,7 +27,7 @@ struct DrugCell: View {
                     .padding(1)
                 
                 
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 2) {
                     
                     Text(drugModel.brandName)
                         .font(.title2)
@@ -38,6 +38,10 @@ struct DrugCell: View {
 //                    Text(drugModel.genericName)
                     
                     Text(drugModel.vendorName)
+                        .font(.subheadline)
+                    Text("Tk. \(Int(drugModel.price))")
+                        .font(.subheadline)
+                    Text("Qty. \(drugModel.quantity ?? 0)")
                         .font(.subheadline)
                     
                     

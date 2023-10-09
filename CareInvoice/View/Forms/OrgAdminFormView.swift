@@ -18,6 +18,8 @@ struct OrgAdminFormView: View {
     @State var userName = ""
     @State var password = ""
     @AppStorage("OrgID") var OrgID : Int = 0
+    @State var errorText = ""
+    @State var showAlert = false
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -40,6 +42,7 @@ struct OrgAdminFormView: View {
                     FormTextFieldView(title: "Password", bindingText: $password)
                     FormTextFieldView(title: "Email", bindingText: $email, validate: isValidEmail)
                     FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
+                        .keyboardType(.phonePad)
                     
                     
                     
@@ -48,10 +51,34 @@ struct OrgAdminFormView: View {
                         let newAdmin = OrgAdminModel(name: name, username: userName.lowercased(), password: password, email: email.lowercased(), contact: contact, orgId: org.id!)
                         
                         print(org.id!)
-                        manager.createOrgAdmin(admin: newAdmin)
+                        manager.createOrgAdmin(admin: newAdmin, completion: { error in
+                            
+                            switch error {
+                            case .urlProblem :
+                                errorText = "There Was a Problem Reaching the Server"
+                                showAlert = true
+                            
+                            case .duplicateData:
+                                errorText = "The Username and Email must be unique, please try again"
+                                showAlert = true
+                                
+                            case .some(.emptyTextField):
+                                errorText = "Please Enter All Information"
+                                showAlert = true
+                                
+                            case nil :
+                                print("Success")
+                                DispatchQueue.main.async {
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }
+                               
+                            
+                            }
+                            
+                        })
                         
                       
-                        self.presentationMode.wrappedValue.dismiss()
+//                        self.presentationMode.wrappedValue.dismiss()
                         
                     } label: {
                         Text("Add".uppercased())
@@ -64,6 +91,11 @@ struct OrgAdminFormView: View {
                             .padding(.vertical)
                         
                     } //: BUTTON
+                    .alert(errorText, isPresented: $showAlert){
+                        Button("OK", role: .cancel) {
+                            
+                        }
+                    }
                     
                 }//: SCROLL
                 

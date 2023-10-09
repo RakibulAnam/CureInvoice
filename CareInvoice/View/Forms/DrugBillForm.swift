@@ -79,6 +79,7 @@ struct DrugBillForm: View {
                                 FormTextFieldView(title: "Patient Name", bindingText: $name)
                                 
                                 FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
+                                    .keyboardType(.phonePad)
                             }
                         } else {
                             

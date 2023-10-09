@@ -47,7 +47,7 @@ struct DoctorFormView: View {
     @State var startTime = "12:00 AM"
     @State var endTime = "12:00 AM"
     
-    
+    @State var slotList : [Slot] = []
     
     
     var body: some View {
@@ -68,23 +68,33 @@ struct DoctorFormView: View {
                     FormTextFieldView(title: "Doctor Name", bindingText: $name)
                     FormTextFieldView(title: "Email", bindingText: $email, validate: isValidEmail)
                     FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
+                        .keyboardType(.phonePad)
                     FormTextFieldView(title: "Degrees", bindingText: $degree)
                     FormTextFieldView(title: "Follow-Up Fee", bindingText: $followUpFee)
                     FormTextFieldView(title: "Consultation Fee", bindingText: $consultaionFee)
                     
                     HStack {
                         FormTextFieldView(title: "Minimum Discount", bindingText: $minimumDiscount)
+                            .keyboardType(.numberPad)
                         FormTextFieldView(title: "Maximum Discount", bindingText: $maximumDiscount)
+                            .keyboardType(.numberPad)
                     }
                     
                     HStack {
                         Text("Slots")
                             .font(.title)
                         Spacer()
+                        
+                        Button("Add") {
+                            let newSlot = Slot(day: selectedDay, time: "\(startTime) - \(endTime)")
+                            slotList.append(newSlot)
+                        }
+                        
                     }
                     
                     VStack {
                         
+                    
                         VStack (spacing: 5){
                             
                             HStack{
@@ -153,6 +163,14 @@ struct DoctorFormView: View {
                         
                         }// Vstack
                         
+                        
+                        List(slotList , id:\.self) { list in
+                            Text("\(list.day) : \(list.time)")
+                              
+                        }
+                        .frame(width: 300, height: 300, alignment: .center)
+                        .listStyle(.plain)
+                        
                     }
                         
                     
@@ -167,10 +185,16 @@ struct DoctorFormView: View {
                         manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
                          
                         */
+                        if slotList.isEmpty {
+                            let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: [Slot(day: selectedDay, time: "\(startTime) - \(endTime)")], orgId: [OrgID], spId: [speciality.id!])
+                            manager.createDoctor(doctor: newDoctor, orgId: OrgID)
+                        }else {
+                            let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: slotList, orgId: [OrgID], spId: [speciality.id!])
+                            manager.createDoctor(doctor: newDoctor, orgId: OrgID)
+                        }
                         
-                        let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: [Slot(day: selectedDay, time: "\(startTime) - \(endTime)")], orgId: [OrgID], spId: [speciality.id!])
                         
-                        manager.createDoctor(doctor: newDoctor, orgId: OrgID)
+                        
                       
                         self.presentationMode.wrappedValue.dismiss()
                         

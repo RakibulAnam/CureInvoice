@@ -162,17 +162,32 @@ struct AddDrugForm: View {
                          
                         */
                         
-                        let newDrug = DrugModel(brandName: brandName, price: Double(price)!, vendorName: vendorName, genericName: generic, formationName: formation, strengthName: strength)
+                        let newDrug = DrugModel(brandName: brandName, price: Double(price) ?? 0.0 , vendorName: vendorName, genericName: generic, formationName: formation, strengthName: strength)
                         
                         if let profile = profile {
                             manager.updateDrug(drug: newDrug, drugID: profile.id!)
+                            self.presentationMode.wrappedValue.dismiss()
                         }
                         else{
-                            manager.createDrug(drug: newDrug)
+                            manager.createDrug(drug: newDrug, completion: { error in
+                                
+                                switch error {
+                                case .some(.emptyInfo) :
+                                    print("Lola")
+                                    
+                                case nil :
+                                    print("Success")
+                                    DispatchQueue.main.async {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                }
+                                
+                                
+                            })
                         }
                         
                       
-                        self.presentationMode.wrappedValue.dismiss()
+                       self.presentationMode.wrappedValue.dismiss()
                         
                     } label: {
                         Text(buttonName.uppercased())

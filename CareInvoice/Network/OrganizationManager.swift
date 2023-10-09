@@ -87,7 +87,7 @@ class OrganizationManager : ObservableObject {
     
     //MARK: - CREATE ORGANIZATION
     
-    func postOrganization(organization: OrganizationModel, to apiUrl : String){
+    func postOrganization(organization: OrganizationModel, to apiUrl : String , completion: @escaping (OrgUserError?) -> Void){
         
         let org = organization
         
@@ -115,6 +115,7 @@ class OrganizationManager : ObservableObject {
             URLSession.shared.dataTask(with: request) { data, response, error in
                 
                 if let error = error {
+                    completion(.urlProblem)
                     print("ErrorBro: \(error.localizedDescription)")
                     return
                 }
@@ -123,8 +124,20 @@ class OrganizationManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let errorMessage = "\(jsonResponse)"
+                        if errorMessage.contains("Duplicate entry"){
+                            completion(.duplicateData)
+                        }
+                        else if errorMessage.contains("empty"){
+                            completion(.emptyTextField)
+                        }
+                        else {
+                            completion(nil)
+                        }
+                        
                         print(jsonResponse)
                     } catch {
+                        let errorMessage = error.localizedDescription
                         print("JSON Error: \(error.localizedDescription)")
                     }
                 }
@@ -135,7 +148,7 @@ class OrganizationManager : ObservableObject {
     
     
     //MARK: - UPDATE ORGANIZATION
-    func updateOrganization(organization: OrganizationModel,to apiUrl : String, for id : Int){
+    func updateOrganization(organization: OrganizationModel,to apiUrl : String, for id : Int, completion: @escaping (OrgUserError?) -> Void){
         
         let org = organization
         
@@ -165,6 +178,7 @@ class OrganizationManager : ObservableObject {
                 
                 if let error = error {
                     print("ErrorBro: \(error.localizedDescription)")
+                    completion(.urlProblem)
                     return
                 }
                 
@@ -172,6 +186,18 @@ class OrganizationManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let errorMessage = "\(jsonResponse)"
+                        if errorMessage.contains("Duplicate entry"){
+                            completion(.duplicateData)
+                        }
+                        else if errorMessage.contains("empty"){
+                            completion(.emptyTextField)
+                        }
+                        
+                        else {
+                            completion(nil)
+                        }
+                        
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")
@@ -287,11 +313,12 @@ class OrganizationManager : ObservableObject {
     
     
     // MARK: - CREATE ORG ADMIN
-    func createOrgAdmin(admin : OrgAdminModel){
+    func createOrgAdmin(admin : OrgAdminModel, completion: @escaping (OrgUserError?) -> Void){
         
         let admin = admin
         
         guard let url = URL(string: "\(K.ADD_ORG_ADMIN)") else {
+            completion(.urlProblem)
             print("Invalid Posting URL")
             return
         }
@@ -321,6 +348,17 @@ class OrganizationManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let response = "\(jsonResponse)"
+                        if response.contains("Duplicate entry"){
+                            completion(.duplicateData)
+                        }
+                        else if response.contains("empty"){
+                            completion(.emptyTextField)
+                        }
+                        else {
+                            completion(nil)
+                        }
+                        
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")
@@ -488,7 +526,7 @@ class OrganizationManager : ObservableObject {
     
     // MARK: - CREATE DRUG
     
-    func createDrug(drug : DrugModel){
+    func createDrug(drug : DrugModel, completion: @escaping (ProductError?) -> Void){
         let drug = drug
         
         guard let url = URL(string: "\(K.CREATE_DRUG)") else {
@@ -520,7 +558,18 @@ class OrganizationManager : ObservableObject {
                 if let data = data {
                     do {
                         // Parse the response data if needed
+                        
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        
+                        let response = "\(jsonResponse)"
+                       if response.contains("empty"){
+                           completion(.emptyInfo)
+                        }
+                        else {
+                            completion(nil)
+                        }
+                        
+                        
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")

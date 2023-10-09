@@ -42,6 +42,9 @@ struct BookInvestigationForm: View {
     
     @AppStorage("OrgID") var OrgID : Int = 0
     
+    @State var showAlert = false
+    @State var errorText = ""
+    
     var body: some View {
         
         
@@ -74,6 +77,7 @@ struct BookInvestigationForm: View {
                                 FormTextFieldView(title: "Patient Name", bindingText: $name)
                                 
                                 FormTextFieldView(title: "Patient Contact", bindingText: $contact, validate: isValidContact)
+                                    .keyboardType(.phonePad)
                             }
                         } else {
                             
@@ -183,14 +187,56 @@ struct BookInvestigationForm: View {
                             
                             
                             if let patID = patientId {
-                                manager.bookInvestigation(invoice: InvestigationInvoiceModel( p_name: name, pid: patID, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)))
+                                manager.bookInvestigation(invoice: InvestigationInvoiceModel( p_name: name, pid: patID, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)), completion: { error in
+                                    
+                                    switch error {
+                                    case .urlProblem :
+                                        errorText = "There Was a Problem Reaching the Server"
+                                        showAlert = true
+                                    
+                                    case .duplicateData:
+                                        errorText = "The Email and Org Code Must be unique, please try again"
+                                        showAlert = true
+                                        
+                                    case nil :
+                                        print("Success")
+                                        invoiceGenerated = true
+                                       
+                                    
+                                    case .some(.emptyTextField):
+                                        errorText = "Please Enter All Information"
+                                        showAlert = true
+                                    }
+                                    
+                                })
                             }else {
-                                manager.bookInvestigation(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)))
+                                manager.bookInvestigation(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)), completion: { error in
+                                    
+                                    switch error {
+                                    case .urlProblem :
+                                        errorText = "There Was a Problem Reaching the Server"
+                                        showAlert = true
+                                    
+                                    case .duplicateData:
+                                        errorText = "The Email and Org Code Must be unique, please try again"
+                                        showAlert = true
+                                        
+                                    case nil :
+                                        print("Success")
+                                        invoiceGenerated = true
+                                       
+                                    
+                                    case .some(.emptyTextField):
+                                        errorText = "Please Enter All Information"
+                                        showAlert = true
+                                    }
+                                    
+                                })
                             }
                             
                             
                             
-                            invoiceGenerated = true
+                           // invoiceGenerated = true
                             
                             
                             
@@ -204,6 +250,11 @@ struct BookInvestigationForm: View {
                                 .cornerRadius(10)
                                 .padding(.vertical)
                             
+                        }
+                        .alert(errorText, isPresented: $showAlert){
+                            Button("OK", role: .cancel) {
+                                
+                            }
                         }
                     }
                     

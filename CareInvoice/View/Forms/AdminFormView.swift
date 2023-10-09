@@ -18,6 +18,9 @@ struct AdminFormView: View {
     @AppStorage("OrgID") var OrgID : Int = 0
     @AppStorage("OrgType") var OrgType : String = ""
     
+    @State var errorText = ""
+    @State var showAlert = false
+    
     @StateObject var pharmacyManager = Pharmacymanager()
     @StateObject var diagnosticManager = DiagnosticCenterManager()
     @StateObject var hospitalManager = HospitalManager()
@@ -45,6 +48,7 @@ struct AdminFormView: View {
                     FormTextFieldView(title: "Password", bindingText: $password)
                     FormTextFieldView(title: "Email", bindingText: $email, validate: isValidEmail)
                     FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
+                        .keyboardType(.phonePad)
                     
                     
                     
@@ -61,18 +65,90 @@ struct AdminFormView: View {
                         
                         print(OrgID)
                         if OrgType == K.OrgType.PHARMACY{
-                            pharmacyManager.createAdmin(admin: newAdmin)
+                            pharmacyManager.createAdmin(admin: newAdmin, completion: { error in
+                                
+                                switch error {
+                                case .urlProblem :
+                                    errorText = "There Was a Problem Reaching the Server"
+                                    showAlert = true
+                                
+                                case .duplicateData:
+                                    errorText = "The Username and Email must be unique, please try again"
+                                    showAlert = true
+                                    
+                                case .some(.emptyTextField):
+                                    errorText = "Please Enter All Information"
+                                    showAlert = true
+                                    
+                                case nil :
+                                    print("Success")
+                                    DispatchQueue.main.async {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                   
+                                
+                                }
+                                
+                            })
                         }
                         else if OrgType == K.OrgType.DIAGNOSTIC_CENTER {
-                            diagnosticManager.createAdmin(admin: newAdmin)
+                            diagnosticManager.createAdmin(admin: newAdmin, completion: { error in
+                                
+                                switch error {
+                                case .urlProblem :
+                                    errorText = "There Was a Problem Reaching the Server"
+                                    showAlert = true
+                                
+                                case .duplicateData:
+                                    errorText = "The Username and Email must be unique, please try again"
+                                    showAlert = true
+                                    
+                                case .some(.emptyTextField):
+                                    errorText = "Please Enter All Information"
+                                    showAlert = true
+                                    
+                                case nil :
+                                    print("Success")
+                                    DispatchQueue.main.async {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                   
+                                
+                                }
+                                
+                            })
                         }
                         else if OrgType == K.OrgType.HOSPITAL {
-                            hospitalManager.createAdmin(admin: newAdmin)
+                            hospitalManager.createAdmin(admin: newAdmin, completion: { error in
+                                
+                                switch error {
+                                case .urlProblem :
+                                    errorText = "There Was a Problem Reaching the Server"
+                                    showAlert = true
+                                
+                                case .duplicateData:
+                                    errorText = "The Username and Email must be unique, please try again"
+                                    showAlert = true
+                                    
+                                case .some(.emptyTextField):
+                                    errorText = "Please Enter All Information"
+                                    showAlert = true
+                                    
+                                case nil :
+                                    print("Success")
+                                    DispatchQueue.main.async {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                   
+                                
+                                }
+                                
+                            })
                         }
                         
                         
                       
-                        self.presentationMode.wrappedValue.dismiss()
+                        //self.presentationMode.wrappedValue.dismiss()
                         
                     } label: {
                         Text("Create".uppercased())
@@ -85,6 +161,11 @@ struct AdminFormView: View {
                             .padding(.vertical)
                         
                     } //: BUTTON
+                    .alert(errorText, isPresented: $showAlert){
+                        Button("OK", role: .cancel) {
+                            
+                        }
+                    }
                     
                 }//: SCROLL
                 

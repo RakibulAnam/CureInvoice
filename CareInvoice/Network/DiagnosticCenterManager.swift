@@ -218,7 +218,7 @@ class DiagnosticCenterManager : ObservableObject {
             }.resume()
     }
     
-    func createAdmin(admin : AdminModel){
+    func createAdmin(admin : AdminModel, completion: @escaping (OrgUserError?) -> Void){
         
         let admin = admin
         
@@ -252,6 +252,16 @@ class DiagnosticCenterManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let response = "\(jsonResponse)"
+                        if response.contains("Duplicate entry"){
+                            completion(.duplicateData)
+                        }
+                        else if response.contains("empty"){
+                            completion(.emptyTextField)
+                        }
+                        else {
+                            completion(nil)
+                        }
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")
@@ -264,7 +274,7 @@ class DiagnosticCenterManager : ObservableObject {
     }
     
     //MARK: - BOOK INVESTIGATION
-    func bookInvestigation(invoice : InvestigationInvoiceModel){
+    func bookInvestigation(invoice : InvestigationInvoiceModel, completion: @escaping (OrgUserError?) -> Void){
         let invoice = invoice
         
         guard let url = URL(string: "\(K.BOOK_INVESTIGATION)") else {
@@ -297,6 +307,16 @@ class DiagnosticCenterManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let response = "\(jsonResponse)"
+                        if response.contains("Duplicate entry"){
+                            completion(.duplicateData)
+                        }
+                        else if response.contains("empty"){
+                            completion(.emptyTextField)
+                        }
+                        else {
+                            completion(nil)
+                        }
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")

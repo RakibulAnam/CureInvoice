@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E21D88792AB9B9CA0068669E /* OrgAdminListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21D88782AB9B9CA0068669E /* OrgAdminListView.swift */; };
+		E229DDB12AD3C36D001F38DE /* ErrorHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E229DDB02AD3C36D001F38DE /* ErrorHandlers.swift */; };
 		E22B690B2ACBDD2700B152AD /* SpecialityListGlobal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22B690A2ACBDD2700B152AD /* SpecialityListGlobal.swift */; };
 		E22B690D2ACBE07600B152AD /* AddSpecialityForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22B690C2ACBE07600B152AD /* AddSpecialityForm.swift */; };
 		E22B690F2ACC066800B152AD /* DoctorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22B690E2ACC066800B152AD /* DoctorModel.swift */; };
@@ -92,6 +93,7 @@
 
 /* Begin PBXFileReference section */
 		E21D88782AB9B9CA0068669E /* OrgAdminListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgAdminListView.swift; sourceTree = "<group>"; };
+		E229DDB02AD3C36D001F38DE /* ErrorHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandlers.swift; sourceTree = "<group>"; };
 		E22B690A2ACBDD2700B152AD /* SpecialityListGlobal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialityListGlobal.swift; sourceTree = "<group>"; };
 		E22B690C2ACBE07600B152AD /* AddSpecialityForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpecialityForm.swift; sourceTree = "<group>"; };
 		E22B690E2ACC066800B152AD /* DoctorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorModel.swift; sourceTree = "<group>"; };
@@ -187,6 +189,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E229DDAF2AD3C349001F38DE /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				E229DDB02AD3C36D001F38DE /* ErrorHandlers.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
 		E245C8522AC404EF00B22CDE /*  Invoice Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +226,7 @@
 		E2825B732AB027A7006EF669 /* CareInvoice */ = {
 			isa = PBXGroup;
 			children = (
+				E229DDAF2AD3C349001F38DE /* Enums */,
 				E2825B8F2AB07323006EF669 /* Network */,
 				E2825B8C2AB06548006EF669 /* Model */,
 				E2825B8B2AB03259006EF669 /* Info.plist */,
@@ -476,6 +487,7 @@
 				E2A19A092AB70F2400474973 /* OrgAdminFormView.swift in Sources */,
 				E2AA756D2ACD3FDF00C69C72 /* UserProfileModel.swift in Sources */,
 				E245C8542AC4051800B22CDE /* DrugInvoiceView.swift in Sources */,
+				E229DDB12AD3C36D001F38DE /* ErrorHandlers.swift in Sources */,
 				E21D88792AB9B9CA0068669E /* OrgAdminListView.swift in Sources */,
 				E245C85C2AC44D5600B22CDE /* InvoiceCell.swift in Sources */,
 				E27736A32AC2E5FB009BC7CB /* PharmacyStaffView.swift in Sources */,

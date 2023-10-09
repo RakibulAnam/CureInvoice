@@ -22,6 +22,7 @@ struct loginResponse : Codable{
     var userId : Int
 }
 
+
 struct userRoleModel : Codable {
     let authority: String
 }

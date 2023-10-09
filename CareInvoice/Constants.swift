@@ -58,6 +58,7 @@ struct K{
     static let CREATE_DOCTOR_BY_ORG = "\(base.BASE_URL)/doctors/addDoctor/"
     static let MAKE_APPOINTMENT = "\(base.BASE_URL)/appointments/makeAppointment"
     static let GET_APPOINTMENT_INVOICE = "\(base.BASE_URL)/appointments/getAppointmentsByOrg/"
+    static let SEARCH_APPOINTMENT_INVOICE = "\(base.BASE_URL)/appointments/search/"
     
     static let SEARCH_ORGANIZATION = "\(base.BASE_URL)/organization/search/"
     

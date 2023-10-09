@@ -12,6 +12,7 @@ struct AppointmentInvoiceList: View {
     @AppStorage("OrgID") var OrgID : Int = 0
     @StateObject var manager = HospitalManager()
     @StateObject var orgManager = OrganizationManager()
+    @State var invoiceSearch = ""
     
     var body: some View {
         VStack {
@@ -25,6 +26,10 @@ struct AppointmentInvoiceList: View {
 //            
 //            }
 //            .padding(.horizontal)
+            
+            
+            
+            
             
             List {
                 ForEach(manager.invoiceList) { item in

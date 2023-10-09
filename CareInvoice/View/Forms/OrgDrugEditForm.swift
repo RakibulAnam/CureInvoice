@@ -18,6 +18,12 @@ struct OrgDrugEditForm: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    init(drugModel : DrugModel){
+        self.drugModel = drugModel
+        self._price = State(initialValue: "\(drugModel.price)")
+        self._quantity = State(initialValue: "\(drugModel.quantity ?? 0)")
+    }
+    
     var body: some View {
         ZStack {
         

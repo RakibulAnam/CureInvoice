@@ -44,14 +44,14 @@ struct OnboardingView: View {
                         .foregroundColor(.accentColor)
                 }
                 
-                TextField("UserName", text: $userName)
+                TextField("Username", text: $userName)
                     .padding()
                     .frame(width: 350, height: 50, alignment: .center)
                     .background(Color("CardBackground"))
                     .cornerRadius(10)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
-                TextField("Password", text: $password)
+                SecureField("Password", text: $password)
                     .padding()
                     .frame(width: 350, height: 50, alignment: .center)
                     .background(Color("CardBackground"))
@@ -87,7 +87,7 @@ struct OnboardingView: View {
                 .background(Color("PrimaryColor"))
                 .cornerRadius(10)
                 .padding()
-                .alert("Please Enter Valid UserName and Password", isPresented: $showAlert){
+                .alert("Please Enter Valid Username and Password", isPresented: $showAlert){
                     Button("OK", role: .cancel) {
                         
                     }

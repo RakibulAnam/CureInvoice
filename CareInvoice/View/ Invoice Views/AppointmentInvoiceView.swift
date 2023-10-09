@@ -101,7 +101,7 @@ struct AppointmentInvoiceView: View {
                 Divider()
                 
                 HStack {
-                    Text("Consultaion: ")
+                    Text("Consultation: ")
                     Spacer()
                     Text("\(invoice.consultationFee)")
                 }

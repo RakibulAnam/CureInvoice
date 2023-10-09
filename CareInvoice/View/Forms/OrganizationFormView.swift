@@ -20,6 +20,8 @@ struct OrganizationFormView: View {
     @State var emergencyContact = ""
     @State var operatingHour = ""
     @State var orgCode = ""
+    @State var errorText = ""
+    @State var showAlert = false
     
 //    @Binding var name : String
 //    @Binding var address : String
@@ -72,18 +74,64 @@ struct OrganizationFormView: View {
                     FormTextFieldView(title: "Address", bindingText: $address)
                     FormTextFieldView(title: "Email", bindingText: $email, validate: isValidEmail)
                     FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
+                        .keyboardType(.phonePad)
                     FormTextFieldView(title: "Emergency Contact", bindingText: $emergencyContact, validate: isValidContact)
+                        .keyboardType(.phonePad)
                     FormTextFieldView(title: "Operating Hour", bindingText: $operatingHour)
                     
                     
                     Button {
                         let newOrg = OrganizationModel(name: name, address: address, contact: contact, type: orgType, email: email.lowercased(), emergencyContact: emergencyContact, operatingHour: operatingHour, orgCode: orgCode)
                         if let profile = profile {
-                            manager.updateOrganization(organization: newOrg, to: K.UPDATE_ORGANIZATION, for: profile.id!)
+                            manager.updateOrganization(organization: newOrg, to: K.UPDATE_ORGANIZATION, for: profile.id!, completion: { error in
+                                
+                                switch error {
+                                case .urlProblem :
+                                    errorText = "There Was a Problem Reaching the Server"
+                                    showAlert = true
+                                
+                                case .duplicateData:
+                                    errorText = "The Email and Org Code Must be unique, please try again"
+                                    showAlert = true
+                                    
+                                case nil :
+                                    print("Success")
+                                    DispatchQueue.main.async {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                   
+                                
+                                case .some(.emptyTextField):
+                                    errorText = "Please Enter All Information"
+                                    showAlert = true
+                                }
+                                
+                            })
+//                            self.presentationMode.wrappedValue.dismiss()
                         }else{
-                            manager.postOrganization(organization: newOrg, to: K.CREATE_ORGANIZATION)
+                            manager.postOrganization(organization: newOrg, to: K.CREATE_ORGANIZATION, completion: { error in
+                                
+                                switch error {
+                                case .urlProblem :
+                                    errorText = "There Was a Problem Reaching the Server"
+                                    showAlert = true
+                                case nil:
+                                    print("Success")
+                                    DispatchQueue.main.async {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                case .some(.duplicateData):
+                                    errorText = "The Email and Org Code Must be unique, please try again"
+                                    showAlert = true
+                                
+                                case .some(.emptyTextField):
+                                    errorText = "Please Enter All Information"
+                                    showAlert = true
+                                }
+                                
+                            })
                         }
-                        self.presentationMode.wrappedValue.dismiss()
+                        
                         
                     } label: {
                         Text(buttonName.uppercased())
@@ -96,6 +144,11 @@ struct OrganizationFormView: View {
                             .padding(.vertical)
                         
                     } //: BUTTON
+                    .alert(errorText, isPresented: $showAlert){
+                        Button("OK", role: .cancel) {
+                            
+                        }
+                    }
                     
                 }//: SCROLL
                 

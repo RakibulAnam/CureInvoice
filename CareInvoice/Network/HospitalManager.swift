@@ -176,7 +176,7 @@ class HospitalManager : ObservableObject {
     
     //MARK: - MAKE APPOINTMENT
     
-    func makeAppointment(invoice : AppointmentInvoiceModel){
+    func makeAppointment(invoice : AppointmentInvoiceModel, completion: @escaping (OrgUserError?) -> Void){
         let invoice = invoice
         
         guard let url = URL(string: "\(K.MAKE_APPOINTMENT)") else {
@@ -209,6 +209,16 @@ class HospitalManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let response = "\(jsonResponse)"
+                        if response.contains("Duplicate entry"){
+                            completion(.duplicateData)
+                        }
+                        else if response.contains("empty"){
+                            completion(.emptyTextField)
+                        }
+                        else {
+                            completion(nil)
+                        }
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")
@@ -270,6 +280,59 @@ class HospitalManager : ObservableObject {
             }.resume()
         
     }
+    
+    //MARK: - GET SEARCHED INVOICE
+    func searchInvoice(orgId : Int, name: String){
+        
+//        page += 1
+        
+        guard let url = URL(string: "\(K.SEARCH_APPOINTMENT_INVOICE)\(orgId)/\(name)?page=\(page)&size=\(size)")
+        else
+        {
+            print("Invalid URL")
+            return
+        }
+      
+        let token = AuthToken
+        var request = URLRequest(url: url)
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession
+            .shared
+            .dataTask(with: request) {[weak self] data, response, error in
+                
+                
+                DispatchQueue.main.async {
+                    
+                    if let error = error {
+                        print("There was an error starting the session \(error)")
+                    }
+                    else{
+                        
+                        let decoder = JSONDecoder()
+                        
+                        if let data = data {
+                            
+                            
+                            do {
+                                let decodedData = try decoder.decode([AppointmentInvoiceModel].self, from: data)
+                                self?.invoiceList.append(contentsOf: decodedData)
+                                
+                            } catch  {
+                                print("Could not decode Invoice List \(error)")
+                            }
+                        
+                            
+                            
+                        }else{
+                            print("Could Not Fetch Data")
+                        }
+                    }
+                } //:DispatchQueue
+            }.resume()
+        
+    }
+    
     
     
     //MARK: - GET PATIENT LIST
@@ -366,7 +429,7 @@ class HospitalManager : ObservableObject {
     
     //MARK: - CREATE ADMIN
     
-    func createAdmin(admin : AdminModel){
+    func createAdmin(admin : AdminModel, completion: @escaping (OrgUserError?) -> Void){
         
         let admin = admin
         
@@ -400,6 +463,16 @@ class HospitalManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let response = "\(jsonResponse)"
+                        if response.contains("Duplicate entry"){
+                            completion(.duplicateData)
+                        }
+                        else if response.contains("empty"){
+                            completion(.emptyTextField)
+                        }
+                        else {
+                            completion(nil)
+                        }
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")

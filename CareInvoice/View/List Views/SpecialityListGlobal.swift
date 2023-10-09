@@ -54,7 +54,7 @@ struct SpecialityListGlobal: View {
                                 SpecialityCell(model: list)
                                     .onAppear{
                                         if(manager.specialityList.last?.id == list.id){
-                                            manager.getAllGlobalDrugs()
+                                            manager.getAllSepcialityGlobal()
                                             print("paginated")
                                         }
                                     }

@@ -77,8 +77,10 @@ struct CellView: View {
                             Text(orgAdminModel.name)
                                 .font(.title2)
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(orgAdminModel.contact)
+                                Text(orgAdminModel.username)
+//                                Text(orgAdminModel.contact)
                                 Text(orgAdminModel.email)
+                                
                                 
                             }
                             .foregroundColor(.black)

@@ -102,7 +102,7 @@ struct InvoiceCell: View {
                         
                         Text(model.patientName)
                             .font(.title2)
-                            .fontWeight(.medium)
+                            .fontWeight(.regular)
                         
                         Text(model.patientContact)
                         
@@ -113,6 +113,7 @@ struct InvoiceCell: View {
                     Spacer()
                     Text("Tk. \(Int(model.totalFees))")
                         .font(.title2)
+                        .fontWeight(.regular)
                     
                 
                     
@@ -132,5 +133,7 @@ struct InvoiceCell: View {
 struct InvoiceCell_Previews: PreviewProvider {
     static var previews: some View {
         InvoiceCell(model: DrugInvoiceModel(patientName: "Rohid", patientContact: "01911362438", orgId: 1, drugList: [DrugModel(id: 1, brandName: "asd", price: 20.0, vendorName: "asdf", genericName: "asdas", formationName: "asd", strengthName: "asdas")], total: 220.0))
+            .previewLayout(.sizeThatFits)
     }
+    
 }

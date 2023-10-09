@@ -16,6 +16,11 @@ struct OrgInvestigationEditForm: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    init(model : InvestigationModel){
+        self.model = model
+        self._price = State(initialValue: "\(model.serviceCharge)")
+    }
+    
     var body: some View {
         
         VStack {
