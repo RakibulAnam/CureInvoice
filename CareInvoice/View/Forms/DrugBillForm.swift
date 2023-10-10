@@ -44,6 +44,8 @@ struct DrugBillForm: View {
     
     @AppStorage("OrgID") var OrgID : Int = 0
     
+   @State var invoice : DrugInvoiceModel?
+    
     var body: some View {
         
     
@@ -179,7 +181,7 @@ struct DrugBillForm: View {
                     
                 
                     
-                    NavigationLink(destination: DrugInvoiceView(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), orgModel: orgModel, hideButton: false), isActive: $invoiceGenerated) {
+                    NavigationLink(destination: DrugInvoiceView(invoice: invoice ?? DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), orgModel: orgModel, hideButton: false), isActive: $invoiceGenerated) {
                         Button {
                             /*
                              let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
@@ -189,14 +191,24 @@ struct DrugBillForm: View {
                              */
                             
                             if let patID = patientId {
-                                manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientId: patID, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee))
+                                manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientId: patID, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), completion: {success in
+                                    if success {
+                                        self.invoice = manager.invoiceModel
+                                        invoiceGenerated = true
+                                    }
+                                })
                             }else {
-                                manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee))
+                                manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), completion: {success in
+                                    if success {
+                                        self.invoice = manager.invoiceModel
+                                        invoiceGenerated = true
+                                    }
+                                })
                             }
                             
                           
                             
-                            invoiceGenerated = true
+                            //invoiceGenerated = true
                             
                             
                             

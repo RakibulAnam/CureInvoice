@@ -12,6 +12,7 @@ struct DiagnosticInvoiceList: View {
     @AppStorage("OrgID") var OrgID : Int = 0
     @StateObject var manager = DiagnosticCenterManager()
     @StateObject var orgManager = OrganizationManager()
+    @State var invoiceSearch = ""
     
     var body: some View {
         VStack {
@@ -24,26 +25,61 @@ struct DiagnosticInvoiceList: View {
 //            }
 //            .padding(.horizontal)
             
-            List {
-                ForEach(manager.invoiceList) { item in
-                    
-                    if let orgModel = orgManager.orgModel {
-                        NavigationLink(destination: InvestigationInvoiceView(invoice: item, orgModel: orgModel)) {
-                            InvoiceCell(model: item)
-                                .onAppear{
-                                    if(manager.invoiceList.last?.id == item.id){
-                                        manager.getAllInvoice(orgId: OrgID)
-                                        print("paginated")
-                                    }
-                                }
+            HStack() {
+                Image(systemName: "magnifyingglass.circle")
+                TextField("Search Invoice", text: $invoiceSearch)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
+                    .onChange(of: invoiceSearch) { newValue in
+                        if newValue == ""{
+                            manager.getAllInvoice(orgId: OrgID)
+                        }else {
+                            manager.searchInvoice(orgId: OrgID, name: newValue)
                         }
+                        
                     }
-                    
-                   
-                    
+            }
+            .padding(.horizontal, 20)
+            
+            
+            List {
+                
+                if invoiceSearch.isEmpty {
+                    ForEach(manager.invoiceList) { item in
+                        
+                        if let orgModel = orgManager.orgModel {
+                            NavigationLink(destination: InvestigationInvoiceView(invoice: item, orgModel: orgModel)) {
+                                InvoiceCell(model: item)
+                                    .onAppear{
+                                        if(manager.invoiceList.last?.id == item.id){
+                                            manager.getAllInvoice(orgId: OrgID)
+                                            print("paginated")
+                                        }
+                                    }
+                            }
+                        }
+                        
+                       
+                        
+                    }
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
                 }
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
+                else {
+                    ForEach(manager.searchedinvoiceList, id:\.id) { item in
+                        
+                        if let orgModel = orgManager.orgModel {
+                            NavigationLink(destination: InvestigationInvoiceView(invoice: item, orgModel: orgModel)) {
+                                InvoiceCell(model: item)
+                            }
+                        }
+          
+                    }
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                }
+                
+                
             }
             .listStyle(.plain)
             .refreshable {

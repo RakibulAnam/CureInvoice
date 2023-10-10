@@ -81,6 +81,7 @@
 		E2AA75732ACD804200C69C72 /* OrgDrugEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA75722ACD804200C69C72 /* OrgDrugEditForm.swift */; };
 		E2AA75752ACD825D00C69C72 /* UpdateOrgDrugModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA75742ACD825D00C69C72 /* UpdateOrgDrugModel.swift */; };
 		E2C7D01A2ABAC6FA009F3288 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C7D0192ABAC6FA009F3288 /* SideMenuView.swift */; };
+		E2CF3F612AD50D6C00CB6D8D /* UpdateOrgAdminForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CF3F602AD50D6C00CB6D8D /* UpdateOrgAdminForm.swift */; };
 		E2D71DB62AC12F61006FEDC2 /* DoctorFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D71DB52AC12F61006FEDC2 /* DoctorFormView.swift */; };
 		E2D71DB82AC14121006FEDC2 /* AddInvestigationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D71DB72AC14121006FEDC2 /* AddInvestigationForm.swift */; };
 		E2D71DBA2AC1437D006FEDC2 /* BookInvestigationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D71DB92AC1437D006FEDC2 /* BookInvestigationForm.swift */; };
@@ -168,6 +169,7 @@
 		E2AA75722ACD804200C69C72 /* OrgDrugEditForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgDrugEditForm.swift; sourceTree = "<group>"; };
 		E2AA75742ACD825D00C69C72 /* UpdateOrgDrugModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOrgDrugModel.swift; sourceTree = "<group>"; };
 		E2C7D0192ABAC6FA009F3288 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
+		E2CF3F602AD50D6C00CB6D8D /* UpdateOrgAdminForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOrgAdminForm.swift; sourceTree = "<group>"; };
 		E2D71DB52AC12F61006FEDC2 /* DoctorFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorFormView.swift; sourceTree = "<group>"; };
 		E2D71DB72AC14121006FEDC2 /* AddInvestigationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvestigationForm.swift; sourceTree = "<group>"; };
 		E2D71DB92AC1437D006FEDC2 /* BookInvestigationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookInvestigationForm.swift; sourceTree = "<group>"; };
@@ -350,11 +352,11 @@
 				E24FBC452AB2D11800E661B0 /* OrgListView.swift */,
 				E28AA1372AC037BF009A2354 /* DoctorListView.swift */,
 				E28AA1412AC04E0E009A2354 /* AdminListView.swift */,
-				E2A9FE0B2AC9399F00A57641 /* PharmacyAdminListView.swift */,
-				E25D29F82ACA72BF00C37E8B /* DiagnosticAdminListView.swift */,
 				E25D2A032ACADB7200C37E8B /* DiagnosticInvoiceList.swift */,
 				E245C8592AC43BA400B22CDE /* PharmacyInvoiceList.swift */,
 				E22B69122ACC2F5300B152AD /* AppointmentInvoiceList.swift */,
+				E2A9FE0B2AC9399F00A57641 /* PharmacyAdminListView.swift */,
+				E25D29F82ACA72BF00C37E8B /* DiagnosticAdminListView.swift */,
 				E28D04992ACE8C3A004F141C /* HospitalAdminList.swift */,
 			);
 			path = "List Views";
@@ -375,6 +377,7 @@
 				E22B690C2ACBE07600B152AD /* AddSpecialityForm.swift */,
 				E2AA75722ACD804200C69C72 /* OrgDrugEditForm.swift */,
 				E28D04952ACE7EA6004F141C /* OrgInvestigationEditForm.swift */,
+				E2CF3F602AD50D6C00CB6D8D /* UpdateOrgAdminForm.swift */,
 			);
 			path = Forms;
 			sourceTree = "<group>";
@@ -505,6 +508,7 @@
 				E28AA1422AC04E0E009A2354 /* AdminListView.swift in Sources */,
 				E28AA13E2AC04559009A2354 /* InvestigationCell.swift in Sources */,
 				E28AA12C2AC00D0B009A2354 /* HospitalManager.swift in Sources */,
+				E2CF3F612AD50D6C00CB6D8D /* UpdateOrgAdminForm.swift in Sources */,
 				E2AA75692ACD16EE00C69C72 /* UserProfileView.swift in Sources */,
 				E2A19A052AB7048C00474973 /* OrgAdminModel.swift in Sources */,
 				E25D2A002ACABF8900C37E8B /* InvestigationListGlobal.swift in Sources */,

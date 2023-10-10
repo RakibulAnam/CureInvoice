@@ -35,7 +35,7 @@ struct DoctorListView: View {
                 List {
                     ForEach(manager.doctorList) { doctor in
                         
-                        NavigationLink(destination: DoctorProfileView(docModel: doctor)) {
+                        NavigationLink(destination: DoctorProfileView(docModel: doctor, speciality: speciality)) {
                             DoctorCell(docModel: doctor)
                         }
                         

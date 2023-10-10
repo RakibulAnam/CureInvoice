@@ -30,6 +30,8 @@ struct AppointmentFormView: View {
         return total
     }
     
+   // @State var gotFee = 0
+    
     @State var invoiceGenerated : Bool = false
     
     @Environment(\.presentationMode) var presentationMode
@@ -47,8 +49,11 @@ struct AppointmentFormView: View {
     @State var showAlert = false
     @State var errorText = ""
     
- 
+    @State var invoice : AppointmentInvoiceModel?
     
+    //@State var patName = ""
+//     @State var cFee = false
+//    @State var fFee = false
     var body: some View {
         
         ZStack {
@@ -88,8 +93,10 @@ struct AppointmentFormView: View {
                                     PatientCell(patModel: item)
                                         .onTapGesture {
                                             name = item.name
+                                            //patName = item.name
                                             contact = item.contact
                                             patientId = item.id
+                                           // manager.searchInvoice(orgId: OrgID, name: item.name)
                                             searchedPatient = ""
                                         }
                                 }
@@ -163,27 +170,20 @@ struct AppointmentFormView: View {
                     
                        // FormTextFieldView(title: "Consultation Fee", bindingText: $fee)
                     
-                        
-                    Text("Consultation Fee : \(docModel.consultation)")
-                        .font(.title3)
-                        .fontWeight(.light)
-                        .padding(.vertical)
-                    Text("Follow-Up Fee : \(docModel.followUp)")
-                        .font(.title3)
-                        .fontWeight(.light)
-                        .padding(.vertical)
+                    
+                   
                     
                        // FormTextFieldView(title: "Discount", bindingText: $discount)
                        
                     VStack(alignment: .leading , spacing: 5){
-                        Text("Discount")
+                        Text("Discount %")
                             .font(.title3)
                             .fontWeight(.light)
                         TextField("", text: $discount)
                             .onChange(of: discount, perform: { newValue in
-                                
+
                                     isValid = isValidDiscount(newValue)
-                                
+
                             })
                             .padding(10)
                             .textInputAutocapitalization(.never)
@@ -192,11 +192,11 @@ struct AppointmentFormView: View {
                             .autocorrectionDisabled(true)
                             .keyboardType(.numberPad)
                             .background(RoundedRectangle(cornerRadius: 8).stroke(Color(.gray), lineWidth: 1)) // Apply a rounded border
-                        
+
                         if !isValid {
                             Text("Discount Must Be Less than MaxDiscount : \(docModel.maxDiscount)")
                                         .foregroundColor(.red)
-                                        
+
                                 }
                     }//:Vstack
                     .padding(.top, 20)
@@ -218,8 +218,9 @@ struct AppointmentFormView: View {
                        
                         
                     if let orgModel = orgManager.orgModel {
-                        NavigationLink(destination: AppointmentInvoiceView(invoice: AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: totalFee), orgModel: orgModel), isActive: $invoiceGenerated) {
-                            if isValid {
+                        NavigationLink(destination: AppointmentInvoiceView(invoice: invoice ?? AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: 800), orgModel: orgModel), isActive: $invoiceGenerated) {
+            
+                            /*
                                 Button {
                                     /*
                                     let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
@@ -229,7 +230,9 @@ struct AppointmentFormView: View {
                                     */
                                     
                                     if let patID = patientId {
-                                        manager.makeAppointment(invoice: AppointmentInvoiceModel( patientName: name, orgId: OrgID, patientContact: contact, patientId: patID, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: totalFee), completion: { error in
+                                        
+                                        
+                                        manager.makeAppointment(invoice: AppointmentInvoiceModel( patientName: name, orgId: OrgID, patientContact: contact, patientId: patID, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: 800), completion: { error,succes  in
                                             
                                             switch error {
                                             case .urlProblem :
@@ -242,7 +245,12 @@ struct AppointmentFormView: View {
                                                 
                                             case nil :
                                                 print("Success")
-                                                invoiceGenerated = true
+                                                
+                                                if succes{
+                                                    invoice = manager.invoiceModel
+                                                    invoiceGenerated = true
+                                                }
+                                                
                                                
                                             
                                             case .some(.emptyTextField):
@@ -253,7 +261,7 @@ struct AppointmentFormView: View {
                                         })
                                     }else {
                                         let newAppoint = AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: totalFee)
-                                        manager.makeAppointment(invoice: newAppoint, completion: { error in
+                                        manager.makeAppointment(invoice: newAppoint, completion: { error,sucess  in
                                             
                                             switch error {
                                             case .urlProblem :
@@ -266,7 +274,109 @@ struct AppointmentFormView: View {
                                                 
                                             case nil :
                                                 print("Success")
-                                                invoiceGenerated = true
+                                                if sucess{
+                                                    
+                                                    invoice = manager.invoiceModel
+                                                    
+                                                    invoiceGenerated = true
+                                                }
+                                                
+                                               
+                                            
+                                            case .some(.emptyTextField):
+                                                errorText = "Please Enter All Information"
+                                                showAlert = true
+                                            }
+                                            
+                                        })
+                                    }
+                                    
+                                   
+                                    
+                                   // invoiceGenerated = true
+                                  
+                                    
+                                } label: {
+                                    Text("book".uppercased())
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: .infinity, minHeight: 60, alignment: .center)
+                                        .background(Color("PrimaryColor"))
+                                        .cornerRadius(10)
+                                        .padding(.vertical)
+                                    
+                                } //: BUTTON
+                                .alert(errorText, isPresented: $showAlert){
+                                    Button("OK", role: .cancel) {
+                                        
+                                    }
+                                }
+                            
+                            */
+                            
+                           
+                            if isValid {
+                                Button {
+                                    /*
+                                    let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
+                                    
+                                    manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
+                                     
+                                    */
+                                    
+                                    if let patID = patientId {
+                                        
+                                        
+                                        manager.makeAppointment(invoice: AppointmentInvoiceModel( patientName: name, orgId: OrgID, patientContact: contact, patientId: patID, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: 800), completion: { error,succes  in
+                                            
+                                            switch error {
+                                            case .urlProblem :
+                                                errorText = "There Was a Problem Reaching the Server"
+                                                showAlert = true
+                                            
+                                            case .duplicateData:
+                                                errorText = "The Email and Org Code Must be unique, please try again"
+                                                showAlert = true
+                                                
+                                            case nil :
+                                                print("Success")
+                                                
+                                                if succes{
+                                                    invoice = manager.invoiceModel
+                                                    invoiceGenerated = true
+                                                }
+                                                
+                                               
+                                            
+                                            case .some(.emptyTextField):
+                                                errorText = "Please Enter All Information"
+                                                showAlert = true
+                                            }
+                                            
+                                        })
+                                    }else {
+                                        let newAppoint = AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: totalFee)
+                                        manager.makeAppointment(invoice: newAppoint, completion: { error,sucess  in
+                                            
+                                            switch error {
+                                            case .urlProblem :
+                                                errorText = "There Was a Problem Reaching the Server"
+                                                showAlert = true
+                                            
+                                            case .duplicateData:
+                                                errorText = "The Email and Org Code Must be unique, please try again"
+                                                showAlert = true
+                                                
+                                            case nil :
+                                                print("Success")
+                                                if sucess{
+                                                    
+                                                    invoice = manager.invoiceModel
+                                                    
+                                                    invoiceGenerated = true
+                                                }
+                                                
                                                
                                             
                                             case .some(.emptyTextField):
@@ -300,6 +410,7 @@ struct AppointmentFormView: View {
                                 }
                             }
                             
+                            
                         }
                     }
                     
@@ -328,6 +439,7 @@ struct AppointmentFormView: View {
         
         
     }
+    
     
     func isValidDiscount(_ discount: String) -> Bool {
         

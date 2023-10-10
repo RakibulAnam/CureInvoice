@@ -49,6 +49,31 @@ struct DoctorFormView: View {
     
     @State var slotList : [Slot] = []
     
+    var profile : DoctorModel?
+    var title = "Add"
+    var buttonName = "Add"
+    @State var showAlert = false
+    
+    @State var errorText = ""
+    
+    init(speciality : SpecialityListModel, profile: DoctorModel? = nil){
+        self.speciality = speciality
+        self.profile = profile
+        if let model = profile {
+            self._name = State(initialValue: model.name)
+            self._email = State(initialValue: model.email)
+            self._contact = State(initialValue: model.contact)
+            self._degree = State(initialValue: model.degrees)
+            self._followUpFee = State(initialValue: model.followUp)
+            self._consultaionFee = State(initialValue: model.consultation)
+            self._maximumDiscount = State(initialValue: model.maxDiscount)
+            self._minimumDiscount = State(initialValue: model.minDiscount)
+            self._slotList = State(initialValue: model.doctorSlotDTOList)
+            self.buttonName = "Update"
+            self.title = "Edit"
+        }
+    }
+    
     
     var body: some View {
         
@@ -58,7 +83,7 @@ struct DoctorFormView: View {
             
             VStack(alignment: .leading){
                 
-                Text("Add Doctor")
+                Text("\(title) Doctor")
                     .font(.title)
                 
                 ScrollView(showsIndicators: false){
@@ -163,10 +188,22 @@ struct DoctorFormView: View {
                         
                         }// Vstack
                         
-                        
+                        /*
                         List(slotList , id:\.self) { list in
                             Text("\(list.day) : \(list.time)")
                               
+                        }
+                        .frame(width: 300, height: 300, alignment: .center)
+                        .listStyle(.plain)
+                        */
+                        
+                        List{
+                            ForEach(slotList, id:\.self) { list in
+                                Text("\(list.day) : \(list.time)")
+                            }
+                            .onDelete { indexSet in
+                                slotList.remove(atOffsets:  indexSet)
+                            }
                         }
                         .frame(width: 300, height: 300, alignment: .center)
                         .listStyle(.plain)
@@ -176,7 +213,7 @@ struct DoctorFormView: View {
                     
                     
                     
-                    
+                  
                     
                     Button {
                         /*
@@ -185,21 +222,64 @@ struct DoctorFormView: View {
                         manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
                          
                         */
-                        if slotList.isEmpty {
-                            let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: [Slot(day: selectedDay, time: "\(startTime) - \(endTime)")], orgId: [OrgID], spId: [speciality.id!])
-                            manager.createDoctor(doctor: newDoctor, orgId: OrgID)
+                        
+                        
+                        if name.isEmpty || email.isEmpty || contact.isEmpty || degree.isEmpty || consultaionFee.isEmpty || followUpFee.isEmpty || minimumDiscount.isEmpty || maximumDiscount.isEmpty  {
+                            errorText = "Please Enter All Information"
+                            showAlert = true
                         }else {
-                            let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: slotList, orgId: [OrgID], spId: [speciality.id!])
-                            manager.createDoctor(doctor: newDoctor, orgId: OrgID)
+                            if slotList.isEmpty {
+                                let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: [Slot(day: selectedDay, time: "\(startTime) - \(endTime)")], orgId: [OrgID], spId: [speciality.id!])
+                                
+                                manager.createDoctor(doctor: newDoctor, orgId: OrgID)
+                                
+                            }else {
+                                let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: slotList, orgId: [OrgID], spId: [speciality.id!])
+                                
+                                if let profile = profile {
+                                    manager.updateDoctor(doctor: newDoctor, docId: profile.id!, completion: { error in
+                                        
+                                        switch error {
+                                        case .urlProblem :
+                                            errorText = "There Was a Problem Reaching the Server"
+                                            showAlert = true
+                                        case nil:
+                                            print("Success")
+                                            DispatchQueue.main.async {
+                                                self.presentationMode.wrappedValue.dismiss()
+                                            }
+                                        case .some(.duplicateData):
+                                            errorText = "The Email and Org Code Must be unique, please try again"
+                                            showAlert = true
+                                        
+                                        case .some(.emptyTextField):
+                                            errorText = "Please Enter All Information"
+                                            showAlert = true
+                                        }
+                                        
+                                    })
+                                }else {
+                                    manager.createDoctor(doctor: newDoctor, orgId: OrgID)
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }
+                                
+                                
+                                
+                            }
+                            
+                            //self.presentationMode.wrappedValue.dismiss()
                         }
+                        
+                        
+                       
                         
                         
                         
                       
-                        self.presentationMode.wrappedValue.dismiss()
+                        
                         
                     } label: {
-                        Text("Add".uppercased())
+                        Text(buttonName.uppercased())
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -209,6 +289,10 @@ struct DoctorFormView: View {
                             .padding(.vertical)
                         
                     } //: BUTTON
+                    .alert(errorText, isPresented: $showAlert){
+                        Button("OK", role: .cancel) {
+                        }
+                    }
                     
                 }//: SCROLL
                 

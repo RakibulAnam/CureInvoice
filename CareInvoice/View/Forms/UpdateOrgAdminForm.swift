@@ -1,17 +1,15 @@
 //
-//  AdminFormView.swift
+//  UpdateOrgAdminForm.swift
 //  CareInvoice
 //
-//  Created by Jotno on 9/17/23.
+//  Created by Jotno on 10/10/23.
 //
 
 import SwiftUI
 
-struct OrgAdminFormView: View {
-    
-    @State var org : OrganizationModel
-    @StateObject var manager : OrganizationManager = OrganizationManager()
-
+struct UpdateOrgAdminForm: View {
+    @Environment(\.presentationMode) var presentationMode
+    @State var model : OrgAdminModel
     @State var name = ""
     @State var email = ""
     @State var contact = ""
@@ -20,19 +18,29 @@ struct OrgAdminFormView: View {
     @AppStorage("OrgID") var OrgID : Int = 0
     @State var errorText = ""
     @State var showAlert = false
+    var manager = OrganizationManager()
     
-    @Environment(\.presentationMode) var presentationMode
+    
+    
+    init(model : OrgAdminModel){
+        self._model = State(initialValue: model)
+        self._name = State(initialValue: model.name)
+        self._email = State(initialValue: model.email)
+        self._contact = State(initialValue: model.contact)
+        self._userName = State(initialValue: model.username)
+        
+       
+    }
+    
+    
     
     var body: some View {
         ZStack {
             
-           
-            
             VStack(alignment: .leading){
                 
-                Text("Organization Admin for \(org.name)")
+                Text("Update Organization Admin")
                     .font(.title)
-                    .lineLimit(nil)
                 
                 ScrollView(showsIndicators: false){
                     
@@ -40,7 +48,7 @@ struct OrgAdminFormView: View {
                     
                     FormTextFieldView(title: "Name", bindingText: $name)
                     FormTextFieldView(title: "UserName", bindingText: $userName)
-                    FormTextFieldView(title: "Password", bindingText: $password)
+                    //FormTextFieldView(title: "Password", bindingText: $password)
                     FormTextFieldView(title: "Email", bindingText: $email, validate: isValidEmail)
                     FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
                         .keyboardType(.phonePad)
@@ -49,10 +57,10 @@ struct OrgAdminFormView: View {
                     
                     
                     Button {
-                        let newAdmin = OrgAdminModel(name: name, username: userName.lowercased(), password: password, email: email.lowercased(), contact: contact, orgId: org.id!)
+                        let newAdmin = OrgAdminModel(name: name, username: userName.lowercased(), password: nil, email: email.lowercased(), contact: contact, orgId: model.orgId)
                         
-                        print(org.id!)
-                        manager.createOrgAdmin(admin: newAdmin, completion: { error in
+                      
+                        manager.updateOrgAdmin(model: newAdmin, adminId: model.id!  ,completion: { error in
                             
                             switch error {
                             case .urlProblem :
@@ -82,7 +90,7 @@ struct OrgAdminFormView: View {
 //                        self.presentationMode.wrappedValue.dismiss()
                         
                     } label: {
-                        Text("Add".uppercased())
+                        Text("Update".uppercased())
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -108,7 +116,6 @@ struct OrgAdminFormView: View {
             
             
         }//: ZSTACK
-       
     }
     
     func isValidEmail(_ email: String) -> Bool {
@@ -121,10 +128,11 @@ struct OrgAdminFormView: View {
         let contactPredicate = NSPredicate(format: "SELF MATCHES %@", contactRegex)
         return contactPredicate.evaluate(with: contact)
     }
+    
 }
 
-struct OrgAdminFormView_Previews: PreviewProvider {
+struct UpdateOrgAdminForm_Previews: PreviewProvider {
     static var previews: some View {
-        OrgAdminFormView(org: OrganizationModel(name: "Ibne Sinha", address: "Dhaka", contact: "01677397270", type: "Hospital", email: "ibne@gmail.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM", orgCode: "KHR"))
+        UpdateOrgAdminForm(model: OrgAdminModel(name: "Rohid", username: "roro1", password: "123456", email: "ceo@gmail.com", contact: "019123232", orgId: 23))
     }
 }

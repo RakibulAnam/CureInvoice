@@ -40,10 +40,10 @@ struct OrgAdminListView: View {
             
             List{
                 ForEach(manager.orgAdmin) { admin in
-                   
+                    NavigationLink(destination: UpdateOrgAdminForm(model: admin)) {
                         CellView(model: admin)
-                        
-                    
+                    }
+                
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
                     .listSectionSeparator(.hidden)

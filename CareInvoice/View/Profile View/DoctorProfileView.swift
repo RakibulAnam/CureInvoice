@@ -10,6 +10,7 @@ import SwiftUI
 struct DoctorProfileView: View {
     
     var docModel : DoctorModel
+    @State var speciality : SpecialityListModel
     @AppStorage("ROLE") var userRole : String = ""
     
     var body: some View {
@@ -19,8 +20,14 @@ struct DoctorProfileView: View {
                 
                 if userRole == K.Role.ORG_ADMIN{
                     HStack {
+                        
+                        
+                        
                         Spacer()
-                        Image(systemName: "pencil")
+                        NavigationLink(destination: DoctorFormView(speciality: speciality, profile: docModel)) {
+                            Image(systemName: "pencil")
+                        }
+                        
                     }
                 }
                
@@ -93,6 +100,6 @@ struct DoctorProfileView: View {
 
 struct DoctorProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        DoctorProfileView(docModel: DoctorModel(name: "Rohid", degrees: "msc", contact: "10123233", email: "edsd", followUp: "400", consultation: "200", minDiscount: "100", maxDiscount: "200", doctorSlotDTOList: [Slot(day: "Monday", time: "12")], orgId: [1], spId: [1]))
+        DoctorProfileView(docModel: DoctorModel(name: "Rohid", degrees: "msc", contact: "10123233", email: "edsd", followUp: "400", consultation: "200", minDiscount: "100", maxDiscount: "200", doctorSlotDTOList: [Slot(day: "Monday", time: "12")], orgId: [1], spId: [1]), speciality: SpecialityListModel(medSpecName: "Dinner", iconUrl: ""))
     }
 }

@@ -26,7 +26,9 @@ struct PharmacyAdminListView: View {
                 
                 List {
                     ForEach(manager.adminList) { admin in
-                        CellView(model: admin)
+                        NavigationLink(destination: AdminFormView(profile: admin)) {
+                            CellView(model: admin)
+                        }
                     }
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)

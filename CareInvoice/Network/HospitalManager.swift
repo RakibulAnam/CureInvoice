@@ -14,8 +14,15 @@ class HospitalManager : ObservableObject {
     @Published var specialities : [SpecialityListModel] = []
     @Published var doctorList : [DoctorModel] = []
     @Published var invoiceList : [AppointmentInvoiceModel] = []
+    
+    
+    @Published var invoiceModel : AppointmentInvoiceModel?
+    
+    @Published var searchedinvoiceList : [AppointmentInvoiceModel] = []
     @Published var patientList : [PatientModel] = []
     @Published var adminList : [AdminModel] = []
+    
+    @Published var searchedSpecialityList : [SpecialityListModel] = []
     
     
     @AppStorage("AuthToken") var AuthToken : String = ""
@@ -77,6 +84,57 @@ class HospitalManager : ObservableObject {
                     }
                 } //:DispatchQueue
             }.resume()
+    }
+    
+    //MARK: - SEARCH SPECIALITY
+    func getSearchedSpeciality(name : String){
+       
+        
+        guard let url = URL(string: "\(K.GET_SPECIALITY_BY_NAME)\(name)?page=0&size=50") else {
+            print("invalid URL")
+            return
+        }
+        
+        let token = AuthToken
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession
+            .shared
+            .dataTask(with: request) {[weak self] data, response, error in
+                
+                
+                DispatchQueue.main.async {
+                    
+                    if let error = error {
+                        print("There was an error starting the session \(error)")
+                    }
+                    else{
+                        
+                        let decoder = JSONDecoder()
+                        
+                        if let data = data {
+                            
+                            
+                            do {
+                                let decodedData = try decoder.decode([SpecialityListModel].self, from: data)
+                                self?.searchedSpecialityList = decodedData
+                                
+                            } catch  {
+                                print("Could not decode Drug List \(error)")
+                            }
+                        
+                            
+                            
+                        }else{
+                            print("Could Not Fetch Data")
+                        }
+                    }
+                } //:DispatchQueue
+            }.resume()
+        
+        
     }
     
     
@@ -174,9 +232,70 @@ class HospitalManager : ObservableObject {
         }
     }
     
+    //MARK: - UPDATE DOCTOR ---------------------------
+    
+    func updateDoctor(doctor : DoctorModel, docId : Int, completion: @escaping (OrgUserError?) -> Void){
+        let model = doctor
+        
+        //let org = OrganizationModel(name: "Poly", address: "Something", contact: "01677397270", type: "Diagnostic Center", email: "diagonostic@yahoo.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM")
+        
+        //TODO
+        guard let url = URL(string: "\(K.UPDATE_DOCTOR)\(docId)") else {
+            print("Invalid Posting URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let token = AuthToken
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let jsonData = model
+        let encoder = JSONEncoder()
+        
+        if let encodedData = try? encoder.encode(jsonData){
+            
+            request.httpBody = encodedData
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                
+                if let error = error {
+                    print("ErrorBro: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        // Parse the response data if needed
+                        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        
+                        let response = "\(jsonResponse)"
+                        if response.contains("Duplicate entry"){
+                            completion(.duplicateData)
+                        }
+                        else if response.contains("empty"){
+                            completion(.emptyTextField)
+                        }
+                        else {
+                            completion(nil)
+                        }
+                        
+                        print(jsonResponse)
+                        
+                    } catch {
+                        print("JSON Error: \(error.localizedDescription)")
+                    }
+                }
+            }.resume()
+        }
+    }
+    
+    
     //MARK: - MAKE APPOINTMENT
     
-    func makeAppointment(invoice : AppointmentInvoiceModel, completion: @escaping (OrgUserError?) -> Void){
+    func makeAppointment(invoice : AppointmentInvoiceModel, completion: @escaping (OrgUserError?, Bool) -> Void){
         let invoice = invoice
         
         guard let url = URL(string: "\(K.MAKE_APPOINTMENT)") else {
@@ -211,14 +330,31 @@ class HospitalManager : ObservableObject {
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         let response = "\(jsonResponse)"
                         if response.contains("Duplicate entry"){
-                            completion(.duplicateData)
+                            completion(.duplicateData, false)
                         }
                         else if response.contains("empty"){
-                            completion(.emptyTextField)
+                            completion(.emptyTextField, false)
                         }
                         else {
-                            completion(nil)
+                            completion(nil,true)
                         }
+                        
+                        do {
+                            let decodedData = try JSONDecoder().decode(AppointmentInvoiceModel.self, from: data)
+                            DispatchQueue.main.async {
+                                self.invoiceModel = decodedData
+                                completion(nil, true)
+                            }
+                            
+                            
+                        } catch  {
+                            completion(.urlProblem, false)
+                            print("-----Could not decode Drug Model \(error.localizedDescription)------")
+                        }
+                        
+                        
+                        
+                        
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")
@@ -286,7 +422,7 @@ class HospitalManager : ObservableObject {
         
 //        page += 1
         
-        guard let url = URL(string: "\(K.SEARCH_APPOINTMENT_INVOICE)\(orgId)/\(name)?page=\(page)&size=\(size)")
+        guard let url = URL(string: "\(K.SEARCH_APPOINTMENT_INVOICE)\(orgId)/\(name)?page=0&size=50")
         else
         {
             print("Invalid URL")
@@ -316,7 +452,7 @@ class HospitalManager : ObservableObject {
                             
                             do {
                                 let decodedData = try decoder.decode([AppointmentInvoiceModel].self, from: data)
-                                self?.invoiceList.append(contentsOf: decodedData)
+                                self?.searchedinvoiceList = decodedData
                                 
                             } catch  {
                                 print("Could not decode Invoice List \(error)")
@@ -482,6 +618,66 @@ class HospitalManager : ObservableObject {
         }
         
         
+    }
+    
+    //MARK: - UPDATE ADMIN
+    
+    func updateAdmin(model : AdminModel, adminId : Int, completion: @escaping (OrgUserError?) -> Void){
+        let model = model
+        
+        //let org = OrganizationModel(name: "Poly", address: "Something", contact: "01677397270", type: "Diagnostic Center", email: "diagonostic@yahoo.com", emergencyContact: "01911362438", operatingHour: "9 AM - 5 PM")
+        
+        //TODO
+        guard let url = URL(string: "\(K.UPDATE_ADMIN)\(adminId)") else {
+            print("Invalid Posting URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let token = AuthToken
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let jsonData = model
+        let encoder = JSONEncoder()
+        
+        if let encodedData = try? encoder.encode(jsonData){
+            
+            request.httpBody = encodedData
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                
+                if let error = error {
+                    print("ErrorBro: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        // Parse the response data if needed
+                        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        
+                        let response = "\(jsonResponse)"
+                        if response.contains("Duplicate entry"){
+                            completion(.duplicateData)
+                        }
+                        else if response.contains("empty"){
+                            completion(.emptyTextField)
+                        }
+                        else {
+                            completion(nil)
+                        }
+                        
+                        print(jsonResponse)
+                        
+                    } catch {
+                        print("JSON Error: \(error.localizedDescription)")
+                    }
+                }
+            }.resume()
+        }
     }
     
     

@@ -28,7 +28,10 @@ struct AdminListView: View {
                 
                 List {
                     ForEach(admins) { admin in
-                        CellView(model: admin)
+                        NavigationLink(destination: AdminFormView(profile: admin)) {
+                            CellView(model: admin)
+                        }
+                        
                     }
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)

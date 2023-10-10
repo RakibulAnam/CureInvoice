@@ -27,6 +27,7 @@ struct K{
     static let UPDATE_DRUG = "\(base.BASE_URL)/drugs/updateDrug/"
     static let UPDATE_DRUG_FOR_ORG = "\(base.BASE_URL)/drugs/updatePriceAndQuantity"
     static let SEARCH_DRUGS_DURING_ORDER = "\(base.BASE_URL)/drugs/searchDrugByBrandNameAndOrgIdDuringOrder/"
+    static let SEARCH_DRUG_INVOICE = "\(base.BASE_URL)/drugOrders/search/"
     
     static let GET_ALL_INVESTIGATIONS_GLOBAL = "\(base.BASE_URL)/investigation/getAllInvestigation"
     static let GET_INVESTIGATOIN_BY_NAME = "\(base.BASE_URL)/investigation/search/"
@@ -36,6 +37,7 @@ struct K{
     static let UPDATE_INVESTIGATION_BY_ID = "\(base.BASE_URL)/investigation/updateInvestigation/"
     static let GET_ORG_INVESTIGATION_LIST = "\(base.BASE_URL)/investigation/getAllInvestigationByOrg/"
     static let UPDATE_INVESTIGATION_PRICE_FOR_ORG = "\(base.BASE_URL)/orgInvestigation/updateInvestigationOrgPrice"
+    static let SEARCH_INVESTIGATION_INVOICE = "\(base.BASE_URL)/bookInvestigation/search/"
    // static let SEARCH_INVESTIGATION_FOR_ORG = "\(base.BASE_URL)/investigation/search/{orgId}/{name}"
     
     
@@ -44,9 +46,11 @@ struct K{
     
     static let ADD_ORG_ADMIN = "\(base.BASE_URL)/org_admin/addOrgAdmin"
     static let GET_ORG_ADMIN = "\(base.BASE_URL)/org_admin/getOrgAdmins/"
+    static let UPDATE_ORG_ADMIN = "\(base.BASE_URL)/org_admin/updateOrgAdmin/"
     
     static let ADD_ADMIN = "\(base.BASE_URL)/admin/addAdmin"
     static let GET_ADMIN = "\(base.BASE_URL)/admin/getAdmins/"
+    static let UPDATE_ADMIN = "\(base.BASE_URL)/admin/updateAdmin/"
     
     
     static let GET_PARMACY_INVOICE = "\(base.BASE_URL)/drugOrders/getAllDrugOrdersByOrgId/"
@@ -56,6 +60,8 @@ struct K{
     
     static let GET_DOCTOR_BY_ORG_SPT = "\(base.BASE_URL)/doctors/getAllDoctors/"
     static let CREATE_DOCTOR_BY_ORG = "\(base.BASE_URL)/doctors/addDoctor/"
+    static let UPDATE_DOCTOR = "\(base.BASE_URL)/doctors/updateDoctor/"
+    
     static let MAKE_APPOINTMENT = "\(base.BASE_URL)/appointments/makeAppointment"
     static let GET_APPOINTMENT_INVOICE = "\(base.BASE_URL)/appointments/getAppointmentsByOrg/"
     static let SEARCH_APPOINTMENT_INVOICE = "\(base.BASE_URL)/appointments/search/"
@@ -105,5 +111,5 @@ struct K{
 struct base {
     // http://localhost:9191
     // https://gw4.jotno.dev
-    static let BASE_URL = "https://gw4.jotno.dev"
+    static let BASE_URL = "http://localhost:9191"
 }
