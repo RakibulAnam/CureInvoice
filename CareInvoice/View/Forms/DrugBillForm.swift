@@ -46,6 +46,8 @@ struct DrugBillForm: View {
     
    @State var invoice : DrugInvoiceModel?
     
+    @State var allFilled : Bool = true
+    
     var body: some View {
         
     
@@ -57,7 +59,7 @@ struct DrugBillForm: View {
             ScrollView {
                 VStack(alignment: .leading){
                     
-                    Text("Pharma Bill")
+                    Text("Make Bill")
                         .font(.title)
                     
                     
@@ -178,7 +180,12 @@ struct DrugBillForm: View {
                     }
                     .font(.title2)
                     
-                    
+                    if allFilled == false {
+                        Text("Please Enter all Information")
+                            .font(.headline)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
                 
                     
                     NavigationLink(destination: DrugInvoiceView(invoice: invoice ?? DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), orgModel: orgModel, hideButton: false), isActive: $invoiceGenerated) {
@@ -190,21 +197,28 @@ struct DrugBillForm: View {
                              
                              */
                             
-                            if let patID = patientId {
-                                manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientId: patID, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), completion: {success in
-                                    if success {
-                                        self.invoice = manager.invoiceModel
-                                        invoiceGenerated = true
-                                    }
-                                })
-                            }else {
-                                manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), completion: {success in
-                                    if success {
-                                        self.invoice = manager.invoiceModel
-                                        invoiceGenerated = true
-                                    }
-                                })
+                            if name.isEmpty || contact.isEmpty || selectedDrug.isEmpty {
+                                allFilled = false
                             }
+                            else {
+                                if let patID = patientId {
+                                    manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientId: patID, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), completion: {success in
+                                        if success {
+                                            self.invoice = manager.invoiceModel
+                                            invoiceGenerated = true
+                                        }
+                                    })
+                                }else {
+                                    manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee), completion: {success in
+                                        if success {
+                                            self.invoice = manager.invoiceModel
+                                            invoiceGenerated = true
+                                        }
+                                    })
+                                }
+                            }
+                            
+                          
                             
                           
                             
@@ -213,7 +227,7 @@ struct DrugBillForm: View {
                             
                             
                         } label: {
-                            Text("Add".uppercased())
+                            Text("Make".uppercased())
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundColor(.white)

@@ -119,6 +119,8 @@ struct OrganizationDetailView: View {
                                 Text("Email: \(nOrg.email)")
                                 
                                 Text("Operating Hour: \(nOrg.operatingHour)")
+                                
+                                Text("Organization Code: \(nOrg.orgCode ?? "")")
                             }
                             .padding()
                             .font(.headline)

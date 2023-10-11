@@ -125,7 +125,7 @@ class OrganizationManager : ObservableObject {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         let errorMessage = "\(jsonResponse)"
-                        if errorMessage.contains("Duplicate entry"){
+                        if errorMessage.contains("Email Already Taken") || errorMessage.contains("This OrgCode Is Already Has been Used") || errorMessage.contains("Duplicate entry"){
                             completion(.duplicateData)
                         }
                         else if errorMessage.contains("empty"){
@@ -186,11 +186,11 @@ class OrganizationManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-                        let errorMessage = "\(jsonResponse)"
-                        if errorMessage.contains("Duplicate entry"){
+                        let response = "\(jsonResponse)"
+                        if response.contains("Email Already Taken") || response.contains("This OrgCode Is Already Has been Used") || response.contains("Duplicate entry"){
                             completion(.duplicateData)
                         }
-                        else if errorMessage.contains("empty"){
+                        else if response.contains("empty"){
                             completion(.emptyTextField)
                         }
                         
@@ -349,7 +349,7 @@ class OrganizationManager : ObservableObject {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         let response = "\(jsonResponse)"
-                        if response.contains("Duplicate entry"){
+                        if response.contains("Email Already Taken") || response.contains("Username is Already Taken"){
                             completion(.duplicateData)
                         }
                         else if response.contains("empty"){
@@ -411,7 +411,8 @@ class OrganizationManager : ObservableObject {
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         
                         let response = "\(jsonResponse)"
-                        if response.contains("Duplicate entry"){
+                        
+                        if response.contains("Email Already Taken") || response.contains("Username is Already Taken") || response.contains("Duplicate entry"){
                             completion(.duplicateData)
                         }
                         else if response.contains("empty"){
@@ -787,7 +788,7 @@ class OrganizationManager : ObservableObject {
     
     //MARK: - ADD INVESTIGATION
     
-    func addInvestigation(investigation : InvestigationModel){
+    func addInvestigation(investigation : InvestigationModel, completion: @escaping (DuplicateError?) -> Void){
         let investigation = investigation
         
         guard let url = URL(string: "\(K.ADD_INVESTIGATION)") else {
@@ -820,6 +821,14 @@ class OrganizationManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let response = "\(jsonResponse)"
+                        if response.contains("This Investigation is Already in Database") || response.contains("Duplicate entry"){
+                            completion(.duplicate)
+                        }
+                        else {
+                            completion(nil)
+                        }
+                        
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")
@@ -832,7 +841,7 @@ class OrganizationManager : ObservableObject {
     
     //MARK: - UPDATE INVESTIGATION
     
-    func updateInvestigation(investigation : InvestigationModel, investigationId : Int){
+    func updateInvestigation(investigation : InvestigationModel, investigationId : Int, completion: @escaping (DuplicateError?) -> Void){
         let investigation = investigation
         
         
@@ -866,6 +875,15 @@ class OrganizationManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let response = "\(jsonResponse)"
+                        if response.contains("This Investigation is Already in Database") || response.contains("Duplicate entry"){
+                            completion(.duplicate)
+                        }
+                        else {
+                            completion(nil)
+                        }
+                        
+                        
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")
@@ -930,7 +948,7 @@ class OrganizationManager : ObservableObject {
     
     //MARK: - ADD SPECIALITY
     
-    func addSpeciality(speciality : SpecialityListModel){
+    func addSpeciality(speciality : SpecialityListModel, completion: @escaping (DuplicateError?) -> Void){
         let speciality = speciality
         
         guard let url = URL(string: "\(K.ADD_SPECIALITY)") else {
@@ -963,6 +981,15 @@ class OrganizationManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        
+                         let response = "\(jsonResponse)"
+                         if response.contains("This Specialty is Already in the Database") || response.contains("Duplicate entry"){
+                             completion(.duplicate)
+                         }
+                         else {
+                             completion(nil)
+                         }
+                         
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")
@@ -974,7 +1001,7 @@ class OrganizationManager : ObservableObject {
     
     //MARK: - UPDATE SPECIALITY
     
-    func updateSpeciality(speciality : SpecialityListModel, specialityId : Int){
+    func updateSpeciality(speciality : SpecialityListModel, specialityId : Int, completion: @escaping (DuplicateError?) -> Void){
         let speciality = speciality
         
         
@@ -1008,6 +1035,13 @@ class OrganizationManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let response = "\(jsonResponse)"
+                        if response.contains("This Specialty is Already in the Database") || response.contains("Duplicate entry"){
+                            completion(.duplicate)
+                        }
+                        else {
+                            completion(nil)
+                        }
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")

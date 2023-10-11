@@ -26,9 +26,13 @@ struct AdminFormView: View {
     var profile : AdminModel?
     
     
+    
+    
     @StateObject var pharmacyManager = Pharmacymanager()
     @StateObject var diagnosticManager = DiagnosticCenterManager()
     @StateObject var hospitalManager = HospitalManager()
+    
+    @State var allFilled : Bool = true
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -39,6 +43,7 @@ struct AdminFormView: View {
             self._email = State(initialValue: model.email)
             self._contact = State(initialValue: model.contact)
             self._userName = State(initialValue: model.username)
+            self._password = State(initialValue: "0")
             self.buttonName = "Update"
             self.title = "Edit"
         }
@@ -70,7 +75,12 @@ struct AdminFormView: View {
                     FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
                         .keyboardType(.phonePad)
                     
-                    
+                    if allFilled == false {
+                        Text("Please Enter all Information")
+                            .font(.headline)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
                     
                     
                     Button {
@@ -81,178 +91,184 @@ struct AdminFormView: View {
                          
                         */
                         
-                        if let profile = profile {
-                            let newAdmin = AdminModel(name: name, username: userName.lowercased(), password: nil, email: email.lowercased(), contact: contact, orgId: OrgID)
-                            
-                            if OrgType == K.OrgType.PHARMACY{
-                                pharmacyManager.updateAdmin(model: newAdmin,adminId: profile.id!, completion: { error in
-                                    
-                                    switch error {
-                                    case .urlProblem :
-                                        errorText = "There Was a Problem Reaching the Server"
-                                        showAlert = true
-                                    
-                                    case .duplicateData:
-                                        errorText = "The Username and Email must be unique, please try again"
-                                        showAlert = true
+                        if name.isEmpty ||  userName.isEmpty || password.isEmpty || email.isEmpty || contact.isEmpty {
+                            allFilled = false
+                        }else {
+                            if let profile = profile {
+                                let newAdmin = AdminModel(name: name, username: userName.lowercased(), password: nil, email: email.lowercased(), contact: contact, orgId: OrgID)
+                                
+                                if OrgType == K.OrgType.PHARMACY{
+                                    pharmacyManager.updateAdmin(model: newAdmin,adminId: profile.id!, completion: { error in
                                         
-                                    case .some(.emptyTextField):
-                                        errorText = "Please Enter All Information"
-                                        showAlert = true
+                                        switch error {
+                                        case .urlProblem :
+                                            errorText = "There Was a Problem Reaching the Server"
+                                            showAlert = true
                                         
-                                    case nil :
-                                        print("Success")
-                                        DispatchQueue.main.async {
-                                            self.presentationMode.wrappedValue.dismiss()
+                                        case .duplicateData:
+                                            errorText = "The Username and Email must be unique, please try again"
+                                            showAlert = true
+                                            
+                                        case .some(.emptyTextField):
+                                            errorText = "Please Enter All Information"
+                                            showAlert = true
+                                            
+                                        case nil :
+                                            print("Success")
+                                            DispatchQueue.main.async {
+                                                self.presentationMode.wrappedValue.dismiss()
+                                            }
+                                           
+                                        
                                         }
-                                       
-                                    
-                                    }
-                                    
-                                })
-                            }
-                            else if OrgType == K.OrgType.DIAGNOSTIC_CENTER {
-                                diagnosticManager.updateAdmin(model: newAdmin,adminId: profile.id!, completion: { error in
-                                    
-                                    switch error {
-                                    case .urlProblem :
-                                        errorText = "There Was a Problem Reaching the Server"
-                                        showAlert = true
-                                    
-                                    case .duplicateData:
-                                        errorText = "The Username and Email must be unique, please try again"
-                                        showAlert = true
                                         
-                                    case .some(.emptyTextField):
-                                        errorText = "Please Enter All Information"
-                                        showAlert = true
+                                    })
+                                }
+                                else if OrgType == K.OrgType.DIAGNOSTIC_CENTER {
+                                    diagnosticManager.updateAdmin(model: newAdmin,adminId: profile.id!, completion: { error in
                                         
-                                    case nil :
-                                        print("Success")
-                                        DispatchQueue.main.async {
-                                            self.presentationMode.wrappedValue.dismiss()
+                                        switch error {
+                                        case .urlProblem :
+                                            errorText = "There Was a Problem Reaching the Server"
+                                            showAlert = true
+                                        
+                                        case .duplicateData:
+                                            errorText = "The Username and Email must be unique, please try again"
+                                            showAlert = true
+                                            
+                                        case .some(.emptyTextField):
+                                            errorText = "Please Enter All Information"
+                                            showAlert = true
+                                            
+                                        case nil :
+                                            print("Success")
+                                            DispatchQueue.main.async {
+                                                self.presentationMode.wrappedValue.dismiss()
+                                            }
+                                           
+                                        
                                         }
-                                       
-                                    
-                                    }
-                                    
-                                })
-                            }
-                            else if OrgType == K.OrgType.HOSPITAL {
-                                hospitalManager.updateAdmin(model: newAdmin,adminId: profile.id!, completion: { error in
-                                    
-                                    switch error {
-                                    case .urlProblem :
-                                        errorText = "There Was a Problem Reaching the Server"
-                                        showAlert = true
-                                    
-                                    case .duplicateData:
-                                        errorText = "The Username and Email must be unique, please try again"
-                                        showAlert = true
                                         
-                                    case .some(.emptyTextField):
-                                        errorText = "Please Enter All Information"
-                                        showAlert = true
+                                    })
+                                }
+                                else if OrgType == K.OrgType.HOSPITAL {
+                                    hospitalManager.updateAdmin(model: newAdmin,adminId: profile.id!, completion: { error in
                                         
-                                    case nil :
-                                        print("Success")
-                                        DispatchQueue.main.async {
-                                            self.presentationMode.wrappedValue.dismiss()
+                                        switch error {
+                                        case .urlProblem :
+                                            errorText = "There Was a Problem Reaching the Server"
+                                            showAlert = true
+                                        
+                                        case .duplicateData:
+                                            errorText = "The Username and Email must be unique, please try again"
+                                            showAlert = true
+                                            
+                                        case .some(.emptyTextField):
+                                            errorText = "Please Enter All Information"
+                                            showAlert = true
+                                            
+                                        case nil :
+                                            print("Success")
+                                            DispatchQueue.main.async {
+                                                self.presentationMode.wrappedValue.dismiss()
+                                            }
+                                           
+                                        
                                         }
-                                       
-                                    
-                                    }
-                                    
-                                })
+                                        
+                                    })
+                                }
+                                
                             }
-                            
+                            else {
+                                let newAdmin = AdminModel(name: name, username: userName.lowercased(), password: password, email: email.lowercased(), contact: contact, orgId: OrgID)
+                                
+                                print(OrgID)
+                                if OrgType == K.OrgType.PHARMACY{
+                                    pharmacyManager.createAdmin(admin: newAdmin, completion: { error in
+                                        
+                                        switch error {
+                                        case .urlProblem :
+                                            errorText = "There Was a Problem Reaching the Server"
+                                            showAlert = true
+                                        
+                                        case .duplicateData:
+                                            errorText = "The Username and Email must be unique, please try again"
+                                            showAlert = true
+                                            
+                                        case .some(.emptyTextField):
+                                            errorText = "Please Enter All Information"
+                                            showAlert = true
+                                            
+                                        case nil :
+                                            print("Success")
+                                            DispatchQueue.main.async {
+                                                self.presentationMode.wrappedValue.dismiss()
+                                            }
+                                           
+                                        
+                                        }
+                                        
+                                    })
+                                }
+                                else if OrgType == K.OrgType.DIAGNOSTIC_CENTER {
+                                    diagnosticManager.createAdmin(admin: newAdmin, completion: { error in
+                                        
+                                        switch error {
+                                        case .urlProblem :
+                                            errorText = "There Was a Problem Reaching the Server"
+                                            showAlert = true
+                                        
+                                        case .duplicateData:
+                                            errorText = "The Username and Email must be unique, please try again"
+                                            showAlert = true
+                                            
+                                        case .some(.emptyTextField):
+                                            errorText = "Please Enter All Information"
+                                            showAlert = true
+                                            
+                                        case nil :
+                                            print("Success")
+                                            DispatchQueue.main.async {
+                                                self.presentationMode.wrappedValue.dismiss()
+                                            }
+                                           
+                                        
+                                        }
+                                        
+                                    })
+                                }
+                                else if OrgType == K.OrgType.HOSPITAL {
+                                    hospitalManager.createAdmin(admin: newAdmin, completion: { error in
+                                        
+                                        switch error {
+                                        case .urlProblem :
+                                            errorText = "There Was a Problem Reaching the Server"
+                                            showAlert = true
+                                        
+                                        case .duplicateData:
+                                            errorText = "The Username and Email must be unique, please try again"
+                                            showAlert = true
+                                            
+                                        case .some(.emptyTextField):
+                                            errorText = "Please Enter All Information"
+                                            showAlert = true
+                                            
+                                        case nil :
+                                            print("Success")
+                                            DispatchQueue.main.async {
+                                                self.presentationMode.wrappedValue.dismiss()
+                                            }
+                                           
+                                        
+                                        }
+                                        
+                                    })
+                                }
+                            }
                         }
-                        else {
-                            let newAdmin = AdminModel(name: name, username: userName.lowercased(), password: password, email: email.lowercased(), contact: contact, orgId: OrgID)
-                            
-                            print(OrgID)
-                            if OrgType == K.OrgType.PHARMACY{
-                                pharmacyManager.createAdmin(admin: newAdmin, completion: { error in
-                                    
-                                    switch error {
-                                    case .urlProblem :
-                                        errorText = "There Was a Problem Reaching the Server"
-                                        showAlert = true
-                                    
-                                    case .duplicateData:
-                                        errorText = "The Username and Email must be unique, please try again"
-                                        showAlert = true
-                                        
-                                    case .some(.emptyTextField):
-                                        errorText = "Please Enter All Information"
-                                        showAlert = true
-                                        
-                                    case nil :
-                                        print("Success")
-                                        DispatchQueue.main.async {
-                                            self.presentationMode.wrappedValue.dismiss()
-                                        }
-                                       
-                                    
-                                    }
-                                    
-                                })
-                            }
-                            else if OrgType == K.OrgType.DIAGNOSTIC_CENTER {
-                                diagnosticManager.createAdmin(admin: newAdmin, completion: { error in
-                                    
-                                    switch error {
-                                    case .urlProblem :
-                                        errorText = "There Was a Problem Reaching the Server"
-                                        showAlert = true
-                                    
-                                    case .duplicateData:
-                                        errorText = "The Username and Email must be unique, please try again"
-                                        showAlert = true
-                                        
-                                    case .some(.emptyTextField):
-                                        errorText = "Please Enter All Information"
-                                        showAlert = true
-                                        
-                                    case nil :
-                                        print("Success")
-                                        DispatchQueue.main.async {
-                                            self.presentationMode.wrappedValue.dismiss()
-                                        }
-                                       
-                                    
-                                    }
-                                    
-                                })
-                            }
-                            else if OrgType == K.OrgType.HOSPITAL {
-                                hospitalManager.createAdmin(admin: newAdmin, completion: { error in
-                                    
-                                    switch error {
-                                    case .urlProblem :
-                                        errorText = "There Was a Problem Reaching the Server"
-                                        showAlert = true
-                                    
-                                    case .duplicateData:
-                                        errorText = "The Username and Email must be unique, please try again"
-                                        showAlert = true
-                                        
-                                    case .some(.emptyTextField):
-                                        errorText = "Please Enter All Information"
-                                        showAlert = true
-                                        
-                                    case nil :
-                                        print("Success")
-                                        DispatchQueue.main.async {
-                                            self.presentationMode.wrappedValue.dismiss()
-                                        }
-                                       
-                                    
-                                    }
-                                    
-                                })
-                            }
-                        }
+                        
+                        
                         
                        
                         

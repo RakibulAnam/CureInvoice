@@ -17,6 +17,10 @@ struct AddInvestigationForm: View {
     
     @State var title = "Add Investigation"
     @State var buttonName = "Add"
+    @State var allFilled : Bool = true
+    
+    @State var errorText = ""
+    @State var showAlert = false
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -49,7 +53,12 @@ struct AddInvestigationForm: View {
                     FormTextFieldView(title: "Fee", bindingText: $fee)
                         .keyboardType(.numberPad)
                     
-                    
+                    if allFilled == false {
+                        Text("Please Enter all Information")
+                            .font(.headline)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
                     
                     Button {
                         /*
@@ -59,17 +68,47 @@ struct AddInvestigationForm: View {
                          
                         */
                         
-                        let newInvestigation = InvestigationModel(serviceName: name, serviceCharge: Double(fee)!)
-                        
-                        if let profile = profile {
-                            manager.updateInvestigation(investigation: newInvestigation, investigationId: profile.id!)
+                        if name.isEmpty || fee.isEmpty {
+                            allFilled = false
                         }else {
-                            manager.addInvestigation(investigation: newInvestigation)
+                            let newInvestigation = InvestigationModel(serviceName: name, serviceCharge: Double(fee)!)
+                            
+                            if let profile = profile {
+                                manager.updateInvestigation(investigation: newInvestigation, investigationId: profile.id!, completion: {sucess in
+                                    switch sucess {
+                                    case .duplicate :
+                                        print("YES")
+                                        errorText = "The Investigation already exists"
+                                        showAlert = true
+                                    case nil:
+                                        DispatchQueue.main.async {
+                                            self.presentationMode.wrappedValue.dismiss()
+                                        }
+                                        print("NO")
+                                    }
+                                })
+                            }else {
+                                manager.addInvestigation(investigation: newInvestigation, completion: {sucess in
+                                    switch sucess {
+                                    case .duplicate :
+                                        print("YES")
+                                        errorText = "The Investigation already exists"
+                                        showAlert = true
+                                    case nil:
+                                        DispatchQueue.main.async {
+                                            self.presentationMode.wrappedValue.dismiss()
+                                        }
+                                        print("NO")
+                                    }
+                                })
+                            }
+                            
+                            
+                          
+                            
                         }
                         
-                        
-                      
-                        self.presentationMode.wrappedValue.dismiss()
+                       
                         
                     } label: {
                         Text(buttonName.uppercased())
@@ -82,6 +121,11 @@ struct AddInvestigationForm: View {
                             .padding(.vertical)
                         
                     } //: BUTTON
+                    .alert(errorText, isPresented: $showAlert){
+                        Button("OK", role: .cancel) {
+                            
+                        }
+                    }
                     
                 }//: SCROLL
                 

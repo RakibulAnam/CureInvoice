@@ -26,6 +26,9 @@ struct InvestigationInvoiceView: View {
     @StateObject var manager = OrganizationManager()
     @AppStorage("OrgID") var OrgID : Int = 0
     @State var orgName = ""
+    
+    var randInvoice = (Int.random(in: 1...1000))
+    
     var body: some View {
         
         
@@ -213,7 +216,7 @@ struct InvestigationInvoiceView: View {
                 HStack {
                     Text("Invoice: ")
                     Spacer()
-                    Text("#\(Int.random(in: 1...1000))")
+                    Text("#\(invoice.id ?? randInvoice)")
                 }
                 
                 HStack {
@@ -320,7 +323,7 @@ struct InvestigationInvoiceView: View {
                                         InvestigationInvoiceView(invoice: invoice, orgModel: orgModel, hideButton: true)
         )
         
-        let url = URL.documentsDirectory.appending(path: "investigationInvoice.pdf")
+        let url = URL.documentsDirectory.appending(path: "investigationInvoice #\(invoice.id ?? randInvoice).pdf")
         
         renderer.render { size, context in
             var box = CGRect(x: 0, y: 0, width: size.width, height: size.height)

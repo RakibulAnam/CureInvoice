@@ -85,24 +85,28 @@ struct SuperAdminHomeView: View {
                             Text(K.OrgType.PHARMACY)
                         }
                     
-                        
-                    
-                    DrugListGlobal()
+                        GlobalListView()
                         .tabItem {
-                            Image(systemName: "pill")
-                            Text("Drug List")
+                            Image(systemName: "ellipsis")
+                            Text("More")
                         }
                     
-                    InvestigationListGlobal()
-                        .tabItem {
-                            Image(systemName: "bandage")
-                            Text("Investigations")
-                        }
-                    SpecialityListGlobal()
-                        .tabItem {
-                            Image(systemName: "allergens.fill")
-                            Text("Specialities")
-                        }
+//                    DrugListGlobal()
+//                        .tabItem {
+//                            Image(systemName: "pill")
+//                            Text("Drug List")
+//                        }
+//
+//                    InvestigationListGlobal()
+//                        .tabItem {
+//                            Image(systemName: "bandage")
+//                            Text("Investigations")
+//                        }
+//                    SpecialityListGlobal()
+//                        .tabItem {
+//                            Image(systemName: "allergens.fill")
+//                            Text("Specialities")
+//                        }
                     
                     
                     

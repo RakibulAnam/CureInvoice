@@ -15,6 +15,7 @@ struct OrgDrugEditForm: View {
     @AppStorage("OrgID") var OrgID : Int = 0
     
     var drugModel : DrugModel
+    @State var allFilled : Bool = true
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -36,45 +37,40 @@ struct OrgDrugEditForm: View {
 
                     
                     FormTextFieldView(title: "Price", bindingText: $price)
+                        .keyboardType(.numberPad)
                     FormTextFieldView(title: "Quantity", bindingText: $quantity)
+                        .keyboardType(.numberPad)
+                    
+                    if allFilled == false {
+                        Text("Please Enter all Information")
+                            .font(.headline)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
                     
                     
                     Button {
-                        /*
-                        let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
-                        
-                        manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
-                         
-                        */
-                        
-                        
-                        
-//                        if let profile = profile {
-//                            manager.updateInvestigation(investigation: newInvestigation, investigationId: profile.id!)
-//                        }else {
-//                            manager.addInvestigation(investigation: newInvestigation)
-//                        }
-                        
-           //             let spec = SpecialityListModel(medSpecName: medSpecName, iconUrl: "stethoscope.png")
-                        
-//                        if let profile = profile {
-//                            manager.updateSpeciality(speciality: spec, specialityId: profile.id!)
-//                        }else {
-//                            manager.addSpeciality(speciality: spec)
-//                        }
-                        
-                        
-                        let updateModel = UpdateOrgDrugModel(orgId: OrgID, drugId: drugModel.id!, price: Double(price)!, quantity: Int(quantity)!)
-                        
-                        print(drugModel.id!)
-                        print(OrgID)
-                        if let id = drugModel.id {
-                            print("Got DRUG ID")
-                            manager.updateOrgDrugDetails(model: UpdateOrgDrugModel(orgId: OrgID, drugId: id, price: Double(price)!, quantity: Int(quantity)!))
+
+                        if price.isEmpty || quantity.isEmpty {
+                            allFilled = false
+                        }
+                        else {
+                            allFilled = true
+                            let updateModel = UpdateOrgDrugModel(orgId: OrgID, drugId: drugModel.id!, price: Double(price)!, quantity: Int(quantity)!)
+                            
+                            print(drugModel.id!)
+                            print(OrgID)
+                            if let id = drugModel.id {
+                                print("Got DRUG ID")
+                                manager.updateOrgDrugDetails(model: UpdateOrgDrugModel(orgId: OrgID, drugId: id, price: Double(price)!, quantity: Int(quantity)!))
+                            }
+                            
+                            
+                            self.presentationMode.wrappedValue.dismiss()
                         }
                         
                         
-                        self.presentationMode.wrappedValue.dismiss()
+                      
                         
                     } label: {
                         Text("Update".uppercased())

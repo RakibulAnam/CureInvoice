@@ -20,6 +20,7 @@ struct OrgAdminFormView: View {
     @AppStorage("OrgID") var OrgID : Int = 0
     @State var errorText = ""
     @State var showAlert = false
+    @State var allFilled : Bool = true
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -45,38 +46,55 @@ struct OrgAdminFormView: View {
                     FormTextFieldView(title: "Contact", bindingText: $contact, validate: isValidContact)
                         .keyboardType(.phonePad)
                     
+                    if allFilled == false {
+                        Text("Please Enter all Information")
+                            .font(.headline)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                    
                     
                     
                     
                     Button {
-                        let newAdmin = OrgAdminModel(name: name, username: userName.lowercased(), password: password, email: email.lowercased(), contact: contact, orgId: org.id!)
                         
-                        print(org.id!)
-                        manager.createOrgAdmin(admin: newAdmin, completion: { error in
+                        
+                        if name.isEmpty || userName.isEmpty || password.isEmpty || email.isEmpty || contact.isEmpty {
+                            allFilled = false
+                        }
+                        else {
+                            let newAdmin = OrgAdminModel(name: name, username: userName.lowercased(), password: password, email: email.lowercased(), contact: contact, orgId: org.id!)
                             
-                            switch error {
-                            case .urlProblem :
-                                errorText = "There Was a Problem Reaching the Server"
-                                showAlert = true
-                            
-                            case .duplicateData:
-                                errorText = "The Username and Email must be unique, please try again"
-                                showAlert = true
+                            print(org.id!)
+                            manager.createOrgAdmin(admin: newAdmin, completion: { error in
                                 
-                            case .some(.emptyTextField):
-                                errorText = "Please Enter All Information"
-                                showAlert = true
+                                switch error {
+                                case .urlProblem :
+                                    errorText = "There Was a Problem Reaching the Server"
+                                    showAlert = true
                                 
-                            case nil :
-                                print("Success")
-                                DispatchQueue.main.async {
-                                    self.presentationMode.wrappedValue.dismiss()
+                                case .duplicateData:
+                                    errorText = "The Username and Email must be unique, please try again"
+                                    showAlert = true
+                                    
+                                case .some(.emptyTextField):
+                                    errorText = "Please Enter All Information"
+                                    showAlert = true
+                                    
+                                case nil :
+                                    print("Success")
+                                    DispatchQueue.main.async {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                   
+                                
                                 }
-                               
-                            
-                            }
-                            
-                        })
+                                
+                            })
+                        }
+                        
+                        
+                        
                         
                       
 //                        self.presentationMode.wrappedValue.dismiss()

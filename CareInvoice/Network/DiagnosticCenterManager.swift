@@ -16,6 +16,7 @@ class DiagnosticCenterManager : ObservableObject {
     @Published var patientList : [PatientModel] = []
     @Published var invoiceList : [InvestigationInvoiceModel] = []
     @Published var searchedinvoiceList : [InvestigationInvoiceModel] = []
+    @Published var invoiceModel : InvestigationInvoiceModel?
     
     @Published var adminList : [AdminModel] = []
     @AppStorage("AuthToken") var AuthToken : String = ""
@@ -254,7 +255,7 @@ class DiagnosticCenterManager : ObservableObject {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         let response = "\(jsonResponse)"
-                        if response.contains("Duplicate entry"){
+                        if response.contains("Email Already Taken") || response.contains("Username is Already Taken") || response.contains("Duplicate entry"){
                             completion(.duplicateData)
                         }
                         else if response.contains("empty"){
@@ -313,7 +314,7 @@ class DiagnosticCenterManager : ObservableObject {
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         
                         let response = "\(jsonResponse)"
-                        if response.contains("Duplicate entry"){
+                        if response.contains("Email Already Taken") || response.contains("Username is Already Taken") || response.contains("Duplicate entry"){
                             completion(.duplicateData)
                         }
                         else if response.contains("empty"){
@@ -334,7 +335,7 @@ class DiagnosticCenterManager : ObservableObject {
     }
     
     //MARK: - BOOK INVESTIGATION
-    func bookInvestigation(invoice : InvestigationInvoiceModel, completion: @escaping (OrgUserError?) -> Void){
+    func bookInvestigation(invoice : InvestigationInvoiceModel, completion: @escaping (Bool) -> Void){
         let invoice = invoice
         
         guard let url = URL(string: "\(K.BOOK_INVESTIGATION)") else {
@@ -367,15 +368,17 @@ class DiagnosticCenterManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-                        let response = "\(jsonResponse)"
-                        if response.contains("Duplicate entry"){
-                            completion(.duplicateData)
-                        }
-                        else if response.contains("empty"){
-                            completion(.emptyTextField)
-                        }
-                        else {
-                            completion(nil)
+                        do {
+                            let decodedData = try JSONDecoder().decode(InvestigationInvoiceModel.self, from: data)
+                            DispatchQueue.main.async {
+                                self.invoiceModel = decodedData
+                                completion(true)
+                            }
+                            
+                            
+                        } catch  {
+                            completion(false)
+                            print("-----Could not decode Invoice Model \(error.localizedDescription)------")
                         }
                         print(jsonResponse)
                     } catch {

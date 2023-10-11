@@ -46,6 +46,9 @@ struct DoctorListView: View {
                 }
                 .listStyle(.plain)
             }//: VSTACK
+            .refreshable {
+                manager.getDoctors(orgID: OrgID, specialityID: speciality.id ?? 1)
+            }
             .onAppear {
                 manager.getDoctors(orgID: OrgID, specialityID: speciality.id ?? 1)
             }

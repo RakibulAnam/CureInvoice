@@ -15,6 +15,8 @@ class HospitalManager : ObservableObject {
     @Published var doctorList : [DoctorModel] = []
     @Published var invoiceList : [AppointmentInvoiceModel] = []
     
+    @Published var doctorModel : DoctorModel?
+    
     
     @Published var invoiceModel : AppointmentInvoiceModel?
     
@@ -188,9 +190,64 @@ class HospitalManager : ObservableObject {
             }.resume()
     }
     
+    
+    
+    //MARK: - GET SINGLE DOCTOR
+    
+    func getDoctorProfile(docID : Int){
+        
+        guard let url = URL(string: "\(K.GET_DOCTOR_PROFILE)\(docID)")
+        else
+        {
+            print("Invalid URL")
+            return
+        }
+      
+        let token = AuthToken
+        var request = URLRequest(url: url)
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession
+            .shared
+            .dataTask(with: request) {[weak self] data, response, error in
+                
+                
+                DispatchQueue.main.async {
+                    
+                    if let error = error {
+                        print("There was an error starting the session \(error)")
+                    }
+                    else{
+                        
+                        let decoder = JSONDecoder()
+                        
+                        if let data = data {
+                            
+                            
+                            do {
+                                let decodedData = try decoder.decode(DoctorModel.self, from: data)
+                                self?.doctorModel = decodedData
+                                
+                            } catch  {
+                                print("Could not decode Doctor Model \(error)")
+                            }
+                        
+                            
+                            
+                        }else{
+                            print("Could Not Fetch Data")
+                        }
+                    }
+                } //:DispatchQueue
+            }.resume()
+    }
+    
+    
+    
+    
     //MARK: - CREATE DOCTOR
     
-    func createDoctor(doctor : DoctorModel, orgId : Int){
+    func createDoctor(doctor : DoctorModel, orgId : Int, completion: @escaping (OrgUserError?) -> Void){
         let doc = doctor
         
         guard let url = URL(string: "\(K.CREATE_DOCTOR_BY_ORG)\(orgId)") else {
@@ -223,6 +280,16 @@ class HospitalManager : ObservableObject {
                     do {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        let response = "\(jsonResponse)"
+                        if response.contains("Email Already Taken") || response.contains("Username is Already Taken") || response.contains("Duplicate entry"){
+                            completion(.duplicateData)
+                        }
+                        else if response.contains("empty"){
+                            completion(.emptyTextField)
+                        }
+                        else {
+                            completion(nil)
+                        }
                         print(jsonResponse)
                     } catch {
                         print("JSON Error: \(error.localizedDescription)")
@@ -272,7 +339,7 @@ class HospitalManager : ObservableObject {
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         
                         let response = "\(jsonResponse)"
-                        if response.contains("Duplicate entry"){
+                        if response.contains("Email Already Taken") || response.contains("Username is Already Taken") || response.contains("Duplicate entry"){
                             completion(.duplicateData)
                         }
                         else if response.contains("empty"){
@@ -600,7 +667,7 @@ class HospitalManager : ObservableObject {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         let response = "\(jsonResponse)"
-                        if response.contains("Duplicate entry"){
+                        if response.contains("Email Already Taken") || response.contains("Username is Already Taken"){
                             completion(.duplicateData)
                         }
                         else if response.contains("empty"){
@@ -660,7 +727,7 @@ class HospitalManager : ObservableObject {
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         
                         let response = "\(jsonResponse)"
-                        if response.contains("Duplicate entry"){
+                        if response.contains("Email Already Taken") || response.contains("Username is Already Taken") || response.contains("Duplicate entry"){
                             completion(.duplicateData)
                         }
                         else if response.contains("empty"){

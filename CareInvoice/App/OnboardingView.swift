@@ -62,6 +62,36 @@ struct OnboardingView: View {
                 
                 
                 
+                Button {
+                    DispatchQueue.main.async {
+                        
+                        loginService.Login(userName: userName, password: password, completion: {success in
+                            if success {
+                                
+                            } else {
+                                showAlert = true
+                            }
+                        })
+                        
+                    }
+                } label: {
+                    Text("login".uppercased())
+                        .font(.custom("Cairo-Regular", size: 20))
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .frame(width: 350, height: 50, alignment: .center)
+                        .background(Color("PrimaryColor"))
+                        .cornerRadius(10)
+                        .padding()
+                }
+                .alert("Please Enter Valid Username and Password", isPresented: $showAlert){
+                    Button("OK", role: .cancel) {
+                        
+                    }
+                }
+
+                
+                /*
                 Button("login".uppercased()) {
                     DispatchQueue.main.async {
                         
@@ -74,11 +104,7 @@ struct OnboardingView: View {
                         })
                         
                     }
-                    
-                   
-                   
-                    
-                    
+ 
                 }
                 .font(.custom("Cairo-Regular", size: 20))
                 .fontWeight(.bold)
@@ -92,6 +118,7 @@ struct OnboardingView: View {
                         
                     }
                 }
+                 */
                 Spacer()
                 
             }//: VSTACK

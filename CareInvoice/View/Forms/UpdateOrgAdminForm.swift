@@ -19,6 +19,7 @@ struct UpdateOrgAdminForm: View {
     @State var errorText = ""
     @State var showAlert = false
     var manager = OrganizationManager()
+    @State var allFilled : Bool = true
     
     
     
@@ -54,37 +55,51 @@ struct UpdateOrgAdminForm: View {
                         .keyboardType(.phonePad)
                     
                     
-                    
+                    if allFilled == false {
+                        Text("Please Enter all Information")
+                            .font(.headline)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
                     
                     Button {
-                        let newAdmin = OrgAdminModel(name: name, username: userName.lowercased(), password: nil, email: email.lowercased(), contact: contact, orgId: model.orgId)
                         
-                      
-                        manager.updateOrgAdmin(model: newAdmin, adminId: model.id!  ,completion: { error in
+                        if name.isEmpty || userName.isEmpty || email.isEmpty || contact.isEmpty {
+                            allFilled = false
+                        }
+                        else{
+                            allFilled = true
+                            let newAdmin = OrgAdminModel(name: name, username: userName.lowercased(), password: nil, email: email.lowercased(), contact: contact, orgId: model.orgId)
                             
-                            switch error {
-                            case .urlProblem :
-                                errorText = "There Was a Problem Reaching the Server"
-                                showAlert = true
-                            
-                            case .duplicateData:
-                                errorText = "The Username and Email must be unique, please try again"
-                                showAlert = true
+                          
+                            manager.updateOrgAdmin(model: newAdmin, adminId: model.id!  ,completion: { error in
                                 
-                            case .some(.emptyTextField):
-                                errorText = "Please Enter All Information"
-                                showAlert = true
+                                switch error {
+                                case .urlProblem :
+                                    errorText = "There Was a Problem Reaching the Server"
+                                    showAlert = true
                                 
-                            case nil :
-                                print("Success")
-                                DispatchQueue.main.async {
-                                    self.presentationMode.wrappedValue.dismiss()
+                                case .duplicateData:
+                                    errorText = "The Username and Email must be unique, please try again"
+                                    showAlert = true
+                                    
+                                case .some(.emptyTextField):
+                                    errorText = "Please Enter All Information"
+                                    showAlert = true
+                                    
+                                case nil :
+                                    print("Success")
+                                    DispatchQueue.main.async {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                   
+                                
                                 }
-                               
-                            
-                            }
-                            
-                        })
+                                
+                            })
+                        }
+                        
+                     
                         
                       
 //                        self.presentationMode.wrappedValue.dismiss()

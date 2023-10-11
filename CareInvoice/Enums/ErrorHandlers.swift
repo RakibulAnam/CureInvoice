@@ -18,3 +18,8 @@ enum ProductError : Error {
     case emptyInfo
     
 }
+
+enum DuplicateError : Error {
+    case duplicate
+    
+}

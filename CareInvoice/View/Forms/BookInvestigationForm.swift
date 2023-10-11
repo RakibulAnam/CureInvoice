@@ -45,6 +45,10 @@ struct BookInvestigationForm: View {
     @State var showAlert = false
     @State var errorText = ""
     
+    @State var allFilled : Bool = true
+    
+    @State var invoice : InvestigationInvoiceModel?
+    
     var body: some View {
         
         
@@ -53,7 +57,7 @@ struct BookInvestigationForm: View {
             ScrollView {
                 VStack(alignment: .leading){
                     
-                    Text("Investigation Bill")
+                    Text("Book Investigation")
                         .font(.title)
                     
                     
@@ -169,10 +173,17 @@ struct BookInvestigationForm: View {
                     }
                     .font(.title2)
                     
+                    if allFilled == false {
+                        Text("Please Enter all Information")
+                            .font(.headline)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                    
                     
                 
                     
-                    NavigationLink(destination: InvestigationInvoiceView(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)), orgModel: orgModel), isActive: $invoiceGenerated) {
+                    NavigationLink(destination: InvestigationInvoiceView(invoice: invoice ?? InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)), orgModel: orgModel), isActive: $invoiceGenerated) {
                         Button {
                             /*
                              let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
@@ -185,54 +196,28 @@ struct BookInvestigationForm: View {
                             manager.createInvoice(invoice: DrugInvoiceModel(patientName: name, patientContact: contact, orgId: OrgID, drugList: selectedDrug, total: totalFee))
                             */
                             
-                            
-                            if let patID = patientId {
-                                manager.bookInvestigation(invoice: InvestigationInvoiceModel( p_name: name, pid: patID, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)), completion: { error in
-                                    
-                                    switch error {
-                                    case .urlProblem :
-                                        errorText = "There Was a Problem Reaching the Server"
-                                        showAlert = true
-                                    
-                                    case .duplicateData:
-                                        errorText = "The Email and Org Code Must be unique, please try again"
-                                        showAlert = true
-                                        
-                                    case nil :
-                                        print("Success")
-                                        invoiceGenerated = true
-                                       
-                                    
-                                    case .some(.emptyTextField):
-                                        errorText = "Please Enter All Information"
-                                        showAlert = true
-                                    }
-                                    
-                                })
-                            }else {
-                                manager.bookInvestigation(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)), completion: { error in
-                                    
-                                    switch error {
-                                    case .urlProblem :
-                                        errorText = "There Was a Problem Reaching the Server"
-                                        showAlert = true
-                                    
-                                    case .duplicateData:
-                                        errorText = "The Email and Org Code Must be unique, please try again"
-                                        showAlert = true
-                                        
-                                    case nil :
-                                        print("Success")
-                                        invoiceGenerated = true
-                                       
-                                    
-                                    case .some(.emptyTextField):
-                                        errorText = "Please Enter All Information"
-                                        showAlert = true
-                                    }
-                                    
-                                })
+                            if name.isEmpty || contact.isEmpty || selectedInvestigation.isEmpty {
+                                allFilled = false
                             }
+                            else {
+                                if let patID = patientId {
+                                    manager.bookInvestigation(invoice: InvestigationInvoiceModel( p_name: name, pid: patID, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)), completion: {success in
+                                        if success {
+                                            self.invoice = manager.invoiceModel
+                                            invoiceGenerated = true
+                                        }
+                                    })
+                                }else {
+                                    manager.bookInvestigation(invoice: InvestigationInvoiceModel(p_name: name, contact: contact, org_id: OrgID, investigationList: selectedInvestigation, total: Double(totalFee)), completion: {success in
+                                        if success {
+                                            self.invoice = manager.invoiceModel
+                                            invoiceGenerated = true
+                                        }
+                                    })
+                                }
+                            }
+                            
+                           
                             
                             
                             
@@ -241,7 +226,7 @@ struct BookInvestigationForm: View {
                             
                             
                         } label: {
-                            Text("Add".uppercased())
+                            Text("Book".uppercased())
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundColor(.white)

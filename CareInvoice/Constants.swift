@@ -23,6 +23,7 @@ struct K{
     
     static let GET_ALL_DRUGS_BY_ORG = "\(base.BASE_URL)/drugs/getAllDrugs/"
     static let GET_ALL_DRUGS_GLOBAL = "\(base.BASE_URL)/drugs/getAllDrugs"
+    static let GET_DRUGS_PROFILE = "\(base.BASE_URL)/drugs/getDrug/"
     static let CREATE_DRUG = "\(base.BASE_URL)/drugs/addDrug"
     static let UPDATE_DRUG = "\(base.BASE_URL)/drugs/updateDrug/"
     static let UPDATE_DRUG_FOR_ORG = "\(base.BASE_URL)/drugs/updatePriceAndQuantity"
@@ -59,6 +60,7 @@ struct K{
     
     
     static let GET_DOCTOR_BY_ORG_SPT = "\(base.BASE_URL)/doctors/getAllDoctors/"
+    static let GET_DOCTOR_PROFILE = "\(base.BASE_URL)/doctors/"
     static let CREATE_DOCTOR_BY_ORG = "\(base.BASE_URL)/doctors/addDoctor/"
     static let UPDATE_DOCTOR = "\(base.BASE_URL)/doctors/updateDoctor/"
     
@@ -111,5 +113,5 @@ struct K{
 struct base {
     // http://localhost:9191
     // https://gw4.jotno.dev
-    static let BASE_URL = "http://localhost:9191"
+    static let BASE_URL = "https://gw4.jotno.dev"
 }

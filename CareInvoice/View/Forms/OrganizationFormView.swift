@@ -23,6 +23,8 @@ struct OrganizationFormView: View {
     @State var errorText = ""
     @State var showAlert = false
     
+    @State var allFilled : Bool = true
+    
 //    @Binding var name : String
 //    @Binding var address : String
 //    @Binding var email : String
@@ -80,57 +82,72 @@ struct OrganizationFormView: View {
                     FormTextFieldView(title: "Operating Hour", bindingText: $operatingHour)
                     
                     
+                    if allFilled == false {
+                        Text("Please Enter all Information")
+                            .font(.headline)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                    
+                    
                     Button {
-                        let newOrg = OrganizationModel(name: name, address: address, contact: contact, type: orgType, email: email.lowercased(), emergencyContact: emergencyContact, operatingHour: operatingHour, orgCode: orgCode)
-                        if let profile = profile {
-                            manager.updateOrganization(organization: newOrg, to: K.UPDATE_ORGANIZATION, for: profile.id!, completion: { error in
-                                
-                                switch error {
-                                case .urlProblem :
-                                    errorText = "There Was a Problem Reaching the Server"
-                                    showAlert = true
-                                
-                                case .duplicateData:
-                                    errorText = "The Email and Org Code Must be unique, please try again"
-                                    showAlert = true
+                        
+                        if name.isEmpty || orgCode.isEmpty || address.isEmpty || email.isEmpty || contact.isEmpty || emergencyContact.isEmpty || operatingHour.isEmpty {
+                            allFilled = false
+                        }else {
+                            let newOrg = OrganizationModel(name: name, address: address, contact: contact, type: orgType, email: email.lowercased(), emergencyContact: emergencyContact, operatingHour: operatingHour, orgCode: orgCode.uppercased())
+                            if let profile = profile {
+                                manager.updateOrganization(organization: newOrg, to: K.UPDATE_ORGANIZATION, for: profile.id!, completion: { error in
                                     
-                                case nil :
-                                    print("Success")
-                                    DispatchQueue.main.async {
-                                        self.presentationMode.wrappedValue.dismiss()
+                                    switch error {
+                                    case .urlProblem :
+                                        errorText = "There Was a Problem Reaching the Server"
+                                        showAlert = true
+                                    
+                                    case .duplicateData:
+                                        errorText = "The Email and Org Code Must be unique, please try again"
+                                        showAlert = true
+                                        
+                                    case nil :
+                                        print("Success")
+                                        DispatchQueue.main.async {
+                                            self.presentationMode.wrappedValue.dismiss()
+                                        }
+                                       
+                                    
+                                    case .some(.emptyTextField):
+                                        errorText = "Please Enter All Information"
+                                        showAlert = true
                                     }
-                                   
-                                
-                                case .some(.emptyTextField):
-                                    errorText = "Please Enter All Information"
-                                    showAlert = true
-                                }
-                                
-                            })
-//                            self.presentationMode.wrappedValue.dismiss()
-                        }else{
-                            manager.postOrganization(organization: newOrg, to: K.CREATE_ORGANIZATION, completion: { error in
-                                
-                                switch error {
-                                case .urlProblem :
-                                    errorText = "There Was a Problem Reaching the Server"
-                                    showAlert = true
-                                case nil:
-                                    print("Success")
-                                    DispatchQueue.main.async {
-                                        self.presentationMode.wrappedValue.dismiss()
+                                    
+                                })
+    //                            self.presentationMode.wrappedValue.dismiss()
+                            }else{
+                                manager.postOrganization(organization: newOrg, to: K.CREATE_ORGANIZATION, completion: { error in
+                                    
+                                    switch error {
+                                    case .urlProblem :
+                                        errorText = "There Was a Problem Reaching the Server"
+                                        showAlert = true
+                                    case nil:
+                                        print("Success")
+                                        DispatchQueue.main.async {
+                                            self.presentationMode.wrappedValue.dismiss()
+                                        }
+                                    case .some(.duplicateData):
+                                        errorText = "The Email and Org Code Must be unique, please try again"
+                                        showAlert = true
+                                    
+                                    case .some(.emptyTextField):
+                                        errorText = "Please Enter All Information"
+                                        showAlert = true
                                     }
-                                case .some(.duplicateData):
-                                    errorText = "The Email and Org Code Must be unique, please try again"
-                                    showAlert = true
-                                
-                                case .some(.emptyTextField):
-                                    errorText = "Please Enter All Information"
-                                    showAlert = true
-                                }
-                                
-                            })
+                                    
+                                })
+                            }
                         }
+                        
+                     
                         
                         
                     } label: {

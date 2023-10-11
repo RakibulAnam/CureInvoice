@@ -50,6 +50,7 @@ struct AppointmentFormView: View {
     @State var errorText = ""
     
     @State var invoice : AppointmentInvoiceModel?
+    @State var allFilled : Bool = true
     
     //@State var patName = ""
 //     @State var cFee = false
@@ -61,8 +62,8 @@ struct AppointmentFormView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 5){
                     
-    //                Text("Make Appointment")
-    //                    .font(.title)
+                    Text("Book Appointment")
+                        .font(.title)
                     
                     
                     HStack() {
@@ -198,6 +199,15 @@ struct AppointmentFormView: View {
                                         .foregroundColor(.red)
 
                                 }
+                        
+                        
+                        if allFilled == false {
+                            Text("Please Enter all Information")
+                                .font(.headline)
+                                .foregroundColor(.red)
+                                .padding()
+                        }
+                        
                     }//:Vstack
                     .padding(.top, 20)
                     .padding(.horizontal, 3)
@@ -220,100 +230,7 @@ struct AppointmentFormView: View {
                     if let orgModel = orgManager.orgModel {
                         NavigationLink(destination: AppointmentInvoiceView(invoice: invoice ?? AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: 800), orgModel: orgModel), isActive: $invoiceGenerated) {
             
-                            /*
-                                Button {
-                                    /*
-                                    let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
-                                    
-                                    manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
-                                     
-                                    */
-                                    
-                                    if let patID = patientId {
-                                        
-                                        
-                                        manager.makeAppointment(invoice: AppointmentInvoiceModel( patientName: name, orgId: OrgID, patientContact: contact, patientId: patID, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: 800), completion: { error,succes  in
-                                            
-                                            switch error {
-                                            case .urlProblem :
-                                                errorText = "There Was a Problem Reaching the Server"
-                                                showAlert = true
-                                            
-                                            case .duplicateData:
-                                                errorText = "The Email and Org Code Must be unique, please try again"
-                                                showAlert = true
-                                                
-                                            case nil :
-                                                print("Success")
-                                                
-                                                if succes{
-                                                    invoice = manager.invoiceModel
-                                                    invoiceGenerated = true
-                                                }
-                                                
-                                               
-                                            
-                                            case .some(.emptyTextField):
-                                                errorText = "Please Enter All Information"
-                                                showAlert = true
-                                            }
-                                            
-                                        })
-                                    }else {
-                                        let newAppoint = AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: totalFee)
-                                        manager.makeAppointment(invoice: newAppoint, completion: { error,sucess  in
-                                            
-                                            switch error {
-                                            case .urlProblem :
-                                                errorText = "There Was a Problem Reaching the Server"
-                                                showAlert = true
-                                            
-                                            case .duplicateData:
-                                                errorText = "The Email and Org Code Must be unique, please try again"
-                                                showAlert = true
-                                                
-                                            case nil :
-                                                print("Success")
-                                                if sucess{
-                                                    
-                                                    invoice = manager.invoiceModel
-                                                    
-                                                    invoiceGenerated = true
-                                                }
-                                                
-                                               
-                                            
-                                            case .some(.emptyTextField):
-                                                errorText = "Please Enter All Information"
-                                                showAlert = true
-                                            }
-                                            
-                                        })
-                                    }
-                                    
-                                   
-                                    
-                                   // invoiceGenerated = true
-                                  
-                                    
-                                } label: {
-                                    Text("book".uppercased())
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                        .frame(maxWidth: .infinity, minHeight: 60, alignment: .center)
-                                        .background(Color("PrimaryColor"))
-                                        .cornerRadius(10)
-                                        .padding(.vertical)
-                                    
-                                } //: BUTTON
-                                .alert(errorText, isPresented: $showAlert){
-                                    Button("OK", role: .cancel) {
-                                        
-                                    }
-                                }
                             
-                            */
                             
                            
                             if isValid {
@@ -325,67 +242,74 @@ struct AppointmentFormView: View {
                                      
                                     */
                                     
-                                    if let patID = patientId {
-                                        
-                                        
-                                        manager.makeAppointment(invoice: AppointmentInvoiceModel( patientName: name, orgId: OrgID, patientContact: contact, patientId: patID, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: 800), completion: { error,succes  in
-                                            
-                                            switch error {
-                                            case .urlProblem :
-                                                errorText = "There Was a Problem Reaching the Server"
-                                                showAlert = true
-                                            
-                                            case .duplicateData:
-                                                errorText = "The Email and Org Code Must be unique, please try again"
-                                                showAlert = true
-                                                
-                                            case nil :
-                                                print("Success")
-                                                
-                                                if succes{
-                                                    invoice = manager.invoiceModel
-                                                    invoiceGenerated = true
-                                                }
-                                                
-                                               
-                                            
-                                            case .some(.emptyTextField):
-                                                errorText = "Please Enter All Information"
-                                                showAlert = true
-                                            }
-                                            
-                                        })
-                                    }else {
-                                        let newAppoint = AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: totalFee)
-                                        manager.makeAppointment(invoice: newAppoint, completion: { error,sucess  in
-                                            
-                                            switch error {
-                                            case .urlProblem :
-                                                errorText = "There Was a Problem Reaching the Server"
-                                                showAlert = true
-                                            
-                                            case .duplicateData:
-                                                errorText = "The Email and Org Code Must be unique, please try again"
-                                                showAlert = true
-                                                
-                                            case nil :
-                                                print("Success")
-                                                if sucess{
-                                                    
-                                                    invoice = manager.invoiceModel
-                                                    
-                                                    invoiceGenerated = true
-                                                }
-                                                
-                                               
-                                            
-                                            case .some(.emptyTextField):
-                                                errorText = "Please Enter All Information"
-                                                showAlert = true
-                                            }
-                                            
-                                        })
+                                    if name.isEmpty || contact.isEmpty || selectedSlot.isEmpty {
+                                        allFilled = false
                                     }
+                                    else {
+                                        if let patID = patientId {
+                                            
+                                            
+                                            manager.makeAppointment(invoice: AppointmentInvoiceModel( patientName: name, orgId: OrgID, patientContact: contact, patientId: patID, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: 800), completion: { error,succes  in
+                                                
+                                                switch error {
+                                                case .urlProblem :
+                                                    errorText = "There Was a Problem Reaching the Server"
+                                                    showAlert = true
+                                                
+                                                case .duplicateData:
+                                                    errorText = "The Email and Org Code Must be unique, please try again"
+                                                    showAlert = true
+                                                    
+                                                case nil :
+                                                    print("Success")
+                                                    
+                                                    if succes{
+                                                        invoice = manager.invoiceModel
+                                                        invoiceGenerated = true
+                                                    }
+                                                    
+                                                   
+                                                
+                                                case .some(.emptyTextField):
+                                                    errorText = "Please Enter All Information"
+                                                    showAlert = true
+                                                }
+                                                
+                                            })
+                                        }else {
+                                            let newAppoint = AppointmentInvoiceModel(patientName: name, orgId: OrgID, patientContact: contact, doc_name: docModel.name, doc_id: docModel.id!, slot: selectedSlot, consultationFee: docModel.consultation, discount: discount, totalFees: totalFee)
+                                            manager.makeAppointment(invoice: newAppoint, completion: { error,sucess  in
+                                                
+                                                switch error {
+                                                case .urlProblem :
+                                                    errorText = "There Was a Problem Reaching the Server"
+                                                    showAlert = true
+                                                
+                                                case .duplicateData:
+                                                    errorText = "The Email and Org Code Must be unique, please try again"
+                                                    showAlert = true
+                                                    
+                                                case nil :
+                                                    print("Success")
+                                                    if sucess{
+                                                        
+                                                        invoice = manager.invoiceModel
+                                                        
+                                                        invoiceGenerated = true
+                                                    }
+                                                    
+                                                   
+                                                
+                                                case .some(.emptyTextField):
+                                                    errorText = "Please Enter All Information"
+                                                    showAlert = true
+                                                }
+                                                
+                                            })
+                                        }
+                                    }
+                                    
+                                    
                                     
                                    
                                     

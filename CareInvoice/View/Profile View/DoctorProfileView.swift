@@ -11,6 +11,7 @@ struct DoctorProfileView: View {
     
     var docModel : DoctorModel
     @State var speciality : SpecialityListModel
+    @StateObject var manager = HospitalManager()
     @AppStorage("ROLE") var userRole : String = ""
     
     var body: some View {
@@ -37,12 +38,12 @@ struct DoctorProfileView: View {
                         .resizable()
                         .scaledToFit()
                     
-                    Text(docModel.name)
+                    Text(manager.doctorModel?.name ?? docModel.name)
                         .font(.largeTitle)
                         .fontWeight(.heavy)
                         .foregroundColor(Color("PrimaryColor"))
                     
-                    Text(docModel.degrees)
+                    Text(manager.doctorModel?.degrees ?? docModel.degrees)
                         .font(.title2)
                         .fontWeight(.medium)
                         .foregroundColor(.secondary)
@@ -56,15 +57,15 @@ struct DoctorProfileView: View {
                 
                 
                 VStack(alignment: .leading, spacing: 5){
-                    Text("Contact: \(docModel.contact)")
+                    Text("Contact: \(manager.doctorModel?.contact ?? docModel.contact)")
                     
-                    Text("Email: \(docModel.email)")
+                    Text("Email: \(manager.doctorModel?.email ?? docModel.email)")
                     
-                    Text("Consultation Fee: \(docModel.consultation)")
+                    Text("Consultation Fee: \(manager.doctorModel?.consultation ?? docModel.consultation)")
                     
-                    Text("Follow Up Fee: \(docModel.followUp)")
+                    Text("Follow Up Fee: \(manager.doctorModel?.followUp ?? docModel.followUp)")
                     Text("Slots: ")
-                    ForEach(docModel.doctorSlotDTOList) { slot in
+                    ForEach(manager.doctorModel?.doctorSlotDTOList ?? docModel.doctorSlotDTOList) { slot in
                         Text("\(slot.day) - \(slot.time)")
                     }
                 }
@@ -81,7 +82,7 @@ struct DoctorProfileView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: AppointmentFormView(docModel: docModel)) {
+                NavigationLink(destination: AppointmentFormView(docModel: manager.doctorModel ?? docModel)) {
                     Text("Make Appointment".uppercased())
                         .font(.title2)
                         .fontWeight(.bold)
@@ -95,6 +96,9 @@ struct DoctorProfileView: View {
             }//Vstack
             .padding()
         }//:Zstack
+        .onAppear{
+            manager.getDoctorProfile(docID: docModel.id!)
+        }
     }
 }
 

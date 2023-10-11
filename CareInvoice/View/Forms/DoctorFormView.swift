@@ -54,6 +54,7 @@ struct DoctorFormView: View {
     var buttonName = "Add"
     @State var showAlert = false
     
+    @State var allFilled : Bool = true
     @State var errorText = ""
     
     init(speciality : SpecialityListModel, profile: DoctorModel? = nil){
@@ -96,7 +97,9 @@ struct DoctorFormView: View {
                         .keyboardType(.phonePad)
                     FormTextFieldView(title: "Degrees", bindingText: $degree)
                     FormTextFieldView(title: "Follow-Up Fee", bindingText: $followUpFee)
+                        .keyboardType(.numberPad)
                     FormTextFieldView(title: "Consultation Fee", bindingText: $consultaionFee)
+                        .keyboardType(.numberPad)
                     
                     HStack {
                         FormTextFieldView(title: "Minimum Discount", bindingText: $minimumDiscount)
@@ -208,6 +211,13 @@ struct DoctorFormView: View {
                         .frame(width: 300, height: 300, alignment: .center)
                         .listStyle(.plain)
                         
+                        if allFilled == false {
+                            Text("Please Enter all Information")
+                                .font(.headline)
+                                .foregroundColor(.red)
+                                .padding()
+                        }
+                        
                     }
                         
                     
@@ -222,22 +232,19 @@ struct DoctorFormView: View {
                         manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
                          
                         */
-                        
-                        
-                        if name.isEmpty || email.isEmpty || contact.isEmpty || degree.isEmpty || consultaionFee.isEmpty || followUpFee.isEmpty || minimumDiscount.isEmpty || maximumDiscount.isEmpty  {
-                            errorText = "Please Enter All Information"
-                            showAlert = true
-                        }else {
-                            if slotList.isEmpty {
-                                let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: [Slot(day: selectedDay, time: "\(startTime) - \(endTime)")], orgId: [OrgID], spId: [speciality.id!])
-                                
-                                manager.createDoctor(doctor: newDoctor, orgId: OrgID)
-                                
+                        if name.isEmpty || email.isEmpty || contact.isEmpty || degree.isEmpty || consultaionFee.isEmpty || followUpFee.isEmpty || minimumDiscount.isEmpty || maximumDiscount.isEmpty {
+                            
+                            allFilled = false
+                        }
+                        else {
+                            if name.isEmpty || email.isEmpty || contact.isEmpty || degree.isEmpty || consultaionFee.isEmpty || followUpFee.isEmpty || minimumDiscount.isEmpty || maximumDiscount.isEmpty  {
+                                errorText = "Please Enter All Information"
+                                showAlert = true
                             }else {
-                                let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: slotList, orgId: [OrgID], spId: [speciality.id!])
-                                
-                                if let profile = profile {
-                                    manager.updateDoctor(doctor: newDoctor, docId: profile.id!, completion: { error in
+                                if slotList.isEmpty {
+                                    let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: [Slot(day: selectedDay, time: "\(startTime) - \(endTime)")], orgId: [OrgID], spId: [speciality.id!])
+                                    
+                                    manager.createDoctor(doctor: newDoctor, orgId: OrgID, completion: { error in
                                         
                                         switch error {
                                         case .urlProblem :
@@ -249,7 +256,7 @@ struct DoctorFormView: View {
                                                 self.presentationMode.wrappedValue.dismiss()
                                             }
                                         case .some(.duplicateData):
-                                            errorText = "The Email and Org Code Must be unique, please try again"
+                                            errorText = "The Email Must be unique, please try again"
                                             showAlert = true
                                         
                                         case .some(.emptyTextField):
@@ -258,14 +265,63 @@ struct DoctorFormView: View {
                                         }
                                         
                                     })
+                                    
                                 }else {
-                                    manager.createDoctor(doctor: newDoctor, orgId: OrgID)
-                                    self.presentationMode.wrappedValue.dismiss()
+                                    let newDoctor = DoctorModel(name: name, degrees: degree, contact: contact, email: email, followUp: followUpFee, consultation: consultaionFee, minDiscount: minimumDiscount, maxDiscount: maximumDiscount, doctorSlotDTOList: slotList, orgId: [OrgID], spId: [speciality.id!])
+                                    
+                                    if let profile = profile {
+                                        manager.updateDoctor(doctor: newDoctor, docId: profile.id!, completion: { error in
+                                            
+                                            switch error {
+                                            case .urlProblem :
+                                                errorText = "There Was a Problem Reaching the Server"
+                                                showAlert = true
+                                            case nil:
+                                                print("Success")
+                                                DispatchQueue.main.async {
+                                                    self.presentationMode.wrappedValue.dismiss()
+                                                }
+                                            case .some(.duplicateData):
+                                                errorText = "The Email Must be unique, please try again"
+                                                showAlert = true
+                                            
+                                            case .some(.emptyTextField):
+                                                errorText = "Please Enter All Information"
+                                                showAlert = true
+                                            }
+                                            
+                                        })
+                                    }else {
+                                        manager.createDoctor(doctor: newDoctor, orgId: OrgID, completion: { error in
+                                            
+                                            switch error {
+                                            case .urlProblem :
+                                                errorText = "There Was a Problem Reaching the Server"
+                                                showAlert = true
+                                            case nil:
+                                                print("Success")
+                                                DispatchQueue.main.async {
+                                                    self.presentationMode.wrappedValue.dismiss()
+                                                }
+                                            case .some(.duplicateData):
+                                                errorText = "The Email Must be unique, please try again"
+                                                showAlert = true
+                                            
+                                            case .some(.emptyTextField):
+                                                errorText = "Please Enter All Information"
+                                                showAlert = true
+                                            }
+                                            
+                                        })
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                    
+                                    
+                                    
                                 }
-                                
-                                
-                                
-                            }
+                        }
+                        
+                        
                             
                             //self.presentationMode.wrappedValue.dismiss()
                         }

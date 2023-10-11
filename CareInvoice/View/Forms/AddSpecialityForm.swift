@@ -16,6 +16,10 @@ struct AddSpecialityForm: View {
     
     @State var title = "Add Speciality"
     @State var buttonName = "Add"
+    @State var allFilled : Bool = true
+    
+    @State var errorText = ""
+    @State var showAlert = false
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -43,35 +47,62 @@ struct AddSpecialityForm: View {
 
                     
                     FormTextFieldView(title: "Speciality Name", bindingText: $medSpecName)
+                    if allFilled == false {
+                        Text("Please Enter all Information")
+                            .font(.headline)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
                     
                     
                     Button {
-                        /*
-                        let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
+      
                         
-                        manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
-                         
-                        */
-                        
-                        
-                        
-//                        if let profile = profile {
-//                            manager.updateInvestigation(investigation: newInvestigation, investigationId: profile.id!)
-//                        }else {
-//                            manager.addInvestigation(investigation: newInvestigation)
-//                        }
-                        
-                        let spec = SpecialityListModel(medSpecName: medSpecName, iconUrl: "stethoscope.png")
-                        
-                        if let profile = profile {
-                            manager.updateSpeciality(speciality: spec, specialityId: profile.id!)
+                        if medSpecName.isEmpty {
+                            
+                            allFilled = false
+                            
                         }else {
-                            manager.addSpeciality(speciality: spec)
+                            
+                            allFilled = true
+                            
+                            let spec = SpecialityListModel(medSpecName: medSpecName, iconUrl: "stethoscope.png")
+                            
+                            if let profile = profile {
+                                manager.updateSpeciality(speciality: spec, specialityId: profile.id!, completion: {sucess in
+                                    switch sucess {
+                                    case .duplicate :
+                                        print("YES")
+                                        errorText = "The Speciality already exists"
+                                        showAlert = true
+                                    case nil:
+                                        DispatchQueue.main.async {
+                                            self.presentationMode.wrappedValue.dismiss()
+                                        }
+                                        print("NO")
+                                    }
+                                })
+                            }else {
+                                manager.addSpeciality(speciality: spec, completion: {sucess in
+                                    switch sucess {
+                                    case .duplicate :
+                                        print("YES")
+                                        errorText = "The Speciality already exists"
+                                        showAlert = true
+                                    case nil:
+                                        DispatchQueue.main.async {
+                                            self.presentationMode.wrappedValue.dismiss()
+                                        }
+                                        print("NO")
+                                    }
+                                })
+                            }
+                            
+                           // self.presentationMode.wrappedValue.dismiss()
                         }
                         
                         
-                      
-                        self.presentationMode.wrappedValue.dismiss()
+                     
                         
                     } label: {
                         Text(buttonName.uppercased())
@@ -84,6 +115,11 @@ struct AddSpecialityForm: View {
                             .padding(.vertical)
                         
                     } //: BUTTON
+                    .alert(errorText, isPresented: $showAlert){
+                        Button("OK", role: .cancel) {
+                            
+                        }
+                    }
                     
                 }//: SCROLL
                 

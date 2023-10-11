@@ -23,6 +23,8 @@ struct AddDrugForm: View {
     
     var profile : DrugModel?
     
+    @State var allFilled : Bool = true
+    
     
     init(profile : DrugModel? = nil){
         self.profile = profile
@@ -151,43 +153,52 @@ struct AddDrugForm: View {
                             .autocorrectionDisabled(true)
                             .background(RoundedRectangle(cornerRadius: 8).stroke(Color(.gray), lineWidth: 1))
                             .keyboardType(.numberPad)
+                        
+                        if allFilled == false {
+                            Text("Please Enter all Information")
+                                .font(.headline)
+                                .foregroundColor(.red)
+                                .padding()
+                        }
                     }
                         
                    
                     Button {
-                        /*
-                        let newAdmin = OrgAdminModel(name: name, username: userName, password: password, email: email.lowercased(), contact: contact)
+                       
                         
-                        manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
-                         
-                        */
-                        
-                        let newDrug = DrugModel(brandName: brandName, price: Double(price) ?? 0.0 , vendorName: vendorName, genericName: generic, formationName: formation, strengthName: strength)
-                        
-                        if let profile = profile {
-                            manager.updateDrug(drug: newDrug, drugID: profile.id!)
-                            self.presentationMode.wrappedValue.dismiss()
+                        if brandName.isEmpty || price.isEmpty {
+                            allFilled = false
                         }
-                        else{
-                            manager.createDrug(drug: newDrug, completion: { error in
-                                
-                                switch error {
-                                case .some(.emptyInfo) :
-                                    print("Lola")
+                        else {
+                            let newDrug = DrugModel(brandName: brandName, price: Double(price) ?? 0.0 , vendorName: vendorName, genericName: generic, formationName: formation, strengthName: strength)
+                            
+                            if let profile = profile {
+                                manager.updateDrug(drug: newDrug, drugID: profile.id!)
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
+                            else{
+                                manager.createDrug(drug: newDrug, completion: { error in
                                     
-                                case nil :
-                                    print("Success")
-                                    DispatchQueue.main.async {
-                                        self.presentationMode.wrappedValue.dismiss()
+                                    switch error {
+                                    case .some(.emptyInfo) :
+                                        print("Lola")
+                                        
+                                    case nil :
+                                        print("Success")
+                                        DispatchQueue.main.async {
+                                            self.presentationMode.wrappedValue.dismiss()
+                                        }
                                     }
-                                }
-                                
-                                
-                            })
+                                    
+                                    
+                                })
+                            }
+                            
+                          
+                           //self.presentationMode.wrappedValue.dismiss()
                         }
                         
-                      
-                       self.presentationMode.wrappedValue.dismiss()
+                       
                         
                     } label: {
                         Text(buttonName.uppercased())

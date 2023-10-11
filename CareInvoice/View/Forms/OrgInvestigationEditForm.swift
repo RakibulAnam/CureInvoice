@@ -13,7 +13,7 @@ struct OrgInvestigationEditForm: View {
     @AppStorage("OrgID") var OrgID : Int = 0
     
     var model : InvestigationModel
-    
+    @State var allFilled : Bool = true
     @Environment(\.presentationMode) var presentationMode
     
     init(model : InvestigationModel){
@@ -26,17 +26,30 @@ struct OrgInvestigationEditForm: View {
         VStack {
             FormTextFieldView(title: "Price", bindingText: $price)
                 .keyboardType(.numberPad)
+            
+            if allFilled == false {
+                Text("Please Enter all Information")
+                    .font(.headline)
+                    .foregroundColor(.red)
+                    .padding()
+            }
             Button {
                                 
-                
-                
-                
-                if let id = model.id {
-                    print("Got Investigation ID")
-                    let updateModel = UpdateOrgInvestigationModel(orgId: OrgID, investigationId: id, serviceCharge: Double(price)!)
-                    manager.updateOrgInvestigationPrice(model: updateModel)
-                    self.presentationMode.wrappedValue.dismiss()
+                if price.isEmpty {
+                    allFilled = false
+                }else {
+                    allFilled = true
+                    
+                    if let id = model.id {
+                        print("Got Investigation ID")
+                        let updateModel = UpdateOrgInvestigationModel(orgId: OrgID, investigationId: id, serviceCharge: Double(price)!)
+                        manager.updateOrgInvestigationPrice(model: updateModel)
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
                 }
+                
+                
+                
                 
                 
                 

@@ -23,6 +23,7 @@ struct AppointmentInvoiceView: View {
         let formated = dateFormatter.string(from: currentDate)
         return formated
     }
+    var randInvoice = (Int.random(in: 1...1000))
     
     @AppStorage("OrgID") var OrgID : Int = 0
     
@@ -50,7 +51,7 @@ struct AppointmentInvoiceView: View {
                 HStack {
                     Text("Invoice: ")
                     Spacer()
-                    Text("#\(Int.random(in: 1...1000))")
+                    Text("#\(invoice.id ?? randInvoice)")
                 }
                 
                 HStack {
@@ -168,7 +169,7 @@ struct AppointmentInvoiceView: View {
             AppointmentInvoiceView(invoice: invoice, orgModel: orgModel, hideButton: true)
         )
         
-        let url = URL.documentsDirectory.appending(path: "appointmentInvoice.pdf")
+        let url = URL.documentsDirectory.appending(path: "appointmentInvoice #\(invoice.id ?? randInvoice).pdf")
         
         renderer.render { size, context in
             var box = CGRect(x: 0, y: 0, width: size.width, height: size.height)

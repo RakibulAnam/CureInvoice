@@ -80,6 +80,7 @@
 		E2AA75712ACD4A2100C69C72 /* PatientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA75702ACD4A2100C69C72 /* PatientCell.swift */; };
 		E2AA75732ACD804200C69C72 /* OrgDrugEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA75722ACD804200C69C72 /* OrgDrugEditForm.swift */; };
 		E2AA75752ACD825D00C69C72 /* UpdateOrgDrugModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AA75742ACD825D00C69C72 /* UpdateOrgDrugModel.swift */; };
+		E2AD17942AD65DF0008E26D2 /* GlobalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AD17932AD65DF0008E26D2 /* GlobalListView.swift */; };
 		E2C7D01A2ABAC6FA009F3288 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C7D0192ABAC6FA009F3288 /* SideMenuView.swift */; };
 		E2CF3F612AD50D6C00CB6D8D /* UpdateOrgAdminForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CF3F602AD50D6C00CB6D8D /* UpdateOrgAdminForm.swift */; };
 		E2D71DB62AC12F61006FEDC2 /* DoctorFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D71DB52AC12F61006FEDC2 /* DoctorFormView.swift */; };
@@ -168,6 +169,7 @@
 		E2AA75702ACD4A2100C69C72 /* PatientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientCell.swift; sourceTree = "<group>"; };
 		E2AA75722ACD804200C69C72 /* OrgDrugEditForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgDrugEditForm.swift; sourceTree = "<group>"; };
 		E2AA75742ACD825D00C69C72 /* UpdateOrgDrugModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOrgDrugModel.swift; sourceTree = "<group>"; };
+		E2AD17932AD65DF0008E26D2 /* GlobalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalListView.swift; sourceTree = "<group>"; };
 		E2C7D0192ABAC6FA009F3288 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		E2CF3F602AD50D6C00CB6D8D /* UpdateOrgAdminForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOrgAdminForm.swift; sourceTree = "<group>"; };
 		E2D71DB52AC12F61006FEDC2 /* DoctorFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorFormView.swift; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 				E2A9FE0B2AC9399F00A57641 /* PharmacyAdminListView.swift */,
 				E25D29F82ACA72BF00C37E8B /* DiagnosticAdminListView.swift */,
 				E28D04992ACE8C3A004F141C /* HospitalAdminList.swift */,
+				E2AD17932AD65DF0008E26D2 /* GlobalListView.swift */,
 			);
 			path = "List Views";
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				E27736A92AC2EC8A009BC7CB /* DrugListView.swift in Sources */,
 				E2D71DB82AC14121006FEDC2 /* AddInvestigationForm.swift in Sources */,
 				E245C8582AC4073800B22CDE /* DrugInvoiceModel.swift in Sources */,
+				E2AD17942AD65DF0008E26D2 /* GlobalListView.swift in Sources */,
 				E2A9FE122AC94DB500A57641 /* DiagnosticStaffView.swift in Sources */,
 				E2A9FE0E2AC94B2500A57641 /* DiagnosticCenterManager.swift in Sources */,
 				E2AA75732ACD804200C69C72 /* OrgDrugEditForm.swift in Sources */,

@@ -12,6 +12,8 @@ class Pharmacymanager : ObservableObject {
     
     @Published var drugList : [DrugModel] = []
     @Published var searchedDrugList : [DrugModel] = []
+    @Published var drugModel : DrugModel?
+    
     @Published var invoiceList : [DrugInvoiceModel] = []
     
     @Published var invoiceModel : DrugInvoiceModel?
@@ -127,6 +129,59 @@ class Pharmacymanager : ObservableObject {
         
         
     }
+    
+    
+    //MARK: - GET DRUG PROFILE
+    
+    func getDrugProfile(drugId : Int, orgId : Int){
+        
+        guard let url = URL(string: "\(K.GET_DRUGS_PROFILE)\(drugId)/\(orgId)") else {
+            print("invalid URL")
+            return
+        }
+        
+        let token = AuthToken
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession
+            .shared
+            .dataTask(with: request) {[weak self] data, response, error in
+                
+                
+                DispatchQueue.main.async {
+                    
+                    if let error = error {
+                        print("There was an error starting the session \(error)")
+                    }
+                    else{
+                        
+                        let decoder = JSONDecoder()
+                        
+                        if let data = data {
+                            
+                            
+                            do {
+                                let decodedData = try decoder.decode(DrugModel.self, from: data)
+                                self?.drugModel = decodedData
+                                
+                            } catch  {
+                                print("Could not decode Drug Profile \(error)")
+                            }
+                        
+                            
+                            
+                        }else{
+                            print("Could Not Fetch Data")
+                        }
+                    }
+                } //:DispatchQueue
+            }.resume()
+        
+        
+    }
+    
     
     //MARK: - Create Invoice
     
@@ -376,7 +431,7 @@ class Pharmacymanager : ObservableObject {
                         // Parse the response data if needed
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         let response = "\(jsonResponse)"
-                        if response.contains("Duplicate entry"){
+                        if response.contains("Email Already Taken") || response.contains("Username is Already Taken") || response.contains("Duplicate entry"){
                             completion(.duplicateData)
                         }
                         else if response.contains("empty"){
@@ -435,7 +490,7 @@ class Pharmacymanager : ObservableObject {
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                         
                         let response = "\(jsonResponse)"
-                        if response.contains("Duplicate entry"){
+                        if response.contains("Email Already Taken") || response.contains("Username is Already Taken") || response.contains("Duplicate entry"){
                             completion(.duplicateData)
                         }
                         else if response.contains("empty"){
