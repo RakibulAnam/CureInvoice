@@ -103,8 +103,18 @@ struct DoctorFormView: View {
                     
                     HStack {
                         FormTextFieldView(title: "Minimum Discount", bindingText: $minimumDiscount)
+                            .onChange(of: minimumDiscount, perform: { newValue in
+                                if minimumDiscount.count > 2 {
+                                    minimumDiscount = String(minimumDiscount.prefix(2))
+                                }
+                            })
                             .keyboardType(.numberPad)
                         FormTextFieldView(title: "Maximum Discount", bindingText: $maximumDiscount)
+                            .onChange(of: maximumDiscount, perform: { newValue in
+                                if maximumDiscount.count > 2 {
+                                    maximumDiscount = String(maximumDiscount.prefix(2))
+                                }
+                            })
                             .keyboardType(.numberPad)
                     }
                     
@@ -212,7 +222,7 @@ struct DoctorFormView: View {
                         .listStyle(.plain)
                         
                         if allFilled == false {
-                            Text("Please Enter all Information")
+                            Text("Please Enter all Information Properly ")
                                 .font(.headline)
                                 .foregroundColor(.red)
                                 .padding()
@@ -232,7 +242,7 @@ struct DoctorFormView: View {
                         manager.createOrgAdmin(admin: newAdmin, orgID: org.id!)
                          
                         */
-                        if name.isEmpty || email.isEmpty || contact.isEmpty || degree.isEmpty || consultaionFee.isEmpty || followUpFee.isEmpty || minimumDiscount.isEmpty || maximumDiscount.isEmpty {
+                        if name.isEmpty || email.isEmpty || contact.isEmpty || degree.isEmpty || consultaionFee.isEmpty || followUpFee.isEmpty || minimumDiscount.isEmpty || maximumDiscount.isEmpty || Int(minimumDiscount)! > Int(maximumDiscount)!{
                             
                             allFilled = false
                         }
@@ -313,7 +323,7 @@ struct DoctorFormView: View {
                                             }
                                             
                                         })
-                                        self.presentationMode.wrappedValue.dismiss()
+                                       // self.presentationMode.wrappedValue.dismiss()
                                     }
                                     
                                     

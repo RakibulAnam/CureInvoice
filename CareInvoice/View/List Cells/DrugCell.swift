@@ -20,11 +20,11 @@ struct DrugCell: View {
                     .scaledToFit()
                     .foregroundColor(Color("PrimaryColor"))
                     .frame(width: 60, height: 60, alignment: .leading)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
-                    )
-                    .padding(1)
+//                    .background(
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
+//                    )
+//                    .padding(1)
                 
                 
                 VStack(alignment: .leading, spacing: 2) {

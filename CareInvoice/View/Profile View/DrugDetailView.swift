@@ -11,6 +11,7 @@ struct DrugDetailView: View {
     
     var drugModel : DrugModel
     @StateObject var manager = Pharmacymanager()
+    @StateObject var orgManager = OrganizationManager()
     @AppStorage("ROLE") var userRole : String = ""
     @AppStorage("OrgID") var OrgID : Int = 0
     
@@ -136,17 +137,17 @@ struct DrugDetailView: View {
                                 .frame(width: 150, height: 150, alignment: .center)
                                 .scaledToFit()
                             
-                            Text(drugModel.brandName)
+                            Text(orgManager.drugModel?.brandName ?? drugModel.brandName)
                                 .font(.largeTitle)
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color("PrimaryColor"))
                             
-                            Text(drugModel.strengthName)
+                            Text(orgManager.drugModel?.strengthName ?? drugModel.strengthName)
                                 .font(.title2)
                                 .fontWeight(.medium)
                                 .foregroundColor(.secondary)
                             
-                            Text("Price: \("\(drugModel.price)")")
+                            Text("Price: \("\(orgManager.drugModel?.price ?? drugModel.price)")")
                                 .font(.title2)
                                 .fontWeight(.medium)
                                 .foregroundColor(.secondary)
@@ -166,13 +167,13 @@ struct DrugDetailView: View {
                         
                         
                         VStack(alignment: .leading, spacing: 5){
-                            Text("Generic: \(drugModel.genericName)")
+                            Text("Generic: \(orgManager.drugModel?.genericName ?? drugModel.genericName)")
                             
-                            Text("Formation: \(drugModel.formationName)")
+                            Text("Formation: \(orgManager.drugModel?.formationName ?? drugModel.formationName)")
                             
                             
                             
-                            Text("Vendor: \(drugModel.vendorName)")
+                            Text("Vendor: \(orgManager.drugModel?.vendorName ?? drugModel.vendorName)")
                             
                         }
                         .padding()
@@ -201,6 +202,9 @@ struct DrugDetailView: View {
                     }.padding() //: FLOATING BUTTON
                 
 
+            }
+            .onAppear{
+                orgManager.getDrugProfile(drugId: drugModel.id!)
             }
         }
         

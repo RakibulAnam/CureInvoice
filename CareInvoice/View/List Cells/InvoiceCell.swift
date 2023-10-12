@@ -29,7 +29,7 @@ struct InvoiceCell: View {
                         
                         Text(model.patientName)
                             .font(.title2)
-                            .fontWeight(.medium)
+                            .fontWeight(.regular)
                         
                         Text(model.patientContact)
                         
@@ -66,7 +66,7 @@ struct InvoiceCell: View {
                         
                         Text(model.p_name)
                             .font(.title2)
-                            .fontWeight(.medium)
+                            .fontWeight(.regular)
                         
                         Text(model.contact)
                         

@@ -18,6 +18,7 @@ class OrganizationManager : ObservableObject {
     
     @Published var drugList : [DrugModel] = []
     @Published var searchedDrugList : [DrugModel] = []
+    @Published var drugModel : DrugModel?
     
     
     @Published var investigationList : [InvestigationModel] = []
@@ -584,6 +585,63 @@ class OrganizationManager : ObservableObject {
         
         
     }
+    
+    
+    
+    //MARK: - GET GLOBAL DRUG PROFILE
+    
+    func getDrugProfile(drugId : Int){
+        
+        print("get drug profile from orgmanager called")
+        
+        guard let url = URL(string: "\(K.GET_DRUGS_PROFILE)\(drugId)") else {
+            print("invalid URL")
+            return
+        }
+        
+        let token = AuthToken
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession
+            .shared
+            .dataTask(with: request) {[weak self] data, response, error in
+                
+                
+                DispatchQueue.main.async {
+                    
+                    if let error = error {
+                        print("There was an error starting the session \(error)")
+                    }
+                    else{
+                        
+                        let decoder = JSONDecoder()
+                        
+                        if let data = data {
+                            
+                            
+                            do {
+                                let decodedData = try decoder.decode(DrugModel.self, from: data)
+                                self?.drugModel = decodedData
+                                
+                            } catch  {
+                                print("Could not decode GLOBAL Drug Profile \(error)")
+                            }
+                        
+                            
+                            
+                        }else{
+                            print("Could Not Fetch Data")
+                        }
+                    }
+                } //:DispatchQueue
+            }.resume()
+        
+        
+    }
+    
+    
     
     // MARK: - CREATE DRUG
     

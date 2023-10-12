@@ -35,7 +35,7 @@ struct DrugInvoiceView: View {
         VStack(alignment: .leading, spacing: 20){
             HStack(){
                 
-                Image(systemName: "pill")
+                Image(systemName: "cross.vial")
                     .resizable()
                     .frame(width: 50, height: 50, alignment: .center)
                 
@@ -175,7 +175,7 @@ struct DrugInvoiceView: View {
                                         DrugInvoiceView(invoice: invoice, orgModel: orgModel, hideButton: true)
         )
         
-        let url = URL.documentsDirectory.appending(path: "drugInvoice #\(invoice.id ?? randInvoice).pdf")
+        let url = URL.documentsDirectory.appending(path: "\(orgModel.name) Invoice#\(invoice.id ?? randInvoice).pdf")
         
         renderer.render { size, context in
             var box = CGRect(x: 0, y: 0, width: size.width, height: size.height)

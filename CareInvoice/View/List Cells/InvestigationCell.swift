@@ -15,15 +15,16 @@ struct InvestigationCell: View {
         VStack {
             HStack(spacing: 20){
                 
-                Image("health-service")
+                Image(systemName: "ivfluid.bag")
                     .resizable()
                     .scaledToFit()
+                    .foregroundColor(Color("PrimaryColor"))
                     .frame(width: 60, height: 60, alignment: .leading)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
-                    )
-                    .padding(1)
+//                    .background(
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
+//                    )
+//                    .padding(1)
                 
                 
                 
@@ -33,7 +34,7 @@ struct InvestigationCell: View {
                         .fontWeight(.regular)
                     
                     
-                    Text("\(Int(investigation.serviceCharge)) /=")
+                    Text("Tk. \(Int(investigation.serviceCharge))")
                         .font(.title3)
                         .fontWeight(.light)
                     

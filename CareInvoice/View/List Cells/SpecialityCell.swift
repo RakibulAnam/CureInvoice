@@ -22,11 +22,11 @@ struct SpecialityCell: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60, alignment: .leading)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
-                    )
-                    .padding(1)
+//                    .background(
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .stroke(Color("Symboltint").opacity(0.3), lineWidth: 2)
+//                    )
+//                    .padding(1)
                 
                 
                 

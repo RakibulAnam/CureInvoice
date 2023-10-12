@@ -196,7 +196,7 @@ struct InvestigationInvoiceView: View {
         VStack(alignment: .leading, spacing: 20){
             HStack(){
                 
-                Image(systemName: "pill")
+                Image(systemName: "menucard")
                     .resizable()
                     .frame(width: 50, height: 50, alignment: .center)
                 VStack(alignment: .leading){
@@ -323,7 +323,7 @@ struct InvestigationInvoiceView: View {
                                         InvestigationInvoiceView(invoice: invoice, orgModel: orgModel, hideButton: true)
         )
         
-        let url = URL.documentsDirectory.appending(path: "investigationInvoice #\(invoice.id ?? randInvoice).pdf")
+        let url = URL.documentsDirectory.appending(path: "\(orgModel.name) Invoice#\(invoice.id ?? randInvoice).pdf")
         
         renderer.render { size, context in
             var box = CGRect(x: 0, y: 0, width: size.width, height: size.height)
